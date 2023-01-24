@@ -13,27 +13,26 @@ class Ship:
 
     #Create a 3D array of decks, rows and positions
     def createDecks(self):
-        d = []
+        d = [[[None]*self.width]*self.length]
         for i in range(self.height):
-            d.append([])
+            deck = []
             for j in range(self.length):
-                d[i].append([])
+                deck.append([])
                 for k in range(self.width):
-                    d[i][j].append(0)
+                    deck[j].append(0)
+            d.append(deck)
         self.decks = d
 
 
     #Add a container to the ship
     def addContainer(self, container):
-        if container in self.containers:
-            print("Container already in ship")
-            return False
-        self.containers.append(container)
+
         position = self._findPlacement(container)
         if position == False:
             print("No suitable placement found")
-            return False
+            return False #No Suitable Placement Found
         for pos in position:
+            self.containers.append(container)
             self.decks[pos[0]][pos[1]][pos[2]] = container.idNr
         return True
     
@@ -82,22 +81,21 @@ class Ship:
 
     #Find a suitable placement for a given container
     def _findPlacement(self, container):
-        if container.length == 20:
-            for i in range(self.height):
-                #Current deck
-                deck = self.decks[i]
+        for i in range(self.height+1):
+            if(i == 0):
+                continue # Skip first deck
+            #Current deck
+            deck = self.decks[i]
+            if container.length == 20:
                 for j in range(self.length):
                     #Current row
                     row = deck[j]
                     for k in range(self.width):
                         #Current position
                         position = row[k]
-                        if(position == 0 and self._occupiedUnder((i, j, k))):
+                        if position == 0 and self._occupiedUnder((i, j, k)):
                             return (i, j, k),
-        elif container.length == 40:
-            for i in range(self.height):
-                #Current deck
-                deck = self.decks[i]
+            elif container.length == 40:
                 #check if there is space forwards
                 for j in range (self.length-1):
                     #Current row
@@ -107,9 +105,8 @@ class Ship:
                         #Current position
                         position1 = row1[k]
                         position2 = row2[k]
-                        if(position1 == 0 and position2 == 0 and self._occupiedUnder((i,j,k)) and self._occupiedUnder((i,j,k))):
-                            return (i, j, k),(i, j+1, k)
-                
+                        if(position1 == 0 and position2 == 0 and self._occupiedUnder((i,j,k)) and self._occupiedUnder((i,j+1,k))):
+                            return (i, j, k),(i, j+1, k)            
                 #check if there is space sideways
                 for j in range(self.length):
                     #Current row
@@ -118,18 +115,29 @@ class Ship:
                         #Current position
                         position1 = row[k]
                         position2 = row[k+1]
-                        if(position1 == 0 and position2 == 0 and self._occupiedUnder((i,j,k)) and self._occupiedUnder((i,j,k))):
+                        if(position1 == 0 and position2 == 0 and self._occupiedUnder((i,j,k)) and self._occupiedUnder((i,j,k+1))):
                             return (i, j, k),(i, j, k+1)
         return False
 
 
     #checks if position under given position is occupied by a container
     def _occupiedUnder(self, position):
-        if position[0] == 0: #position is at bottom deck
+        positionUnder = self.decks[position[0]-1][position[1]][position[2]]
+
+        if positionUnder == None: #position is at bottom deck
+            # print("bottom deck")
             return True
-        if self.decks[position[0]-1][position[1]][position[2]] != 0: #position under is occupied 
+
+        elif positionUnder == 0:
+            # print(positionUnder)
+            # print("position under is empty")
+            return False #position under is empty
+
+        elif positionUnder != 0: #position under is occupied 
+            # print(positionUnder)
+            # print("position under is occupied")
             return True
-        return False #position under is empty
+
     
     
     #Save current load to file
@@ -151,46 +159,81 @@ class Ship:
         loadedContainers = []
         unloadedContainers = containers
         i=0
-        limit = len(containers)*len(containers)
-        while unloadedContainers != [] or i == limit:
+        limit = len(containers)*2
+        while len(unloadedContainers)>0 and i<limit:
+            for c in self.getContainers():
+                if c.idNr == unloadedContainers[0].idNr:
+                    print("Container already in ship")
+                    unloadedContainers.remove(unloadedContainers[0])
             if self.addContainer(unloadedContainers[0]):
+                loadedContainers.append(unloadedContainers[0].idNr)
                 unloadedContainers.remove(unloadedContainers[0])
-            else:
+            elif self.addContainer(unloadedContainers[0])==False:
                 container = unloadedContainers[0]
                 unloadedContainers.remove(container)
                 unloadedContainers.append(container)
-            # for container in unloadedContainers:
-            #     if self.addContainer(container):
-            #         loadedContainers.append(container)
-            #         unloadedContainers.remove(container)
-            #     else:
-            #         unloadedContainers.remove(container)
-            #         unloadedContainers.append(container)
             i+=1
-            print(i)
-        return "Ship loaded"
-        
-
+        return loadedContainers
+    
+    def unloadShip(self):
+        unloadedContainers = []
+        load = self.getLoad()
+        load.remove(load[0]) # removing bottom deck
+        for i in range(self.height-1, -1, -1):
+            currentDeck = load[i]
+            # print(currentDeck)
+            emptyDeck = False
+            while not emptyDeck:
+                containers = []
+                for j in range(self.length):
+                    currentRow = currentDeck[j]
+                    for k in range(self.width):
+                        currentPos = currentRow[k]
+                        if currentPos != 0 and currentPos not in containers:
+                            containers.append(currentPos)
+                
+                emptyDeck = True
+            print(containers)
+            # for j in range(self.length):
+            #     currentRow = currentDeck[j]
+            #     print(currentRow)
+            #     for k in 
+        # return unloadedContainers
+    #Task 8
+    #
 
 
 if __name__ == "__main__":
-    s = Ship(5, 3, 4)
+    s = Ship(4, 3, 3)
     s.createDecks()
+    # print(s.getLoad())
 
-    container1 = Container(40, 2000)
-    container2 = Container(20, 4356)
-    container3 = Container(20, 56453)
-    container4 = Container(40, 64536)
-    container5 = Container(20, 6435)
-    container6 = Container(40, 1645000)
-    container7 = Container(20, 643)
-    container8 = Container(40, 345)
-    container9 = Container(20, 65433)
-    container10 = Container(20, 643)
+    c1 = Container(40, 1)
+    c2 = Container(40, 2)
+    c3 = Container(40, 3)
+    c4 = Container(40, 4)
+    c5 = Container(40, 5)
+    c6 = Container(40, 6)
+    c7 = Container(40, 7)
+    c8 = Container(40, 8)
+    c9 = Container(40, 9)
+    c10 = Container(40, 10)
+    c11 = Container(40, 11)
+    c12 = Container(20, 12)
+    c13 = Container(40, 13)
+    c14 = Container(40, 14)
+    c15 = Container(40, 15)
+    c16 = Container(40, 16)
+    c17 = Container(40, 17)
+    c18 = Container(40, 18)
+    c19 = Container(20, 19)
+    liste2 = [c1, c2, c3, c4, c5, c6, c7, c8, c9, c10, c11, c12, c13, c14, c15, c16, c17, c18, c19]
+    setOfContainers = setContainers(liste2)
+    s.loadShip(setOfContainers.getContainerList())
+    print(s.unloadShip())
+    # print(s.getLoad())
+    # print("------------------------------")
 
-    containers = [container1, container2, container3, container4, container5, container6, container7, container8, container9, container10]
-    s.loadShip(containers)
-    print(s.getLoad())
 
 
 

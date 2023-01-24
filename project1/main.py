@@ -87,13 +87,43 @@ if __name__ == "__main__":
 
     # #Test ship.py
     # #create ship
-    s = Ship(23, 22, 18)
+    s = Ship(4, 3, 3)
     s.createDecks()
-    # #create multiple containers
-    setOfContainers = createSetOfContainers(9109)
-    # for container in setOfContainers.getContainerList():
-    #     print(container)
-    # print(setOfContainers.getContainerList())
-    # #load ship
+
+    c1 = Container(40, 1)
+    c2 = Container(40, 2)
+    c3 = Container(40, 3)
+    c4 = Container(40, 4)
+    c5 = Container(40, 5)
+    c6 = Container(40, 6)
+    liste1 = [c1, c2, c3, c4, c5, c6]
+    setOfContainers = setContainers(liste1)
     s.loadShip(setOfContainers.getContainerList())
     print(s.getLoad())
+    print("------------------------------")
+    c7 = Container(40, 7)
+    c8 = Container(40, 8)
+    c9 = Container(40, 9)
+    c10 = Container(40, 10)
+    c11 = Container(40, 11)
+    c12 = Container(20, 12)
+    c13 = Container(40, 13)
+    c14 = Container(40, 14)
+    c15 = Container(40, 15)
+    c16 = Container(40, 16)
+    c17 = Container(40, 17)
+    c18 = Container(40, 18)
+    c19 = Container(40, 19)
+    c20 = Container(40, 20)
+    c21 = Container(40, 21)
+    c22 = Container(40, 22)
+    c23 = Container(20, 23)
+
+    liste2 = [c7, c8, c9, c10, c11, c12, c13, c14, c15, c16, c17, c18]
+    setOfContainers = setContainers(liste2)
+    s.loadShip(setOfContainers.getContainerList())
+    print(s.getLoad())
+    # print(setOfContainers.getContainerList())
+    # #load ship
+    # s.loadShip(setOfContainers.getContainerList())
+    # print(s.getLoad())

@@ -1,4 +1,4 @@
-
+#Task 1
 class Container:
     length20 = 20
     length40 = 40
@@ -21,59 +21,47 @@ class Container:
         else:
             print("Invalid container length")
 
-    def getLength(self):
-        return self.length
-
-    def setLength(self, length):
-        self.length = length
-
-    def getStartWeight(self):
-        return self.startWeight
-
-    def getMaxCargoWeight(self):
-        return self.maxCargoWeight
-
-    def getTotalWeight(self):
-        return self.totalWeight
-
-    def setCargoWeight(self, newCargoWeight):
-        self.newCargoWeight = newCargoWeight
-    
+    #Get idNr of container
     def getidNr(self):
         return self.idNr
 
-    def setidNr(self, idNr):
-        self.idNr = idNr
+    #Get length of container
+    def getLength(self):
+        return self.length
 
-    def __str__(self):
-        return "ContainerID:" + str(self.idNr)+"\n"+"-----------------"+"\n"+"Length: "+str(self.length)+"\n"+"Start Weight: "+str(self.startWeight)+"\n"+"Max Cargo Weight: "+str(self.maxCargoWeight)+"\n"+"Cargo Weight: "+str(self.cargoWeight)+"\n"+"Total weight: "+str(self.getTotalWeight())+"\n"+"-----------------"+"\n"
+    #Get start weight of container
+    def getStartWeight(self):
+        return self.startWeight
+
+    #Get cargo weight of container
+    def getMaxCargoWeight(self):
+        return self.maxCargoWeight
+
+    #Get cargo weight of container
+    def getCargoWeight(self):
+        return self.cargoWeight
     
-    def fileFormat(self):
+    #Set cargo weight of container
+    def setCargoWeight(self, newCargoWeight):
+        self.cargoWeight = newCargoWeight
+        self.setTotalWeight()
+    
+    #Get total weight of container
+    def getTotalWeight(self):
+        return self.totalWeight
+
+    #Set total weight of container
+    def setTotalWeight(self):
+        self.totalWeight = self.startWeight + self.cargoWeight
+    
+    #Get file format of container
+    def getFileFormat(self):
         return str(self.idNr)+","+str(self.length)+","+str(self.startWeight)+","+str(self.maxCargoWeight)+","+str(self.cargoWeight)+","+str(self.getTotalWeight())+"\n"
+  
 
-class setContainers:
-
-    def __init__(self, containerList):
-        self.containerList = containerList
-
-    def getContainerList(self):
-        return self.containerList
-
-    def setContainerList(self, containerList):
-        self.containerList = containerList
+    # def __str__(self):
+    #     return "ContainerID:" + str(self.idNr)+"\n"+"-----------------"+"\n"+"Length: "+str(self.length)+"\n"+"Start Weight: "+str(self.startWeight)+"\n"+"Max Cargo Weight: "+str(self.maxCargoWeight)+"\n"+"Cargo Weight: "+str(self.cargoWeight)+"\n"+"Total weight: "+str(self.getTotalWeight())+"\n"+"-----------------"+"\n"
     
-    def addContainer(self, container):
-        self.containerList.append(container)
 
-    def removeContainer(self, container):
-        self.containerList.remove(container)
-    
-    def getContainer(self, index):
-        return self.containerList[index]
 
-    def __str__(self):
-        returnValue = "Containers:" + "\n" + "----------------------" + "\n"+ "\n"
-        for container in self.containerList:
-            returnValue += str(container)+"\n"
-        return returnValue
     

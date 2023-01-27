@@ -4,6 +4,7 @@ import random
 
 identificationNumbers = []
 
+#Get unique identification number
 def getNewIdentificationNumber():
     identificationNumber = random.randint(1, 10000000)
     if(identificationNumber in identificationNumbers):
@@ -12,11 +13,14 @@ def getNewIdentificationNumber():
         identificationNumbers.append(identificationNumber)
         return identificationNumber
 
+#Create container with fixed length and cargo weight
 def createContainer(idNr, length, cargoWeight):
     container = Container(length, idNr)
     container.setCargoWeight(cargoWeight)
     return container
 
+#Task 3
+#Create random container with random length and cargo weight
 def createRandomContainer():
     cargoWeight = 0
     containerLength = random.choice([20, 40])
@@ -29,16 +33,19 @@ def createRandomContainer():
     container.setCargoWeight(cargoWeight)
     return container
 
+#Create set of random containers
 def createSetOfContainers(numberOfContainers):
     containerList = []
     for i in range(numberOfContainers):
         containerList.append(createRandomContainer())
     return setContainers(containerList)
 
-def readFromFile():
+#Task 4
+#Load a set of containers from a file
+def loadContainersFromFile():
     listOfContainers = []
     try:
-        file = open("project1/data.csv", "r")
+        file = open("project1/datafiles/data.csv", "r")
         
         for line in file:
             data = line.split(",")
@@ -53,16 +60,18 @@ def readFromFile():
     
     return listOfContainers   
 
-def writeToFile(container):
+#Save a set of containers to a file
+def saveContainersToFile(containers):
     try:
-        file = open("project1/data.csv", "r")
+        file = open("project1/datafiles/load.csv", "r")
         file.close()
     except:
         print("could not read file")
     try:
-        file = open("project1/data.csv", "a")
-        data = container.fileFormat()
-        file.write(data)
+        file = open("project1/datafiles/load.csv", "a")
+        for container in containers:
+            data = container.getFileFormat()
+            file.write(data)
         file.flush()
         file.close()
     except:
@@ -120,7 +129,7 @@ if __name__ == "__main__":
     c23 = Container(20, 23)
 
     liste2 = [c7, c8, c9, c10, c11, c12, c13, c14, c15, c16, c17, c18]
-    setOfContainers = setContainers(liste2)
+    setOfContainers = setOfContainers(liste2)
     s.loadShip(setOfContainers.getContainerList())
     print(s.getLoad())
     # print(setOfContainers.getContainerList())

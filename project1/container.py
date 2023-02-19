@@ -1,4 +1,5 @@
 #Task 1
+
 class Container:
     length20 = 20
     length40 = 40
@@ -58,10 +59,5 @@ class Container:
     def getFileFormat(self):
         return str(self.idNr)+","+str(self.length)+","+str(self.startWeight)+","+str(self.maxCargoWeight)+","+str(self.cargoWeight)+","+str(self.getTotalWeight())+"\n"
   
-
-    # def __str__(self):
-    #     return "ContainerID:" + str(self.idNr)+"\n"+"-----------------"+"\n"+"Length: "+str(self.length)+"\n"+"Start Weight: "+str(self.startWeight)+"\n"+"Max Cargo Weight: "+str(self.maxCargoWeight)+"\n"+"Cargo Weight: "+str(self.cargoWeight)+"\n"+"Total weight: "+str(self.getTotalWeight())+"\n"+"-----------------"+"\n"
-    
-
 
     

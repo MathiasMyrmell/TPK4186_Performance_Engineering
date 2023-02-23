@@ -49,7 +49,10 @@ class Game:
         self.plycount = metadata[9][11:-3]
         self.whiteElo = metadata[10][11:-3]
         self.blackElo = metadata[11][11:-3]
-        
+    
+    def getMetaData(self):
+        return [self.event, self.site, self.date, self.round, self.white, self.black, self.result, self.ECO, self.opening, self.plycount, self.whiteElo, self.blackElo]
+   
     def getEvent(self):
         return self.event
     
@@ -300,7 +303,7 @@ class Game:
 
 
 
-
+    #Task 3
     def saveGame(self):
         print()
         try:

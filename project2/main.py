@@ -7,18 +7,80 @@ from document import Document
 import re
 import matplotlib.pyplot as plt
 import copy
+import openpyxl
 
 import math
 
 
-chessGames = []
-def loadGame(path):
+
+# #Task 2
+def importGame(path, number):
+    game = None
+    try:
+        file = open(path, "r")
+        #Find line where new game starts
+        breakPoints = _getBreakPoints(path)
+        lines = file.readlines()
+        gameNr = 1
+
+        for i in range(len(lines)):#len(lines)
+            if i in breakPoints and gameNr == number:
+                metadata = lines[i:i+13]
+                # #Move lines from-to
+                moveFrom = i+13
+                nextStart = breakPoints[gameNr]
+                moveTo = nextStart
+                moves = lines[moveFrom:moveTo-1]
+                #Create game
+                game = _createGameFromLoad(metadata[4], metadata[5])
+                game.setMetaData(metadata)
+                movePairs = _createMovesFromLoad(moves)
+                game.setMoves(movePairs)
+            if i in breakPoints:
+                gameNr+=1
+           
+        file.close()
+    except:
+        print("could not read file")
+    
+    return game
+
+# #Task 3
+def saveGame(path, game):
+    print()
+    try:
+        file = open(path, "r")
+        file.close()
+    except:
+        print("could not read file")
+    try:
+        #Open file in append mode
+        file = open(path, "a")
+        #Add metadata
+        metadata = game._getMetaData()
+        file.write(metadata)
+
+        #Add moves
+        moves = game._getMoves()
+        # file.write(moves)
+        for line in moves:
+            print(line)
+            file.write(line+"\n")
+        file.flush()
+        file.close()
+    except:
+        print("could not append to file")
+    return 0
+
+
+# #Task 4
+#Load games
+def loadGames(path):
     if type(path) == str:
         return _loadGamesFromPath(path)
     elif type(path) == ChessDataBase:
         return _loadGamesFromDataBase(path)
     
-
 def _getNumberOfLines(path):
     file = open(path, "r")
     lines = 0
@@ -128,11 +190,76 @@ def _createMovesFromLoad(moves):
 
 def _loadGamesFromDataBase(path):
     games = path.getGames()
+    chessGames = []
     for i in games:
         chessGames.append(i)
+    return chessGames
+
+#Save games
+def saveGames(dataBase, games):
+    for game in games:
+        dataBase.addGame(game)
+
+# #Task 5
+#Load data from Excel file
+def loadFromExcel(path):
+    print()
+
+#Save data to Excel file
+def saveToExcel(game):
+    workbook = openpyxl.Workbook()
+    ws = workbook.active
+    ws.title = "Chess"
+    metaNameColumn = "B"
+    metaValueColumn = "C"
+    metaData = game.getMetaData()
+    if len(metaData)==12:
+        metaDataNames = ["Event", "Site", "Date", "Round", "White", "Black", "Result", "ECO", "Opening", "PlyCount", "WhiteElo", "BlackElo"]
+    elif len(metaData)==13:
+        metaDataNames = ["Event", "Site", "Date", "Round", "White", "Black", "Result", "ECO", "Opening", "Variation", "PlyCount", "WhiteElo", "BlackElo"]
+
+    # print("len(metaDataNames): ", len(metaDataNames))
+    # print("len(metaData): ", len(metaData))
+
+    lineCount = 1
+    #Add metadata
+    for i in range(len(metaDataNames)):
+        name = metaDataNames[i]
+        value = metaData[i]
+        if type(value) == Player:
+            value = value.getName()
+        metaNamePlacement = metaNameColumn+str(i+1)
+        metaValuePlacement = metaValueColumn+str(i+1)
+        ws[metaNamePlacement] = name
+        ws[metaValuePlacement] = value
+        lineCount+=1
+
+    #Add moves
+    moves = game.getMoves()
+    print("moves: ", moves)
+    turnCount = 1
+    lineCount+=1
+    turnColumn = "B"
+    whiteColumn = "C"
+    blackColumn = "D"
+    ws[turnColumn+str(lineCount)] = "Turn"
+    ws[whiteColumn+str(lineCount)] = "White"
+    ws[blackColumn+str(lineCount)] = "Black"
+    lineCount+=1
+    for i in range(lineCount,lineCount+len(moves)):
+        turn = turnCount
+        white = moves[turnCount-1][0]
+        black = moves[turnCount-1][1]
+
+        ws[turnColumn+str(i)] = turn
+        ws[whiteColumn+str(i)] = white
+        ws[blackColumn+str(i)] = black
+        turnCount+=1
+
+    workbook.save("project2/DataFiles/Chess.xlsx")
 
 
-#Task 7
+# #Task 7
 def statisticsStockfish(database):
     games = database.getGames()
     print("Number of games: ", len(games))
@@ -193,26 +320,29 @@ def statisticsStockfish(database):
 
     return winnerWhite, drawWhite, loserWhite, winnerBlack, drawBlack, loserBlack, totalWinner, totalDraw, totalLoser
 
-#Task 8
-def task8(database):
+# #Task 8
+def createPlots(database):
     #All games
-    allGames = plotOfNumberOfMoves(copy.copy(database))
+    AG = _allGames(copy.copy(database))
 
     #Stockfish with white
-    SW= stockfishWhite(copy.copy(database))
+    SW= _stockfishWhite(copy.copy(database))
 
+    #Stockfish with black
+    SB = _stockfishBlack(copy.copy(database))
 
-    return allGames, SW
+    #Stockfish winning
+    SW = _stockfishWinning(copy.copy(database))
+
+    #Stockfish losing
+    SL = _stockfishLosing(copy.copy(database))
+
+    return AG, SW, SB, SW, SL
     #All games
 
-def allGames(databse):
+def _allGames(database):
     games = database.getGames()
-    # for i in range(1):
-    #     print(games[i].getNumberOfMoves())
-
-    #Dictionary with number of moves as key and number of games as value
     moves = {}
-
 
     for game in games:
         numMoves = game.getNumberOfMoves()
@@ -220,56 +350,10 @@ def allGames(databse):
             moves[numMoves]+=1
         else:
             moves[numMoves] = 1
+    
+    return _plotOfNumberOfMoves(games,moves)
 
-def plotOfNumberOfMoves(database):
-    #Assuumptions: one turn = two moves
-    games = database.getGames()
-    # for i in range(1):
-    #     print(games[i].getNumberOfMoves())
-
-    #Dictionary with number of moves as key and number of games as value
-    moves = {}
-
-
-    for game in games:
-        numMoves = game.getNumberOfMoves()
-        if numMoves in moves:
-            moves[numMoves]+=1
-        else:
-            moves[numMoves] = 1
-
-    #Sort dictionary
-    sortedDict = {}
-    for i in range(len(moves)):
-        minValue = min(moves.keys())
-        sortedDict[minValue] = moves[minValue]
-        moves.pop(minValue)
-
-    yValues = []
-    minValue = min(sortedDict.keys())
-    maxValue = max(sortedDict.keys())
-    for i in sortedDict.keys():#range(minValue, maxValue+1)
-        keys = sortedDict.keys()
-        value = 0
-        for k in keys:
-            if k>=i:
-                value+=sortedDict[k]
-        yValues.append(value)
-
-    #Mean, standard deviation
-    mean = 0
-    for i in sortedDict.keys():
-        mean+=i*sortedDict[i]
-    mean = mean/len(games)
-
-    std = 0
-    for i in sortedDict.keys():
-        std+=(i-mean)**2*sortedDict[i]
-    std = round(math.sqrt(std/len(games)),2)
-
-    return sortedDict, yValues, mean, std
-
-def stockfishWhite(database):
+def _stockfishWhite(database):
     games = database.getGames()
     moves = {}
     for game in games:
@@ -279,7 +363,47 @@ def stockfishWhite(database):
                 moves[numMoves]+=1
             else:
                 moves[numMoves] = 1
-    returnValue = plotOfNumberOfMoves(moves)
+    return _plotOfNumberOfMoves(games,moves)
+
+def _stockfishBlack(database):
+    games = database.getGames()
+    moves = {}
+    for game in games:
+        if game.getBlack().getName() == "Stockfish 15 64-bit":
+            numMoves = game.getNumberOfMoves()
+            if numMoves in moves:
+                moves[numMoves]+=1
+            else:
+                moves[numMoves] = 1
+    return _plotOfNumberOfMoves(games,moves)    
+
+def _stockfishWinning(database):
+    games = database.getGames()
+    moves = {}
+    for game in games:
+        if game.getWinner()[1] == "Stockfish 15 64-bit":
+            numMoves = game.getNumberOfMoves()
+            if numMoves in moves:
+                moves[numMoves]+=1
+            else:
+                moves[numMoves] = 1
+    return _plotOfNumberOfMoves(games,moves)
+
+def _stockfishLosing(database):
+    games = database.getGames()
+    moves = {}
+    for game in games:
+        if game.getWinner()[1] != "Stockfish 15 64-bit" and game.getWinner()[1] != "Draw":
+            numMoves = game.getNumberOfMoves()
+            if numMoves in moves:
+                moves[numMoves]+=1
+            else:
+                moves[numMoves] = 1
+    return _plotOfNumberOfMoves(games,moves)
+
+def _plotOfNumberOfMoves(games, moves):
+    #Assuumptions: one turn = two moves
+
     #Sort dictionary
     sortedDict = {}
     for i in range(len(moves)):
@@ -302,7 +426,7 @@ def stockfishWhite(database):
     mean = 0
     for i in sortedDict.keys():
         mean+=i*sortedDict[i]
-    mean = mean/len(games)
+    mean = round(mean/len(sortedDict.values()),2)
 
     std = 0
     for i in sortedDict.keys():
@@ -312,47 +436,73 @@ def stockfishWhite(database):
     return sortedDict, yValues, mean, std
 
 
+
+# #Task 9
+"project2/datafiles/games.txt"
+
+
 if __name__ == "__main__":
     path = "project2/datafiles/Stockfish_15_64-bit.commented.2600.pgn"
-    p1 = Player("Stockfish")
-    p1.setColor("White")
-    p2 = Player("Mathias")
-    p2.setColor("Black")
-    g = Game(p1,p2)
+
+    # #Task 1
+    # p1 = Player("Stockfish")
+    # p1.setColor("White")
+    # p2 = Player("Mathias")
+    # p2.setColor("Black")
+    # g = Game(p1,p2)
     # g.createBoard()
 
-    g.movePiece(p1,"Pa2a4")
-
-    g.printBoard()
-
-    # g._getMoves()
-    # g.saveGame()
+    # g.movePiece(p1,"Pa2a4")
 
 
-    # database = loadGame(path)
-    # games = database.getGames()
-    # loadGame(database)
+    # #Task 2
+    #Parh for task 5
+    pathtask5 = "project2/datafiles/games.txt"
+    g2 = importGame(pathtask5,3)
+    # print(g2)
 
-    #Task 7
-    path100 = "project2/datafiles/stockfishGames100.pgn"
-    database = loadGame(path100)
-    stat = statisticsStockfish(database)
+    # #Task 3
+    # saveGame("project2/datafiles/games.txt",g)
 
-    moves = task8(database)[1]
+    # #Task 4
+    #Load from file
+    # games = loadGames(path)
+
+    #Save to database
+    # database = ChessDataBase()
+    # listOfGames = games.getGames()
+    # saveGames(database,listOfGames)
+
+    # #Task 5
+    saveToExcel(g2)
+
+   
+
+    # #Task 7
+    # database = loadGames(path)
+    # stat = statisticsStockfish(database)
+
+  
+    # #Task 8
+    # moves = createPlots(database)
+  
+  
+    # #Task 9
+
+    # #Task 10
+
+    # #Task 11
+
+    # #Task 12
 
     
+    # #Task 6
+    # doc = Document("Stockfish")
+    # doc.createStatTable(stat)
+    # doc.createPlot(moves)
+    # doc.write()
 
 
 
 
-
-
-
-
-
-
-    #Task 6
-    doc = Document()
-    doc.createStatTable(stat)
-    doc.createPlot(moves)
-    doc.write()
+    

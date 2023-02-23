@@ -1,0 +1,15 @@
+[Event "None"]
+[Site "None"]
+[Date "None"]
+[Round "None"]
+[White "Stockfish"]
+[Black "Mathias"]
+[Result "None"]
+[ECO "None"]
+[Opening "None"]
+[PlyCount "None"]
+[WhiteElo "None"]
+[BlackElo "None"]
+
+
+

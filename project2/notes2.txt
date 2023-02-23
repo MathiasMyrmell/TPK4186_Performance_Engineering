@@ -1,0 +1,19 @@
+Turn 8
+Ne7 = > Knight to e7
+If both knights can go there, and u want to move the one in row g => Nge7
+
+Turn 10
+Bxc6+ => B to c6. X means a piece is removed. + means check
+
+turn 12
+0-0-0 => lang rokade , 0-0 kort rokade
+
+Turn 15
+gxf6 => since small g, its the pawn in g row
+
+Turn 18
+Rdf1 = > rook in d row to f1. Both rooks can go there
+
+
+
+['1. f4 {+0.00/1 0s} a3 {+0.00/1 0s} 2. f6 {+0.00/1 0s} Qa6 {+0.00/1 0s} 3. f6 {+', '0.00/1 0s} Qa6 {+0.00/1 0s} 4. f6 {+0.00/1 0s} Qa6 {+0.00/1 0s} 5. f6 {+0.00/1 ', '0s} Qa6 {+0.00/1 0s} 6. f6 {+0.00/1 0s} Qa6 {+0.00/1 0s} 7. f6 {+0.00/1 0s} Qa6', ' {+0.00/1 0s} 8. f6 {+0.00/1 0s} Qa6 {+0.00/1 0s} 9. f6 {+0.00/1 0s} Qa6 {+0.00', '/1 0s} 10. f6 {+0.00/1 0s} Qa6 {+0.00/1 0s} 11. f6 {+0.00/1 0s} Qa6 {+0.00/1 0s', '} \n\n']

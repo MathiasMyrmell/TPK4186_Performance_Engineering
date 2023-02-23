@@ -1,0 +1,56 @@
+1. f4  d5  
+2. b3  Bg4 
+3. Bb2 Nc6 
+4. h3  Bh5  
+5. g4 Bg6 
+6. Nf3  h5  
+7. g5 e6  
+8. e3  Nge7  
+9. Bb5 a6 
+10. Bxc6+  Nxc6
+11. d3 Qe7  
+12. Qe2  O-O-O  
+13. Qf2 f6 
+14. Nh4  Bf7 
+15. gxf6  gxf6  
+16. Nc3 Qe8 
+17. O-O-O  e5 
+18. Rdf1  Be6 
+19. f5  Bf7 
+20. Kb1  Rg8 
+21. Rhg1  Rxg1 
+22. Rxg1  Bc5 
+23. Ng6 b6 
+24. Na4  Bd6
+25. Nc3  Bc5 
+26. Bc1  Qd7 
+27. Qf3 Kb8 
+28. Qxh5  Nb4
+29. Na4 Bd6 
+30. Qg4  Qc6 
+31. Qg2  b5 
+32. Nb2  Qb6
+33. Bd2 Bc5 
+34. c3  Nc6 
+35. d4  Bd6 
+36. h4 b4 
+37. dxe5 Nxe5 
+38. cxb4  d4 
+39. e4  d3 
+40. Rd1 Nc6 
+41. h5 Bxb4 
+42. Bc1  d2
+43. Bxd2 Ba3 
+44. Qe2 Kb7 
+45. Bc1 Bxb2 
+46. Kxb2  Rxd1 
+47. Qxd1 Qf2+ 
+48. Qd2  Qg1 
+49. h6  Bxg6
+50. fxg6 1-0
+
+
+
+
+
+['[Event "CCRL 40/15"]\n', '[Site "CCRL"]\n', '[Date "2022.12.19"]\n', '[Round "857.2.660"]\n', '[White "Stockfish 15 64-bit"]\n', '[Black "Rebel 16 64-bit"]\n', '[Result "1/2-1/2"]\n', '[ECO "E58"]\n', '[Opening "Nimzo-Indian"]\n', '[Variation "4.e3, main line with 8...Bxc3"]\n', '[PlyCount "156"]\n', '[WhiteElo "3511"]\n']

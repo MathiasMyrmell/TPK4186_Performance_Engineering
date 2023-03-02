@@ -16,6 +16,8 @@ class Node:
         self.pastNode = pastNode
 
         self.structure = None
+
+        self.played = 0
         
 
     def setNodeValue(self, value):
@@ -32,16 +34,8 @@ class Node:
     
     def getPastNode(self):
         return self.pastNode
-    
-    def getNextNode(self):
-        return self.nextNode
 
-    def setNextNode(self, moves):
-        if(len(moves) >= 2):
-            self.nextNode = moves[2]
-        elif(len(moves) == 1):
-            self.nextNode = None
-    
+
     def getNodeByValue(self, value):
         for i in range(len(self.getNodes())):
             if self.getNodes()[i].getNodeValue() == value:
@@ -56,8 +50,10 @@ class Node:
         return values
 
     def addGame(self, m):
+        self.played+=1
         #Moves[0] = pastNode, Moves[1] = nodeValue, Moves[2] = nextNode
         moves = copy.copy(m)
+        self.setWinner(m)
         nextColor = "White" if self.player == "Black" else "Black"
         # nextNode
         nextNode = moves[0]
@@ -75,35 +71,9 @@ class Node:
         #TODO: set winner
 
 
-
-    def addGame1(self, m, firstMove):
-        moves = copy.copy(m)
-        nextColor = "White" if self.player == "Black" else "Black"
-        if firstMove :
-            self.setPastNode(None)
-            self.setNodeValue(moves[0])
-            self.nextNode = moves[1]
-            self.setWinner(moves)
-        elif len(moves) >= 3:
-            self.setPastNode(moves[0])
-            self.setNodeValue(moves[1])
-            self.setNextNode(moves)
-            moves.remove(moves[0])
-            self.setWinner(moves)
-        elif len(moves) == 2:
-            self.setPastNode(moves[0])
-            self.setNodeValue(moves[1])
-            self.setWinner(moves)
-            return
-
-        if self.getNodeValue() in self.getNodes():
-            self.getNodeByValue(self.getNodeValue()).addGame(moves, False)
-            self.setWinner(moves)
-        else:
-            node = Node(nextColor)
-            node.addGame(moves, False)
-            self.getNodes().append(node)
-            self.setWinner(moves)
+    def getTimesPlayed(self):
+        return self.played
+   
                 
     def setWinner(self, moves):
         winner = moves[-1]
@@ -122,17 +92,13 @@ class Node:
                 # print("Bottom node", self.getNodeValue() )
                 structure.append(self.getNodeValue())
         else:
-            if(len(self.getNodes()) == 1):
-                print("just one node")
-                if len(self.getNodes()) == 1:
-                    structure.append(self.getNodeValue()+"/"+self.getNodes()[0].getNodeValue())
-                else:
-                    for stru in self.getNodes():
-                        structure.append(self.getNodeValue()+"/"+stru.getNodeValue())
+            if len(self.getNodes()) == 1:
+                structure.append(self.getNodeValue()+"/"+self.getNodes()[0].getNodeValue())
             else:
-                print("more than one node",self.getNodes())
+                for stru in self.getNodes():
+                    structure.append(self.getNodeValue()+"/"+stru.getNodeValue())
+
             for node in self.getNodes():
                 for stru in node.getStructure():
                    structure.append(self.getNodeValue()+"/"+stru)
-        print("Structure", structure)
         return structure

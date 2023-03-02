@@ -19,7 +19,21 @@ import openpyxl
 
 import math
 
+irregularOpenings = {
+    "Birds Opening": "f4,d5",
+    "English opening": "c4,e5",
+    "Dunst Opening|(Scicilian Defence)": "Nc3, c5"
+}
+#1.e4, 1.d4:
+regularOpenings = {
+    "Queen's Pawn Game|(Indian Defence)": "d4,Nf6",
+    "Queen's Pawn Game|(Closed Game)": "d4,d5",
+    "Queen's Pawn Game|()": "",
+    "Queen's Pawn Game|()": "",
 
+
+
+}
 
 # #Task 2
 def importGame(path, number):
@@ -466,33 +480,51 @@ def createTrees(games):
                 trees.append(t)
     return trees
 
+def _printTree(tree):
+    structure = tree.createTreeStructure()
+    root = list_to_tree(structure)
+    print_tree(root)
 
 # Task 11
-def getTreeOfDepth(tree, depth):
-    # Assumptions: depth = number of moves, not number of turns
-    # E.g. moves = [f4,d5,b3,Bb2,..] depth = 2 gives openings with moves [f4,d5]
-    print()
-    print("Tree ", tree)
-    print("Depth: ", depth) #6
+def getTreeOfDepth(trees, turns):
+    # Assumptions: depth = number of 1/2 means depth = number of turns
+    moves = turns*2
     finalStructures = []
     for tree in trees:
         structures = []
         structure = tree.createTreeStructure()
         for s in structure:
             stripped = s.split("/")
-            if len(stripped) <= depth:
+            if len(stripped) <= moves:
                 string = ""
                 for i in stripped:
                     string+=i+"/"
                 string = string[:-1]
                 structures.append(string)
         finalStructures.append(structures)
-    print("Final structures: ", finalStructures)
-    return finalStructures[0]
+    # print("Final structures: ", finalStructures)
+    return finalStructures
 
 
+def getOpenings(trees, timesPlayed):
+    for tree in trees:
+        root = tree.getRoot()
+        lastNode = _getNumberOfTimes(root, timesPlayed)
+        print("last Node",lastNode)
+        print("White won:", lastNode.getWhiteWon())
+        print("Black won:", lastNode.getBlackWon())
+        print("Draw:", lastNode.getDraw())
+        
 
-
+def _getNumberOfTimes(node, timesPlayed):
+    print("Node ", node.getNodeValue(), " has been played ", node.getTimesPlayed(), " times")
+    
+    if node.getNodes() != None:
+        for n in node.getNodes():
+            if(n.getTimesPlayed() < timesPlayed):
+                return n.getPastNode()
+            else:
+                return _getNumberOfTimes(n, timesPlayed)
 # def saveTreeAsPng(tree):
 #     threeGames = [nG1,nG2, nG3]
 #     trees = createTrees(threeGames)
@@ -587,15 +619,16 @@ if __name__ == "__main__":
     # print_tree(root)
 
     # Adding Three games
-    threeGames = [nG1,nG2, nG3]
-    trees = createTrees(threeGames)
-    # Printing first tree
-    t = trees[0]
-    root = t.getRoot()
-    structure = t.createTreeStructure()
-    root = list_to_tree(structure)
-    print_tree(root)
-    print("Structure",structure)
+
+    # threeGames = [nG1,nG2, nG3]
+    # trees = createTrees(threeGames)
+    # # Printing first tree
+    # t = trees[0]
+    # root = t.getRoot()
+    # structure = t.createTreeStructure()
+    # root = list_to_tree(structure)
+    # print_tree(root)
+    # print("Structure",structure)
 
     # graph = tree_to_dot(root)
     # graph.write_png('tree.png')
@@ -607,10 +640,6 @@ if __name__ == "__main__":
 
 
 
-
-
-
-    print(" ")
 
 
     # #Task 10
@@ -625,14 +654,48 @@ if __name__ == "__main__":
     # root = list_to_tree(structure)
     # print_tree(root)
 
-    # #Task 11
-    print("Task 11")
-    tD = getTreeOfDepth(trees,6)
-    print(tD)
-    print_tree(list_to_tree(tD))
-    # #Task 12
+    # # #Task 11
+    # print("Task 11")
+    # games11 = loadGames(path100)
+    # games11 = games11.getGames()
+    # trees11 = createTrees(games11)
+    # tree1 = trees11[0]
+    # tree2 = trees11[1]
+    # tree3 = trees11[2]
 
+
+
+    # tD = getTreeOfDepth(trees11,10)
+
+    # # print(tD)
+    # print_tree(list_to_tree(tD[0]))
     
+    
+    
+    #Task 12
+    path = "project2/datafiles/stockfishGames100.pgn"
+    database = loadGames(path)
+    games = database.getGames()
+    trees = createTrees(games)
+    # _printTree(trees[0])
+    getOpenings([trees[0]],2)
+
+
+
+
+
+
+
+
+    #Get first turn
+    print("Number of trees: ",len(trees))
+    for t in trees:
+        root = t.getRoot()
+        print("Root: ",root.getNodeValue())
+        nextMoves = root.getNodes()
+        for node in nextMoves:
+            print("Next move: ",node.getNodeValue())
+        print(" ")
     # #Task 6
     # doc = Document("Stockfish")
     # doc.createStatTable(stat)

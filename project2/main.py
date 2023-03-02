@@ -4,10 +4,18 @@ from game import Game
 from player import Player
 from chessDataBase import ChessDataBase
 from document import Document
+from node import Node
+from tree import Tree
+from ete3 import Tree as ETE3Tree
+from bigtree import list_to_tree, print_tree, print_tree, find, findall, tree_to_dot
+from bigtree import Node as N
 import re
 import matplotlib.pyplot as plt
 import copy
 import openpyxl
+
+
+
 
 import math
 
@@ -437,13 +445,74 @@ def _plotOfNumberOfMoves(games, moves):
 
 
 
-# #Task 9
-"project2/datafiles/games.txt"
+# Task 10
+def createTrees(games):
+    trees = []
+    for game in games:
+        # Adding first game to tree
+        if len(trees)==0:
+            t = Tree(game)
+            trees.append(t)
+        #Adding rest of games to tree
+        else:
+            addedNew = False
+            for tree in trees:
+                if tree.getRoot().getNodeValue() == game.getMoves()[0][0]:
+                    tree.addNewGameToTree(game)
+                    addedNew = True
+                    break
+            if addedNew == False:
+                t = Tree(game)
+                trees.append(t)
+    return trees
+
+
+# Task 11
+def getTreeOfDepth(tree, depth):
+    # Assumptions: depth = number of moves, not number of turns
+    # E.g. moves = [f4,d5,b3,Bb2,..] depth = 2 gives openings with moves [f4,d5]
+    print()
+    print("Tree ", tree)
+    print("Depth: ", depth) #6
+    finalStructures = []
+    for tree in trees:
+        structures = []
+        structure = tree.createTreeStructure()
+        for s in structure:
+            stripped = s.split("/")
+            if len(stripped) <= depth:
+                string = ""
+                for i in stripped:
+                    string+=i+"/"
+                string = string[:-1]
+                structures.append(string)
+        finalStructures.append(structures)
+    print("Final structures: ", finalStructures)
+    return finalStructures[0]
+
+
+
+
+# def saveTreeAsPng(tree):
+#     threeGames = [nG1,nG2, nG3]
+#     trees = createTrees(threeGames)
+#     # Printing first tree
+#     t = trees[0]
+#     root = t.getRoot()
+#     structure = t.createTreeStructure()
+#     root = list_to_tree(structure)
+#     print_tree(root)
+#     print("Structure",structure)
+
+#     graph = tree_to_dot(root)
+#     graph.write_png('tree.png')
+
+
 
 
 if __name__ == "__main__":
     path = "project2/datafiles/Stockfish_15_64-bit.commented.2600.pgn"
-
+    path100 = "project2/datafiles/games.txt"
     # #Task 1
     # p1 = Player("Stockfish")
     # p1.setColor("White")
@@ -466,7 +535,7 @@ if __name__ == "__main__":
 
     # #Task 4
     #Load from file
-    # games = loadGames(path)
+    games = loadGames(pathtask5)
 
     #Save to database
     # database = ChessDataBase()
@@ -474,7 +543,7 @@ if __name__ == "__main__":
     # saveGames(database,listOfGames)
 
     # #Task 5
-    saveToExcel(g2)
+    # saveToExcel(g2)
 
    
 
@@ -488,11 +557,79 @@ if __name__ == "__main__":
   
   
     # #Task 9
+    print("Task 9")
+    games2 = loadGames(path100)
+    allG = games2.getGames()
+    g1 = allG[0]
+    # print(g1)
+    g12 = allG[0:2]
+
+
+    nG1 = Game("White", "Black")
+    nG1.setMoves((("f4","a3"),("f6","Qa6"),("f6","Qa6"),("f6","Qa6")))#,("f6","Qa6"),("f6","Qa6")
+    nG2 = Game("White", "Black")
+    nG2.setMoves((("f4","a3"),("f6","Qa6"),("f5","Qa6"),("f6","Qa6")))
+    nG3 = Game("White", "Black")
+    nG3.setMoves((("f4","a3"),("f6","Qa6"),("f4","Qa6"),("f6","Qa6")))
+    
+    # #Adding one game
+    # t1 = Tree(nG1)
+    # print("root",t1.getRoot().getNodeValue())
+    # # t1.addGame(nG1)
+
+    # structure = t1.createTreeStructure()
+    # print("Structure",structure)
+
+    # path_list = ["f4/d5/b9", "f4/b/e", "f4/b/q", "f4/c"]
+
+    # root = list_to_tree(structure)
+    # print("tree:")
+    # print_tree(root)
+
+    # Adding Three games
+    threeGames = [nG1,nG2, nG3]
+    trees = createTrees(threeGames)
+    # Printing first tree
+    t = trees[0]
+    root = t.getRoot()
+    structure = t.createTreeStructure()
+    root = list_to_tree(structure)
+    print_tree(root)
+    print("Structure",structure)
+
+    # graph = tree_to_dot(root)
+    # graph.write_png('tree.png')
+    # graph.write_dot('tree.dot')
+
+
+    # print("Openings")
+    # find(root,)
+
+
+
+
+
+
+    print(" ")
+
 
     # #Task 10
+    # print("Task 10")
+    # games10 = loadGames(path100)
+    # games10 = games10.getGames()
+    # trees10 = createTrees(games10)
+    # # Printing first tree
+    # t = trees10[0]
+    # root = t.getRoot()
+    # structure = t.createTreeStructure()
+    # root = list_to_tree(structure)
+    # print_tree(root)
 
     # #Task 11
-
+    print("Task 11")
+    tD = getTreeOfDepth(trees,6)
+    print(tD)
+    print_tree(list_to_tree(tD))
     # #Task 12
 
     
@@ -502,7 +639,8 @@ if __name__ == "__main__":
     # doc.createPlot(moves)
     # doc.write()
 
+    # path_list = ["f4/d5/b9", "f4/b/e", "f4/b/q", "f4/c"]
 
+    # root = list_to_tree(path_list)
 
-
-    
+    # print_tree(root)

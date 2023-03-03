@@ -873,3 +873,33 @@ Nf3+ {(Nf3) +0.00/70 15s} 51. Kg2 {(Kh1) +0.00/56 12s} Ne5 {(Ne1) +0.00/71 14s}
 +0.00/74 18s} 71. Bf5 {(Bb3) +0.00/61 21s} Nb6 {(Nd6) +0.00/76 19s} 72. Bd3
 {(e4) +0.00/56 14s} Ke5 {(Ke5) +0.00/72 22s} 73. Be2 {(Kf3) +0.00/54 14s}
 1/2-1/2
+[Event "None"]
+[Site "None"]
+[Date "None"]
+[Round "None"]
+[White "Stockfish"]
+[Black "Mathias"]
+[Result "None"]
+[ECO "None"]
+[Opening "None"]
+[PlyCount "None"]
+[WhiteElo "None"]
+[BlackElo "None"]
+
+
+
+[Event "None"]
+[Site "None"]
+[Date "None"]
+[Round "None"]
+[White "Stockfish"]
+[Black "Mathias"]
+[Result "None"]
+[ECO "None"]
+[Opening "None"]
+[PlyCount "None"]
+[WhiteElo "None"]
+[BlackElo "None"]
+
+
+

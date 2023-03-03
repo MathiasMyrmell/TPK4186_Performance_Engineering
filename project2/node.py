@@ -3,16 +3,16 @@ import copy
 
 class Node:
 
-    def __init__(self, player, value, pastNode):
+    def __init__(self, player, value, pastNode, tree):
         self.player = player
         self.nodes = []
         self.winnerWhite = 0
         self.winnerBlack = 0
         self.draw = 0
-        self.nodeValue = value
-
+        self.nodeValue = value 
+        self.level = None
         self.label = player #remove if nodes in svg hasent color
-
+        self.tree = tree
         self.pastNode = pastNode
 
         self.structure = None
@@ -26,6 +26,9 @@ class Node:
     def getNodeValue(self):
         return self.nodeValue
 
+    def setNodes(self, nodes):
+        self.nodes = nodes
+
     def getNodes(self):
         return self.nodes
     
@@ -35,6 +38,17 @@ class Node:
     def getPastNode(self):
         return self.pastNode
 
+    def setLevel(self, level):
+        self.level = level
+
+    def getLevel(self):
+        return self.level
+    
+    def getTree(self):
+        return self.tree
+    
+    def isLeafNode(self):
+        return len(self.getNodes()) == 0
 
     def getNodeByValue(self, value):
         for i in range(len(self.getNodes())):
@@ -50,6 +64,8 @@ class Node:
         return values
 
     def addGame(self, m):
+        # played = self.getTimesPlayed()
+        # self.setTimesPlayed(played+1)
         self.played+=1
         #Moves[0] = pastNode, Moves[1] = nodeValue, Moves[2] = nextNode
         moves = copy.copy(m)
@@ -63,13 +79,14 @@ class Node:
             else:
                 return
         else:
-            node = Node(nextColor, nextNode, self.getNodeValue())
+            node = Node(nextColor, nextNode, self, self.getTree()) #self.getNodeValue()
+            node.setLevel(self.getLevel()+1)
             if len(moves) >= 2:
                 node.addGame(moves[1:])
             self.getNodes().append(node)
 
-        #TODO: set winner
-
+    def setTimesPlayed(self, timesPlayed):
+        self.played = timesPlayed
 
     def getTimesPlayed(self):
         return self.played
@@ -84,6 +101,17 @@ class Node:
         else:
             self.draw+=1
         
+    def removeNodesUnderDepth(self, depth):
+        nodes = self.getNodes()
+        newNodes = []
+        for i in range(len(nodes)):
+            if nodes[i].getLevel() > depth:
+                continue
+            else:
+                nodes[i].removeNodesUnderDepth(depth)
+                newNodes.append(nodes[i])
+        self.setNodes(newNodes)
+    
 
     def getStructure(self):
         structure = []
@@ -102,3 +130,61 @@ class Node:
                 for stru in node.getStructure():
                    structure.append(self.getNodeValue()+"/"+stru)
         return structure
+
+
+
+    def getStructureTimesPlayed(self,n):
+        structure = []
+        #Check if this is last node
+        lastNode = True
+        for node in self.getNodes():
+            if node.getTimesPlayed() >= n:
+                lastNode = False
+                break
+        if lastNode:
+            structure.append(self.getNodeValue())
+            return structure
+        else:
+            if len(self.getNodes()) == 0:
+                # print("bottom node", self.getNodeValue())
+                structure.append(self.getNodeValue())
+            else:
+                # print("node", self.getNodeValue())
+                for node in self.getNodes():
+                    if node.getTimesPlayed() >= n:
+                        # print(node.getNodeValue())
+                        for stru in node.getStructureTimesPlayed(n):
+                            structure.append(self.getNodeValue()+"/"+stru)
+        return structure
+    
+    def getWinnersFromLeafs(self):
+        winners = []
+        if self.isLeafNode():
+            self.getTree().setWinnerFromLeaf([self.getNodeValue(),self.getPastNode().getNodeValue(),self.getWinners()])
+        else:
+            for node in self.getNodes():
+                winners.append(node.getWinnersFromLeafs())
+        return winners
+                
+
+    def getWinners(self):
+        return [self._getWinnerWhite(), self._getWinnerBlack(), self._getDraw()]
+
+    def _getWinnerWhite(self):
+        return self.winnerWhite
+    
+    def _getWinnerBlack(self):
+        return self.winnerBlack
+    
+    def _getDraw(self):
+        return self.draw
+    
+
+    def getTimesPlayedLeaf(self):
+        timesPlayed = []
+        if self.isLeafNode():
+            self.getTree().setTimesPlayedLeaf([self.getNodeValue(),self.getPastNode().getNodeValue(),self.getTimesPlayed()])
+        else:
+            for node in self.getNodes():
+                timesPlayed.append(node.getTimesPlayedLeaf())
+        return timesPlayed

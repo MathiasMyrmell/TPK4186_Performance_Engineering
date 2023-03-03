@@ -10,6 +10,7 @@ class Document:
 
         self.headStart = "<html><head>"
         self.title = "<title>ChessGame</title>"
+        self.style = "<link rel='stylesheet' href='style.css'> "
         self.headEnd = "</head>"
         self.bodyStart = "<body>"
         self.body = ""
@@ -21,7 +22,7 @@ class Document:
         headStart = "<html><head>"
         title = "<title>"+self.name+"</title>"
         headEnd = "</head>"
-        self.head = headStart + title + headEnd
+        self.head = headStart + title +self.style+headEnd
 
     def createBody(self):
         bodyStart = "<body>"
@@ -130,6 +131,54 @@ class Document:
        
         strTable = strTable + "</table>"
         return strTable
+
+
+
+    #Task 11
+    def createWinnersTable(self,b):
+        #Tree [starting node, [ [leafNode, pastNode, [WhiteWin, blackWin, draw]]      ]     ]
+        print("b: ", b)
+        tables = ""
+        
+        for tree in b:
+            totWinnerWhite = 0
+            totWinnerBlack = 0
+            totDraw = 0
+            startNode = tree[0]
+            leafNodes = tree[1]
+            table = "<table >"
+            tableHead = "<tr> <th colespan='4'>"+startNode+"</tr>"
+            tableSubHead = "<tr> <th>Path</th> <th>Winner white</th> <th>Winner black</th> <th>Draw</th></tr>"
+            table+=tableHead+tableSubHead
+            print("startNode: ", startNode)
+            for lF in leafNodes:
+
+                leafNode = lF[0]
+                print("leafNode: ", leafNode)
+                pastNode = lF[1]
+                print("pastNode: ", pastNode)
+                result = lF[2]
+                print("result: ", result)
+                winnerWhite = result[0]
+                print("winnerWhite: ", winnerWhite)
+                winnerBlack = result[1]
+                draw = result[2]
+                totWinnerWhite += winnerWhite
+                totWinnerBlack += winnerBlack
+                totDraw += draw
+                tableRow = "<tr> <td>"+startNode+"..."+pastNode+","+leafNode+"</td> <td>"+str(winnerWhite)+"</td> <td>"+str(winnerBlack)+"</td> <td>"+str(draw)+"</td> </tr>"
+                table = table + tableRow
+            rowTot = "<tr> <td>Total</td> <td>"+str(totWinnerWhite)+"</td> <td>"+str(totWinnerBlack)+"</td> <td>"+str(totDraw)+"</td> </tr>"
+            table = table + rowTot + "</table>"
+            tables+=table+"</br>"+"<img src='/project2/trees/"+startNode+".png'   height = 300px'>"
+        self.bodyContent+="<h2>Winners</h2>"
+        self.bodyContent+="<p>This table shows the number of times Stockfish has won, drawn and lost, with white pieces, black pieces, for each opening.</p>"
+        self.bodyContent+=tables
+
+
+
+    def createTimesPlayed(self):
+        pass
 
     def createHTMLContent(self):
         self.createHead()

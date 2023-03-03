@@ -69,7 +69,6 @@ def importGame(path, number):
 
 # #Task 3
 def saveGame(path, game):
-    print()
     try:
         file = open(path, "r")
         file.close()
@@ -84,10 +83,15 @@ def saveGame(path, game):
 
         #Add moves
         moves = game._getMoves()
-        # file.write(moves)
+        counter = 0
         for line in moves:
-            print(line)
-            file.write(line+"\n")
+            if counter<80:
+                file.write(line)
+                counter+=1
+            else:
+                file.write("\n"+line)
+                counter = 0
+        file.write("\n")
         file.flush()
         file.close()
     except:
@@ -222,10 +226,54 @@ def saveGames(dataBase, games):
     for game in games:
         dataBase.addGame(game)
 
+def exportGames(path, database):
+    for game in database.getGames():
+        saveGame(path, game)
+
 # #Task 5
 #Load data from Excel file
 def loadFromExcel(path):
-    print()
+    print(" ")
+    wb = openpyxl.load_workbook(path)
+    ws = wb.active
+    maxCol = ws.max_column
+    maxRow = ws.max_row
+
+    gameContainer = [[],[]]
+    placer = 0
+    for i in range(1,maxRow+1):
+        row = ""
+        for j in range(2,maxCol+1):
+            cell = ws.cell(row=i, column=j)
+            row+=str(cell.value)+" "
+        #Shift to moves
+        if row == "None None ":
+            placer = 1
+        #Remove header of moves
+        elif row == "White Black ":
+            continue
+        else:
+            gameContainer[placer].append(row)
+    
+    #Create metadata
+    metaData = []
+    for data in gameContainer[0]:
+        metaData.append(data[:-1])
+
+    #Create moves
+    moves = []
+    for data in gameContainer[1]:
+        d = data.split(" ")
+        moves.append((d[0],d[1]))
+
+    #Create game
+    whitePlayer = Player(metaData[4][6:])
+    blackPlayer = Player(metaData[5][6:])
+    game = Game(whitePlayer, blackPlayer)
+    game.setMetaDataExcel(metaData)
+    game.setMoves(moves)
+    return game
+
 
 #Save data to Excel file
 def saveToExcel(game):
@@ -258,12 +306,12 @@ def saveToExcel(game):
 
     #Add moves
     moves = game.getMoves()
-    print("moves: ", moves)
+    # print("moves: ", moves)
     turnCount = 1
     lineCount+=1
-    turnColumn = "B"
-    whiteColumn = "C"
-    blackColumn = "D"
+    turnColumn = "A"
+    whiteColumn = "B"
+    blackColumn = "C"
     ws[turnColumn+str(lineCount)] = "Turn"
     ws[whiteColumn+str(lineCount)] = "White"
     ws[blackColumn+str(lineCount)] = "Black"
@@ -460,7 +508,7 @@ def _plotOfNumberOfMoves(games, moves):
 
 
 # Task 10
-def createTrees(games):
+def createTreesFromGames(games):
     trees = []
     for game in games:
         # Adding first game to tree
@@ -480,64 +528,66 @@ def createTrees(games):
                 trees.append(t)
     return trees
 
+
+
 def _printTree(tree):
-    structure = tree.createTreeStructure()
-    root = list_to_tree(structure)
-    print_tree(root)
+
+    if type(tree)== Tree:
+        structure = tree.createTreeStructure()
+        root = list_to_tree(structure)
+        print_tree(root)
+    elif type(tree)==list:
+        print("list")
+        print(tree)
+        # root = list_to_tree(tree)
+        # print_tree(root)
+    else:
+        print("Wrong input")
+
+#Task 11
+def createTreesOfDepth(t, depth):
+    trees = _getTreesOfDepth(t, depth)
+    returnValue = copy.copy(trees)
+    winnerStat = []
+    for t in trees:
+        name = str(t.getRoot().getNodeValue())
+        saveTreeAsPng(t, name)
+        winners = t.getWinnersFromLeafs()
+        winnerStat.append([t.getRoot().getNodeValue(),winners])
+        # print("Winners tree: "+str(t.getRoot().getNodeValue()),winners)
+    # winnersTable = []
+    # createWinnersTable(winnerStat[0])
+    return returnValue, winnerStat
+
+def _getTreesOfDepth(t, depth):
+    # Assumptions: depth = number of moves
+    
+    trees = copy.copy(t)
+    newTrees = []
+    for tree in trees:
+        #Remove all nodes that are not in the depth
+        newTree = tree.removeNodesUnderGivenDepth(depth)
+        newTrees.append(newTree)
+    return trees
+            
+def saveTreeAsPng(tree, name):
+    if(type(tree) == Tree):
+        structure = tree.createTreeStructure()
+        root = list_to_tree(structure)
+        graph = tree_to_dot(root)
+        graph.write_png('project2/trees/'+name+'.png')
+    elif type(tree)==list:
+        root = list_to_tree(tree)
+        graph = tree_to_dot(root)
+        graph.write_png('project2/trees/'+name+'.png') 
+
+def createWinnersTable(winnerStat):
+    print(winnerStat)
 
 # Task 11
-def getTreeOfDepth(trees, turns):
-    # Assumptions: depth = number of 1/2 means depth = number of turns
-    moves = turns*2
-    finalStructures = []
-    for tree in trees:
-        structures = []
-        structure = tree.createTreeStructure()
-        for s in structure:
-            stripped = s.split("/")
-            if len(stripped) <= moves:
-                string = ""
-                for i in stripped:
-                    string+=i+"/"
-                string = string[:-1]
-                structures.append(string)
-        finalStructures.append(structures)
-    # print("Final structures: ", finalStructures)
-    return finalStructures
 
 
-def getOpenings(trees, timesPlayed):
-    for tree in trees:
-        root = tree.getRoot()
-        lastNode = _getNumberOfTimes(root, timesPlayed)
-        print("last Node",lastNode)
-        print("White won:", lastNode.getWhiteWon())
-        print("Black won:", lastNode.getBlackWon())
-        print("Draw:", lastNode.getDraw())
-        
 
-def _getNumberOfTimes(node, timesPlayed):
-    print("Node ", node.getNodeValue(), " has been played ", node.getTimesPlayed(), " times")
-    
-    if node.getNodes() != None:
-        for n in node.getNodes():
-            if(n.getTimesPlayed() < timesPlayed):
-                return n.getPastNode()
-            else:
-                return _getNumberOfTimes(n, timesPlayed)
-# def saveTreeAsPng(tree):
-#     threeGames = [nG1,nG2, nG3]
-#     trees = createTrees(threeGames)
-#     # Printing first tree
-#     t = trees[0]
-#     root = t.getRoot()
-#     structure = t.createTreeStructure()
-#     root = list_to_tree(structure)
-#     print_tree(root)
-#     print("Structure",structure)
-
-#     graph = tree_to_dot(root)
-#     graph.write_png('tree.png')
 
 
 
@@ -556,154 +606,139 @@ if __name__ == "__main__":
     # g.movePiece(p1,"Pa2a4")
 
 
-    # #Task 2
-    #Parh for task 5
-    pathtask5 = "project2/datafiles/games.txt"
-    g2 = importGame(pathtask5,3)
-    # print(g2)
+    # # #Task 2
+    # print("------------------")
+    # print("Task 2")
+    # print("------------------")
+    # print("Importing game...")
+    # game = importGame(path,3)#Path to games and game number
+    # print("Game imported:")
+    # print(game)
 
-    # #Task 3
-    # saveGame("project2/datafiles/games.txt",g)
+    # # #Task 3
+    # print("------------------")
+    # print("Task 3")
+    # print("------------------")
+    # print("Saving game to file...")
+    # saveGame("notes.txt",game)#"project2/datafiles/games.txt"
+    # print("Game saved to file")
 
     # #Task 4
-    #Load from file
-    games = loadGames(pathtask5)
+    # print("------------------")
+    # print("Task 4")
+    # print("------------------")
+    # print("Loading games from file...")
+    # games = loadGames(path)
+    # print("Games loaded from file")
+    # print("Number of games loaded: ", len(games.getGames()))
 
-    #Save to database
-    # database = ChessDataBase()
-    # listOfGames = games.getGames()
-    # saveGames(database,listOfGames)
+    # print("Saving games to another database...")
+    # exportGames("task4.txt",games)
+    # print("Games saved.")
+
 
     # #Task 5
-    # saveToExcel(g2)
-
-   
-
-    # #Task 7
-    # database = loadGames(path)
-    # stat = statisticsStockfish(database)
-
-  
-    # #Task 8
-    # moves = createPlots(database)
-  
-  
-    # #Task 9
-    print("Task 9")
-    games2 = loadGames(path100)
-    allG = games2.getGames()
-    g1 = allG[0]
-    # print(g1)
-    g12 = allG[0:2]
-
-
-    nG1 = Game("White", "Black")
-    nG1.setMoves((("f4","a3"),("f6","Qa6"),("f6","Qa6"),("f6","Qa6")))#,("f6","Qa6"),("f6","Qa6")
-    nG2 = Game("White", "Black")
-    nG2.setMoves((("f4","a3"),("f6","Qa6"),("f5","Qa6"),("f6","Qa6")))
-    nG3 = Game("White", "Black")
-    nG3.setMoves((("f4","a3"),("f6","Qa6"),("f4","Qa6"),("f6","Qa6")))
-    
-    # #Adding one game
-    # t1 = Tree(nG1)
-    # print("root",t1.getRoot().getNodeValue())
-    # # t1.addGame(nG1)
-
-    # structure = t1.createTreeStructure()
-    # print("Structure",structure)
-
-    # path_list = ["f4/d5/b9", "f4/b/e", "f4/b/q", "f4/c"]
-
-    # root = list_to_tree(structure)
-    # print("tree:")
-    # print_tree(root)
-
-    # Adding Three games
-
-    # threeGames = [nG1,nG2, nG3]
-    # trees = createTrees(threeGames)
-    # # Printing first tree
-    # t = trees[0]
-    # root = t.getRoot()
-    # structure = t.createTreeStructure()
-    # root = list_to_tree(structure)
-    # print_tree(root)
-    # print("Structure",structure)
-
-    # graph = tree_to_dot(root)
-    # graph.write_png('tree.png')
-    # graph.write_dot('tree.dot')
-
-
-    # print("Openings")
-    # find(root,)
-
-
-
+    # print("------------------")
+    # print("Task 5")
+    # print("------------------")
+    # print("Loading game from file...")
+    # game = importGame(path,3)
+    # print("Game loaded from file")
+    # print("Saving game to excel file...")
+    # saveToExcel(game)
+    # print("Game saved to excel file")
+    # print("Load game from excel file...")
+    # game2 = loadFromExcel("project2/datafiles/Chess.xlsx")
+    # print(game2)
 
 
     # #Task 10
+    # print("------------------")
     # print("Task 10")
-    # games10 = loadGames(path100)
-    # games10 = games10.getGames()
-    # trees10 = createTrees(games10)
-    # # Printing first tree
-    # t = trees10[0]
-    # root = t.getRoot()
-    # structure = t.createTreeStructure()
-    # root = list_to_tree(structure)
-    # print_tree(root)
-
-    # # #Task 11
-    # print("Task 11")
-    # games11 = loadGames(path100)
-    # games11 = games11.getGames()
-    # trees11 = createTrees(games11)
-    # tree1 = trees11[0]
-    # tree2 = trees11[1]
-    # tree3 = trees11[2]
-
-
-
-    # tD = getTreeOfDepth(trees11,10)
-
-    # # print(tD)
-    # print_tree(list_to_tree(tD[0]))
+    # print("------------------")
+    # print("Loading games from file...")
+    # games = loadGames(path)
+    # print("Games loaded from file")
+    # print("Number of games loaded: ", len(games.getGames()))
+    # print("Creating trees...")
+    # trees = createTreesFromGames(games.getGames())
+    # print("Trees created")
     
+    # #Task 11
+    print("------------------")
+    print("Task 11")
+    print("------------------")
+
+
+    print("Loading games from file...")
+    games = loadGames(path)
+    print("Games loaded from file")
+    print("Number of games loaded: ", len(games.getGames()))
+    print("Creating trees...")
+    trees = createTreesFromGames(games.getGames())
+    print("Trees created")
+    print("Getting trees of depth ...")
+    treesDepth, winnersTable = createTreesOfDepth(trees,3)
+    # print(len(treesDepth))
+    # print(treesDepth[0].createTreeStructure())
+    # i = 1
+
     
-    
-    #Task 12
-    path = "project2/datafiles/stockfishGames100.pgn"
-    database = loadGames(path)
-    games = database.getGames()
-    trees = createTrees(games)
-    # _printTree(trees[0])
-    getOpenings([trees[0]],2)
+
+    # for t in treesDepth:
+    #     name = str(t.getRoot().getNodeValue())
+    #     saveTreeAsPng(t, name)
+    #     winners = t.getWinnersFromLeafs()
+    #     print("Winners tree: "+str(t.getRoot().getNodeValue()),winners)
+
+    #     i+=1
+    # i = 1
+    # for tree in trees:
+    #     print("tree"+str(i)+": ",tree.createTreeStructure())
+    #     winners = t.getWinnersFromLeafs(5)
+    #     print(winners)
+    #     # _printTree(tree)
+    #     i+=1
 
 
+    # #Task 12
+    print("------------------")
+    print("Task 12")
+    print("------------------")
+    print("Extracting winners from trees...")
+    for t in treesDepth:
+        timesPlayed = t.getTimesPlayedLeaf()
+        print("Times played tree: "+str(t.getRoot().getNodeValue()),timesPlayed)
+    print("Winners extracted")
 
 
+    # # #Task 7
+    # print("------------------")
+    # print("Task 7")
+    # print("------------------")
+    # print("Creating tables over statistics...")
+    # database = loadGames(path)
+    # stat = statisticsStockfish(database)
+    # print("Tables made")
+  
+    # # #Task 8
+    # print("------------------")
+    # print("Task 8")
+    # print("------------------")
+    # print("Creating plots over statistics...")
+    # moves = createPlots(database)
+    # print("Plots made")
 
-
-
-
-    #Get first turn
-    print("Number of trees: ",len(trees))
-    for t in trees:
-        root = t.getRoot()
-        print("Root: ",root.getNodeValue())
-        nextMoves = root.getNodes()
-        for node in nextMoves:
-            print("Next move: ",node.getNodeValue())
-        print(" ")
     # #Task 6
-    # doc = Document("Stockfish")
+    print("------------------")
+    print("Task 6")
+    print("------------------")
+    print("Creating document...")
+    doc = Document("Stockfish")
     # doc.createStatTable(stat)
     # doc.createPlot(moves)
-    # doc.write()
+    doc.createWinnersTable(winnersTable)
+    doc.write()
+    print("Document created")
 
-    # path_list = ["f4/d5/b9", "f4/b/e", "f4/b/q", "f4/c"]
-
-    # root = list_to_tree(path_list)
-
-    # print_tree(root)
+    

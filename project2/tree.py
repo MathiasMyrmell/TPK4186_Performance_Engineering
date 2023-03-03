@@ -8,6 +8,17 @@ class Tree:
         self.structure = []
         self.initilizingNewTree(game)
 
+        self.structureTimesPlayed = []
+
+        self.winnerFromLeaf = []
+        self.timesPlayedLeaf = []
+
+    def setTreeStructureTimesPlayed(self, structure):
+        self.structureTimesPlayed = structure
+    
+    def getTreeStructureTimesPlayed(self):
+        return self.structureTimesPlayed
+
     def getRoot(self):
         return self.root
     
@@ -22,11 +33,8 @@ class Tree:
     
     def initilizingNewTree(self, game):
         moves = self.moves(game)
-        # print("adding new tree")
-        self.setRoot(Node("White", moves[0], None))
-        # print("root: ", self.getRoot().getNodeValue())
-        # print("pastNode: ", self.getRoot().getPastNode())
-        # print("moves:1", moves[1:])
+        self.setRoot(Node("White", moves[0], None, self))
+        self.getRoot().setLevel(0)
         self.getRoot().addGame(moves[1:])
 
 
@@ -41,24 +49,39 @@ class Tree:
         
 
     
-    # def addGame(self, g1):
-    #     moves = self.moves(g1)
-    #     if self.getRoot().getNodeValue() == moves[0]:
-    #         print("adding to tree with root: ", self.getRoot().getNodeValue())
-    #         moves = moves[1:]
-    #         self.getRoot().addGame(moves, False)
-    #     else:
-    #         print("adding new tree")
-    #         self.getRoot().addGame(moves, True)
-    #     # # self.getRoot().setNodeValue(moves[0])
-    #     # # if self.getRoot().getNodeValue() == moves[0]:
-    #     # #     self.getRoot().addGame(moves, False)
-    #     # # else:
-    #     # #     self.getRoot().addGame(moves, True)
-    #     # self.getRoot().addGame(moves, True)
+    def removeNodesUnderGivenDepth(self, depth):
+        # self.setTimesPlayedLeaf([])
+        # self.setWinnerFromLeaf([])
+        self.getRoot().removeNodesUnderDepth(depth)
     
 
+    
+    def getWinnersFromLeafs(self):
+        winners = self.getRoot().getWinnersFromLeafs()
+        winners = self.getWinnerFromLeaf()
+        return winners
 
+    def setWinnerFromLeaf(self, winner):
+        self.winnerFromLeaf.append(winner)
+                
+    def getWinnerFromLeaf(self):
+        return self.winnerFromLeaf
+
+
+
+
+    def getTimesPlayedLeaf(self):
+        timesPlayed = self.getRoot().getTimesPlayedLeaf()
+        timesPlayed = self.getTimesPlayed()
+        return timesPlayed
+    
+    def setTimesPlayedLeaf(self, timesPlayed):
+        self.timesPlayedLeaf.append(timesPlayed)
+
+    def getTimesPlayed(self):
+        return self.timesPlayedLeaf
+
+        
 
     def moves(self, g1):
         moves = []
@@ -74,7 +97,11 @@ class Tree:
     def createTreeStructure(self):
         self.setTreeStructure(self.getRoot().getStructure())
         return self.getTreeStructure()
-
+    
+    #Create tree structure, but each leaf is played min n times
+    def createTreeStructureTimesPlayed(self, n):
+        self.setTreeStructureTimesPlayed(self.getRoot().getStructureTimesPlayed(n))
+        return self.getTreeStructureTimesPlayed()
 if __name__ == "__main__":
     tree = Tree()
 

@@ -50,6 +50,19 @@ class Game:
         self.whiteElo = metadata[10][11:-3]
         self.blackElo = metadata[11][11:-3]
     
+    def setMetaDataExcel(self, metadata):
+        self.event = metadata[0][6:]
+        self.site = metadata[1][5:]
+        self.date = metadata[2][5:]
+        self.round = metadata[3][6:]
+        # self.white = p1
+        # self.black = p2
+        self.result = metadata[6][7:]
+        self.ECO = metadata[7][4:]
+        self.opening = metadata[8][8:]
+        self.plycount = metadata[9][9:]
+        self.whiteElo = metadata[10][9:]
+        self.blackElo = metadata[11][9:]
     def getMetaData(self):
         return [self.event, self.site, self.date, self.round, self.white, self.black, self.result, self.ECO, self.opening, self.plycount, self.whiteElo, self.blackElo]
    

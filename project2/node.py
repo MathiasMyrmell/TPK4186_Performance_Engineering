@@ -64,14 +64,10 @@ class Node:
         return values
 
     def addGame(self, m):
-        # played = self.getTimesPlayed()
-        # self.setTimesPlayed(played+1)
         self.played+=1
-        #Moves[0] = pastNode, Moves[1] = nodeValue, Moves[2] = nextNode
         moves = copy.copy(m)
         self.setWinner(m)
         nextColor = "White" if self.player == "Black" else "Black"
-        # nextNode
         nextNode = moves[0]
         if nextNode in self.getNodeValues():
             if(len(moves) >= 2):
@@ -79,7 +75,7 @@ class Node:
             else:
                 return
         else:
-            node = Node(nextColor, nextNode, self, self.getTree()) #self.getNodeValue()
+            node = Node(nextColor, nextNode, self, self.getTree())
             node.setLevel(self.getLevel()+1)
             if len(moves) >= 2:
                 node.addGame(moves[1:])
@@ -117,7 +113,6 @@ class Node:
         structure = []
         if len(self.getNodes()) == 0:
             if(self.getNodeValue() != "None"):
-                # print("Bottom node", self.getNodeValue() )
                 structure.append(self.getNodeValue())
         else:
             if len(self.getNodes()) == 1:
@@ -135,7 +130,6 @@ class Node:
 
     def getStructureTimesPlayed(self,n):
         structure = []
-        #Check if this is last node
         lastNode = True
         for node in self.getNodes():
             if node.getTimesPlayed() >= n:
@@ -146,13 +140,10 @@ class Node:
             return structure
         else:
             if len(self.getNodes()) == 0:
-                # print("bottom node", self.getNodeValue())
                 structure.append(self.getNodeValue())
             else:
-                # print("node", self.getNodeValue())
                 for node in self.getNodes():
                     if node.getTimesPlayed() >= n:
-                        # print(node.getNodeValue())
                         for stru in node.getStructureTimesPlayed(n):
                             structure.append(self.getNodeValue()+"/"+stru)
         return structure

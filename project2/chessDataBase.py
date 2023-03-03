@@ -1,12 +1,11 @@
 #Task 4
-from game import *
+
 
 class ChessDataBase():
 
     def __init__(self):
         self.games = []
         self.dataBase = []
-
 
     def addGame(self, game):
         self.games.append(game)

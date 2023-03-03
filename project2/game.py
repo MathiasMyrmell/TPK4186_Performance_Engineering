@@ -1,7 +1,7 @@
-
 from player import Player
 import copy
 import math
+
 class Game:
 
     def __init__(self, white, black):
@@ -31,18 +31,13 @@ class Game:
 
         self.board = None
         self.createBoard()
+        self.moves = []
 
-        self.moves = []#("f4","a3"),("f6","Qa6"),("f6","Qa6"),("f6","Qa6"),("f6","Qa6"),("f6","Qa6"),("f6","Qa6"),("f6","Qa6"),("f6","Qa6"),("f6","Qa6"),("f6","Qa6")
-#- The number of the move followed by a dot.
-#– The move of white pieces possibly followed by a comment within braces. 
-#– The move of black pieces possibly followed by a comment within braces.
     def setMetaData(self, metadata):
         self.event = metadata[0][8:-3]
         self.site = metadata[1][7:-3]
         self.date = metadata[2][7:-3]
         self.round = metadata[3][8:-3]
-        # self.white = p1
-        # self.black = p2
         self.result = metadata[6][9:-3]
         self.ECO = metadata[7][6:-3]
         self.opening = metadata[8][10:-3]
@@ -55,14 +50,13 @@ class Game:
         self.site = metadata[1][5:]
         self.date = metadata[2][5:]
         self.round = metadata[3][6:]
-        # self.white = p1
-        # self.black = p2
         self.result = metadata[6][7:]
         self.ECO = metadata[7][4:]
         self.opening = metadata[8][8:]
         self.plycount = metadata[9][9:]
         self.whiteElo = metadata[10][9:]
         self.blackElo = metadata[11][9:]
+    
     def getMetaData(self):
         return [self.event, self.site, self.date, self.round, self.white, self.black, self.result, self.ECO, self.opening, self.plycount, self.whiteElo, self.blackElo]
    
@@ -105,6 +99,8 @@ class Game:
     def getMoves(self):
         return self.moves
 
+
+    # Meant for task 1, but it was not completet
     def getTurn(self):
         return self.turn
 
@@ -126,7 +122,6 @@ class Game:
     def getNumberOfMoves(self):
         moves = self.getMoves()
         numMoves = (len(moves) - 1)* 2
-        #moves in last turn
         for move in moves[-1]:
             if move == '1-0' or move == "0-1" or move == "1/2-1/2" or move == "None":
                 pass
@@ -134,14 +129,12 @@ class Game:
                 numMoves += 1
         return numMoves
 
-
     def getNameOfPiece(self,piece):
         pieceNames = self.getPieceName()
         if(piece not in pieceNames):
             print("invalid piece")
         else:
             return pieceNames[piece]
-
 
     def createBoard(self):
         board = {
@@ -221,84 +214,7 @@ class Game:
     
     def setMoves(self,moves):
         self.moves = moves
-
-
-    def movePiece(self,player, move):
-        
-        if(player.getColor()!=self.getWhomsTurn()):
-            print("Wrong players turn")
-            return 0
-
-        # #adding pawn notation
-        # names = self.getPieceName().keys()
-        # if(move[0:1] not in names):
-        #     s = "P"+move
-        #     move = s
-        #     print("its a pawn")
-        # else: 
-        #     print("its not a pawn")
-
-        #Ex. move is Pa2a4
-
-        validMove = self.checkValidMove(move)
-
-        # if validMove:
-        #     self.makeMove(move)
-        # else:
-        #     print("InvalidMove")
-
-    def checkValidMove(self,move):
-        board = copy.copy(self.getBoard())
-        if(self.getWhomsTurn()=="White"):
-            pType = "w"+move[0:1]
-        else:
-            pType = "b"+move[0:1]
-        moveFrom = move[1:3]
-        moveTo = move[3:5]
-        #Check if there is a piece on that field
-
-        if board[moveFrom] != pType:
-            print("Invalid move. There is no "+ str(self.getNameOfPiece(pType[1:2]))+ " on this field")
-            return
-        
-        #Ex. move is Pa2a4
-        # print(pType)
-        # print(moveFrom)
-        # print(moveTo)
-
-        #Check if the piece can move there
-        moves = self._getMovesOfPiece(pType)
-
-    def _getMovesOfPiece(self, piece):
-
-        #Get moves of pawn
-        if piece[1:2] == "P":
-            print("Pawn")
-
-
-        #Get moves of Rook
-        elif piece[1:2] == "R":
-            print("Rook")
-        #Get moves of Knight
-
-        elif piece[1:2] == "N":
-            print("Knight")
-
-        #Get moves of Bishop
-        elif piece[1:2] == "B":
-            print("B")
-
-        #Get moves of Queen
-        elif piece[1:2] == "Q":
-            print("Queen")
-
-        #Get moves of King
-        elif piece[1:2] == "K":
-            print("King")
-
-
-
-
+   
     def printBoard(self):
         board = self.getBoard()
         keys = board.keys()
@@ -312,37 +228,9 @@ class Game:
                 returnString +="\n"+"-----------------------------------------"+"\n"+"|"
                 
         print(returnString[:-1])
-
-
-
-
-    #Task 3
-    def saveGame(self):
-        print()
-        try:
-            file = open("project2/datafiles/games.txt", "r")
-            file.close()
-        except:
-            print("could not read file")
-        try:
-            #Open file in append mode
-            file = open("project2/datafiles/games.txt", "a")
-            #Add metadata
-            metadata = self._getMetaData()
-            file.write(metadata)
-
-            #Add moves
-            moves = self._getMoves()
-            # file.write(moves)
-            for line in moves:
-                print(line)
-                file.write(line+"\n")
-            file.flush()
-            file.close()
-        except:
-            print("could not append to file")
-        return 0
-
+    # Meant for task 1, but it was not completet
+    
+    # _getMetaData and _getMoves only used for __str__ 
     def _getMetaData(self):
         event = "[Event"+" "+"\""+str(self.getEvent())+"\""+"]"+"\n"
         site = "[Site"+" "+"\""+str(self.getSite())+"\""+"]"+"\n"
@@ -359,7 +247,6 @@ class Game:
         returnString = event+site+date+round+white+black+result+eco+opening+plyCount+whiteELo+blackElo+"\n"
         return returnString
     
-    #("f4","a3"),("f6","Qa6")
     def _getMoves(self):
         moves = self.getMoves()
         returnString = ""
@@ -371,7 +258,7 @@ class Game:
         returnString += "\n"
 
         newReturnString = ""
-        numLines = math.ceil(len(returnString)/79) #79 is max length of a line in the given pgn file   
+        numLines = math.ceil(len(returnString)/79) #79 is was width of the provided svg file  
         for i in range(numLines):
             newReturnString+=returnString[i*79:(i+1)*79]
 
@@ -382,21 +269,10 @@ class Game:
         
         returnString = self._getMetaData()+self._getMoves()
         return returnString
-
+    
 if __name__ == "__main__":
-    p1 = Player("Stockfish")
-    p1.setColor("White")
-    p2 = Player("Mathias")
-    p2.setColor("Black")
-
-    g = Game(p1,p2)
-    # g.createBoard()
-
-    g.movePiece(p1,"Pa2a4")
-
-    g.printBoard()
-
-    # g._getMoves()
-    g.saveGame()
-
-    print(g)
+    p1 = Player("Magnus Carlsen")
+    p2 = Player("Fabiano Caruana")
+    g1 = Game(p1,p2)
+    g1.createBoard()
+    g1.printBoard()

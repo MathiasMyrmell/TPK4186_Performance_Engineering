@@ -31,18 +31,7 @@ class Document:
         self.body = bodyStart + bodyTitle + self.bodyContent + bodyEnd
 
 
-
-    def createTable(self):
-        strTable = "<table><tr><th>Char</th><th>ASCII</th></tr>"
-
-        for num in range (33,48):
-            symb = chr(num)
-            strRW = "<tr><td>" + symb + "</td><td>"+str(num)+"</td></tr>"
-            strTable = strTable + strRW
-
-        strTable = strTable + "</table></html>"
-        self.body = strTable
-
+    #Task 7
     def createStatTable(self, tableContent):
         strTable = "<table><tr><th></th><th>Win</th><th>Draw</th><th>Loss</th></tr>"
         white = "<tr><td>White</td>"
@@ -65,11 +54,11 @@ class Document:
         self.bodyContent += "<p>This table show the number of times Stockfish has won, drawn and lost, with white pieces, black pieces and in total.</p>"
         self.bodyContent += strTable
 
+
+    #Task 8
     def createPlot(self, plotContent):
         stockfish = plotContent[0:3]
         stockfishWonLost = plotContent[3:5]
-        print("len of stockfish: ", len(stockfish))
-        print("len of stockfishWonLost: ", len(stockfishWonLost))
 
         meanValues = []
         stdValues = []
@@ -115,8 +104,8 @@ class Document:
         self.bodyContent+="<p></p>"
                         
 
-        self.bodyContent+="<img src='figures/plotOfNumberOfMoves.png'>"
-        self.bodyContent+="<img src='figures/plotOfNumberOfMovesWonLost.png'>"
+        self.bodyContent+="<img src='/project2/figures/plotOfNumberOfMoves.png'>"
+        self.bodyContent+="<img src='/project2/figures/plotOfNumberOfMovesWonLost.png'>"
         self.bodyContent+="<p>In the table below Mean number of moves and the standard deviation of the three plots is shown</p>"
         self.bodyContent+=self._createMeanAndStdTable(meanValues, stdValues)
 
@@ -128,39 +117,27 @@ class Document:
             values = "<tr><td>" +typeOfPlot[i]+ "</td><td>"+str(mean[i])+ "</td><td>"+str(std[i])+ "</td></tr>"
             strTable = strTable + values
 
-       
         strTable = strTable + "</table>"
         return strTable
 
-
-
     #Task 11
     def createWinnersTable(self,b):
-        #Tree [starting node, [ [leafNode, pastNode, [WhiteWin, blackWin, draw]]      ]     ]
-        print("b: ", b)
         tables = ""
-        
         for tree in b:
             totWinnerWhite = 0
             totWinnerBlack = 0
             totDraw = 0
             startNode = tree[0]
             leafNodes = tree[1]
-            table = "<table >"
-            tableHead = "<tr> <th colespan='4'>"+startNode+"</tr>"
+            table = "<h3>Winner "+startNode+"</h3><table >"
+            tableHead = "<tr> <th colspan='4'>"+startNode+"</tr>"
             tableSubHead = "<tr> <th>Path</th> <th>Winner white</th> <th>Winner black</th> <th>Draw</th></tr>"
             table+=tableHead+tableSubHead
-            print("startNode: ", startNode)
             for lF in leafNodes:
-
                 leafNode = lF[0]
-                print("leafNode: ", leafNode)
                 pastNode = lF[1]
-                print("pastNode: ", pastNode)
                 result = lF[2]
-                print("result: ", result)
                 winnerWhite = result[0]
-                print("winnerWhite: ", winnerWhite)
                 winnerBlack = result[1]
                 draw = result[2]
                 totWinnerWhite += winnerWhite
@@ -176,18 +153,34 @@ class Document:
         self.bodyContent+=tables
 
 
+    #Task 12
+    def createOpeningsTable(self, openings, numberOfTimesPlayed):
+        tables = ""
+        for op in openings:
+            startNode = op[0]
+            table = "<h3>Opening "+startNode+"</h3><table > <tr colspan = '2'> <th>"+startNode+"</th> </tr> <tr> <th>Opening</th> <th>Number of games</th> </tr>"
+            
+            for i in range(1, len(op)):
+                tableRow  = "<tr> <td>"+startNode+"..."+op[i][0]+","+str(op[i][1])+"</td> <td>"+str(op[i][2])+"</td> </tr>"
+                table = table + tableRow
+            table = table + "</table></br>"
+            tables+=table
 
-    def createTimesPlayed(self):
-        pass
 
+        self.bodyContent+="<h2>Openings</h2>"
+        self.bodyContent+="<p>This tables shows the openings whom are played more than "+str(numberOfTimesPlayed)+" times.</p>"
+        self.bodyContent+=tables
+
+    # Created HTML document
     def createHTMLContent(self):
         self.createHead()
         self.createBody()
         html = self.head + self.title + self.headEnd + self.body + self.documentEnd
         return html
 
+    # writes the HTML document to a file
     def write(self):
         content = self.createHTMLContent()
-        hs = open("project2/document.html", "w")
+        hs = open("project2/document/document.html", "w")
         hs.write(content)
         hs.close()

@@ -2,22 +2,14 @@
 from node import Node
 
 class Tree:
-
     def __init__(self, game):
         self.root = None
         self.structure = []
         self.initilizingNewTree(game)
-
         self.structureTimesPlayed = []
-
         self.winnerFromLeaf = []
         self.timesPlayedLeaf = []
 
-    def setTreeStructureTimesPlayed(self, structure):
-        self.structureTimesPlayed = structure
-    
-    def getTreeStructureTimesPlayed(self):
-        return self.structureTimesPlayed
 
     def getRoot(self):
         return self.root
@@ -37,24 +29,13 @@ class Tree:
         self.getRoot().setLevel(0)
         self.getRoot().addGame(moves[1:])
 
-
-
-
     def addNewGameToTree(self, game):
-        # print("adding new game to tree")
         moves = self.moves(game)
-        # print("moves: ", moves)
         self.getRoot().addGame(moves[1:])
-        
-        
-
     
+    #Task 11
     def removeNodesUnderGivenDepth(self, depth):
-        # self.setTimesPlayedLeaf([])
-        # self.setWinnerFromLeaf([])
         self.getRoot().removeNodesUnderDepth(depth)
-    
-
     
     def getWinnersFromLeafs(self):
         winners = self.getRoot().getWinnersFromLeafs()
@@ -67,9 +48,7 @@ class Tree:
     def getWinnerFromLeaf(self):
         return self.winnerFromLeaf
 
-
-
-
+    #Task 12
     def getTimesPlayedLeaf(self):
         timesPlayed = self.getRoot().getTimesPlayedLeaf()
         timesPlayed = self.getTimesPlayed()
@@ -82,26 +61,19 @@ class Tree:
         return self.timesPlayedLeaf
 
         
-
+    # Help function to change format of moves
     def moves(self, g1):
         moves = []
         for move in g1.getMoves():
-            # print("moveW: ", move[0])
-            # print("moveB: ", move[1])
             moves.append(move[0])
             moves.append(move[1])
-        # print("moves: ", moves)
         return moves
     
-
+    #Create tree structure
     def createTreeStructure(self):
         self.setTreeStructure(self.getRoot().getStructure())
         return self.getTreeStructure()
     
-    #Create tree structure, but each leaf is played min n times
-    def createTreeStructureTimesPlayed(self, n):
-        self.setTreeStructureTimesPlayed(self.getRoot().getStructureTimesPlayed(n))
-        return self.getTreeStructureTimesPlayed()
 if __name__ == "__main__":
     tree = Tree()
 

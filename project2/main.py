@@ -1,41 +1,15 @@
-
-
 from game import Game
 from player import Player
 from chessDataBase import ChessDataBase
 from document import Document
-from node import Node
 from tree import Tree
-from ete3 import Tree as ETE3Tree
-from bigtree import list_to_tree, print_tree, print_tree, find, findall, tree_to_dot
-from bigtree import Node as N
-import re
-import matplotlib.pyplot as plt
+from bigtree import list_to_tree, print_tree, print_tree, tree_to_dot
 import copy
 import openpyxl
-
-
-
-
 import math
 
-irregularOpenings = {
-    "Birds Opening": "f4,d5",
-    "English opening": "c4,e5",
-    "Dunst Opening|(Scicilian Defence)": "Nc3, c5"
-}
-#1.e4, 1.d4:
-regularOpenings = {
-    "Queen's Pawn Game|(Indian Defence)": "d4,Nf6",
-    "Queen's Pawn Game|(Closed Game)": "d4,d5",
-    "Queen's Pawn Game|()": "",
-    "Queen's Pawn Game|()": "",
-
-
-
-}
-
 # #Task 2
+# Import one game from file (path). Number is the game number so you can chose which of the games you want to load
 def importGame(path, number):
     game = None
     try:
@@ -45,7 +19,7 @@ def importGame(path, number):
         lines = file.readlines()
         gameNr = 1
 
-        for i in range(len(lines)):#len(lines)
+        for i in range(len(lines)):
             if i in breakPoints and gameNr == number:
                 metadata = lines[i:i+13]
                 # #Move lines from-to
@@ -60,14 +34,14 @@ def importGame(path, number):
                 game.setMoves(movePairs)
             if i in breakPoints:
                 gameNr+=1
-           
         file.close()
     except:
-        print("could not read file")
-    
+        print("file or game not found")
     return game
 
+
 # #Task 3
+# Save a game to file (path)
 def saveGame(path, game):
     try:
         file = open(path, "r")
@@ -100,7 +74,9 @@ def saveGame(path, game):
 
 
 # #Task 4
-#Load games
+# Load games
+# Load multiple games from file (path) or from database (ChessDataBase).
+# If path is database, list of games are returned. If path is file, a ChessDataBase is returned.
 def loadGames(path):
     if type(path) == str:
         return _loadGamesFromPath(path)
@@ -230,10 +206,10 @@ def exportGames(path, database):
     for game in database.getGames():
         saveGame(path, game)
 
+
 # #Task 5
 #Load data from Excel file
 def loadFromExcel(path):
-    print(" ")
     wb = openpyxl.load_workbook(path)
     ws = wb.active
     maxCol = ws.max_column
@@ -330,9 +306,9 @@ def saveToExcel(game):
 
 
 # #Task 7
+# Extracts number of games Stockfish has won, lost and drawn in games in database
 def statisticsStockfish(database):
     games = database.getGames()
-    print("Number of games: ", len(games))
     winnerWhite = 0
     drawWhite = 0
     loserWhite = 0
@@ -351,13 +327,9 @@ def statisticsStockfish(database):
         elif game.getBlack().getName() == "Stockfish 15 64-bit":
             color = "Black"
 
-        # print(color)
         
         #get winner
         result = game.getWinner()[0]
-        winner = game.getWinner()[1]
-        
-        # print(result, winner)
         
         if result == "1-0":
             if color == "White":
@@ -374,21 +346,13 @@ def statisticsStockfish(database):
                 drawWhite+=1
             elif color == "Black":
                 drawBlack+=1
-        
-
-
-        # if result == "1/2-1/2":
-        #     print("")
 
     totalWinner = winnerWhite+winnerBlack
     totalDraw = drawWhite+drawBlack
     totalLoser = loserWhite+loserBlack
-
-    print("White: ", winnerWhite, drawWhite, loserWhite)
-    print("Black: ", winnerBlack, drawBlack, loserBlack)
-    print("Total: ", totalWinner, totalDraw, totalLoser)
-
+ 
     return winnerWhite, drawWhite, loserWhite, winnerBlack, drawBlack, loserBlack, totalWinner, totalDraw, totalLoser
+
 
 # #Task 8
 def createPlots(database):
@@ -421,7 +385,7 @@ def _allGames(database):
         else:
             moves[numMoves] = 1
     
-    return _plotOfNumberOfMoves(games,moves)
+    return _plotOfNumberOfMoves(moves)
 
 def _stockfishWhite(database):
     games = database.getGames()
@@ -433,7 +397,7 @@ def _stockfishWhite(database):
                 moves[numMoves]+=1
             else:
                 moves[numMoves] = 1
-    return _plotOfNumberOfMoves(games,moves)
+    return _plotOfNumberOfMoves(moves)
 
 def _stockfishBlack(database):
     games = database.getGames()
@@ -445,7 +409,7 @@ def _stockfishBlack(database):
                 moves[numMoves]+=1
             else:
                 moves[numMoves] = 1
-    return _plotOfNumberOfMoves(games,moves)    
+    return _plotOfNumberOfMoves(moves)    
 
 def _stockfishWinning(database):
     games = database.getGames()
@@ -457,7 +421,7 @@ def _stockfishWinning(database):
                 moves[numMoves]+=1
             else:
                 moves[numMoves] = 1
-    return _plotOfNumberOfMoves(games,moves)
+    return _plotOfNumberOfMoves(moves)
 
 def _stockfishLosing(database):
     games = database.getGames()
@@ -469,9 +433,9 @@ def _stockfishLosing(database):
                 moves[numMoves]+=1
             else:
                 moves[numMoves] = 1
-    return _plotOfNumberOfMoves(games,moves)
+    return _plotOfNumberOfMoves(moves)
 
-def _plotOfNumberOfMoves(games, moves):
+def _plotOfNumberOfMoves(moves):
     #Assuumptions: one turn = two moves
 
     #Sort dictionary
@@ -484,7 +448,7 @@ def _plotOfNumberOfMoves(games, moves):
     yValues = []
     minValue = min(sortedDict.keys())
     maxValue = max(sortedDict.keys())
-    for i in sortedDict.keys():#range(minValue, maxValue+1)
+    for i in sortedDict.keys():
         keys = sortedDict.keys()
         value = 0
         for k in keys:
@@ -493,18 +457,21 @@ def _plotOfNumberOfMoves(games, moves):
         yValues.append(value)
 
     #Mean, standard deviation
-    mean = 0
+    totMoves = 0
+    numGames = 0
     for i in sortedDict.keys():
-        mean+=i*sortedDict[i]
-    mean = round(mean/len(sortedDict.values()),2)
+        totMoves+=i*sortedDict[i]
+        numGames+=sortedDict[i]
+
+    mean = round(totMoves/numGames,2)
 
     std = 0
     for i in sortedDict.keys():
-        std+=(i-mean)**2*sortedDict[i]
-    std = round(math.sqrt(std/len(games)),2)
+        for j in range(sortedDict[i]):
+            std+=((i-mean)**2)/numGames
+    std = round(math.sqrt(std),2)
 
     return sortedDict, yValues, mean, std
-
 
 
 # Task 10
@@ -528,40 +495,33 @@ def createTreesFromGames(games):
                 trees.append(t)
     return trees
 
-
-
 def _printTree(tree):
 
     if type(tree)== Tree:
         structure = tree.createTreeStructure()
         root = list_to_tree(structure)
         print_tree(root)
-    elif type(tree)==list:
-        print("list")
-        print(tree)
-        # root = list_to_tree(tree)
-        # print_tree(root)
     else:
         print("Wrong input")
+
 
 #Task 11
 def createTreesOfDepth(t, depth):
     trees = _getTreesOfDepth(t, depth)
     returnValue = copy.copy(trees)
     winnerStat = []
+    openingStat = []
     for t in trees:
         name = str(t.getRoot().getNodeValue())
         saveTreeAsPng(t, name)
         winners = t.getWinnersFromLeafs()
         winnerStat.append([t.getRoot().getNodeValue(),winners])
-        # print("Winners tree: "+str(t.getRoot().getNodeValue()),winners)
-    # winnersTable = []
-    # createWinnersTable(winnerStat[0])
-    return returnValue, winnerStat
+        opening = t.getTimesPlayedLeaf()
+        openingStat.append([t.getRoot().getNodeValue(),opening])
+    return returnValue, winnerStat, openingStat
 
 def _getTreesOfDepth(t, depth):
     # Assumptions: depth = number of moves
-    
     trees = copy.copy(t)
     newTrees = []
     for tree in trees:
@@ -581,164 +541,133 @@ def saveTreeAsPng(tree, name):
         graph = tree_to_dot(root)
         graph.write_png('project2/trees/'+name+'.png') 
 
-def createWinnersTable(winnerStat):
-    print(winnerStat)
 
-# Task 11
-
-
-
-
-
+# Task 12
+def getOpeningsPlayedNTimes(openings,numberOfTimesPlayed):
+    openingPlayedNTimes = []
+    for opening in openings:
+        newOpening = []
+        headNode = opening[0]
+        leafNodes = opening[1]
+        newOpening.append(headNode)
+        for leaf in leafNodes:
+            if leaf[2] >= numberOfTimesPlayed:
+                newOpening.append(leaf)
+        if len(newOpening)>1:
+            openingPlayedNTimes.append(newOpening)
+    return openingPlayedNTimes
 
 
 if __name__ == "__main__":
     path = "project2/datafiles/Stockfish_15_64-bit.commented.2600.pgn"
-    path100 = "project2/datafiles/games.txt"
-    # #Task 1
-    # p1 = Player("Stockfish")
-    # p1.setColor("White")
-    # p2 = Player("Mathias")
-    # p2.setColor("Black")
-    # g = Game(p1,p2)
-    # g.createBoard()
 
-    # g.movePiece(p1,"Pa2a4")
+    # #Task 2
+    print("\n------------------")
+    print("Task 2")
+    print("------------------")
+    print("Importing game...")
+    gameNumber = None #USER INPUT
+    game = importGame(path,gameNumber)#Path to games and game number
+    print("Game imported:")
+    print(game)
 
 
-    # # #Task 2
-    # print("------------------")
-    # print("Task 2")
-    # print("------------------")
-    # print("Importing game...")
-    # game = importGame(path,3)#Path to games and game number
-    # print("Game imported:")
-    # print(game)
+    # #Task 3
+    print("\n------------------")
+    print("Task 3")
+    print("------------------")
+    print("Saving game to file...")
+    saveGame("project2/datafiles/games.txt",game)
+    print("Game saved to file")
 
-    # # #Task 3
-    # print("------------------")
-    # print("Task 3")
-    # print("------------------")
-    # print("Saving game to file...")
-    # saveGame("notes.txt",game)#"project2/datafiles/games.txt"
-    # print("Game saved to file")
 
     # #Task 4
-    # print("------------------")
-    # print("Task 4")
-    # print("------------------")
-    # print("Loading games from file...")
-    # games = loadGames(path)
-    # print("Games loaded from file")
-    # print("Number of games loaded: ", len(games.getGames()))
-
-    # print("Saving games to another database...")
-    # exportGames("task4.txt",games)
-    # print("Games saved.")
-
-
-    # #Task 5
-    # print("------------------")
-    # print("Task 5")
-    # print("------------------")
-    # print("Loading game from file...")
-    # game = importGame(path,3)
-    # print("Game loaded from file")
-    # print("Saving game to excel file...")
-    # saveToExcel(game)
-    # print("Game saved to excel file")
-    # print("Load game from excel file...")
-    # game2 = loadFromExcel("project2/datafiles/Chess.xlsx")
-    # print(game2)
-
-
-    # #Task 10
-    # print("------------------")
-    # print("Task 10")
-    # print("------------------")
-    # print("Loading games from file...")
-    # games = loadGames(path)
-    # print("Games loaded from file")
-    # print("Number of games loaded: ", len(games.getGames()))
-    # print("Creating trees...")
-    # trees = createTreesFromGames(games.getGames())
-    # print("Trees created")
-    
-    # #Task 11
+    print("\n------------------")
+    print("Task 4")
     print("------------------")
-    print("Task 11")
-    print("------------------")
-
-
     print("Loading games from file...")
     games = loadGames(path)
     print("Games loaded from file")
     print("Number of games loaded: ", len(games.getGames()))
+    print("Saving games to another database...")
+    exportGames("project2/datafiles/task4.txt",games)#Random file to not disturb other files
+    print("Games saved.")
+
+
+    # #Task 5
+    print("\n----------L--------")
+    print("Task 5")
+    print("------------------")
+    print("Loading game from file...")
+    gameNumber = None #USER INPUT
+    game = importGame(path,gameNumber) #Path to games and game number
+    print("Game loaded from file")
+    print("Saving game to excel file...")
+    saveToExcel(game)
+    print("Game saved to excel file")
+    print("Load game from excel file...")
+    game2 = loadFromExcel("project2/datafiles/Chess.xlsx")
+    print(game2)
+
+
+    # #Task 7
+    print("\n------------------")
+    print("Task 7")
+    print("------------------")
+    print("Creating tables over statistics...")
+    stat = statisticsStockfish(games)
+    print("Tables made")
+  
+
+    # #Task 8
+    print("\n------------------")
+    print("Task 8")
+    print("------------------")
+    print("Creating plots over statistics...")
+    moves = createPlots(games)
+    print("Plots made")
+
+
+    # #Task 10
+    print("\n------------------")
+    print("Task 10")
+    print("------------------")
+    print("Creating trees...")
+    trees = createTreesFromGames(games.getGames())
+    print("Trees created")
+    
+
+    # #Task 11
+    print("\n------------------")
+    print("Task 11")
+    print("------------------")
     print("Creating trees...")
     trees = createTreesFromGames(games.getGames())
     print("Trees created")
     print("Getting trees of depth ...")
-    treesDepth, winnersTable = createTreesOfDepth(trees,3)
-    # print(len(treesDepth))
-    # print(treesDepth[0].createTreeStructure())
-    # i = 1
-
-    
-
-    # for t in treesDepth:
-    #     name = str(t.getRoot().getNodeValue())
-    #     saveTreeAsPng(t, name)
-    #     winners = t.getWinnersFromLeafs()
-    #     print("Winners tree: "+str(t.getRoot().getNodeValue()),winners)
-
-    #     i+=1
-    # i = 1
-    # for tree in trees:
-    #     print("tree"+str(i)+": ",tree.createTreeStructure())
-    #     winners = t.getWinnersFromLeafs(5)
-    #     print(winners)
-    #     # _printTree(tree)
-    #     i+=1
+    depth = None #USER INPUT
+    treesDepth, winnersTable, openingStat = createTreesOfDepth(trees,depth)
 
 
     # #Task 12
-    print("------------------")
+    print("\n------------------")
     print("Task 12")
     print("------------------")
-    print("Extracting winners from trees...")
-    for t in treesDepth:
-        timesPlayed = t.getTimesPlayedLeaf()
-        print("Times played tree: "+str(t.getRoot().getNodeValue()),timesPlayed)
-    print("Winners extracted")
+    print("Extracting openings...")
+    numberOfTimesPlayed = None#USER INPUT
+    openings = getOpeningsPlayedNTimes(openingStat,numberOfTimesPlayed)
+    print("Openings extracted")
 
-
-    # # #Task 7
-    # print("------------------")
-    # print("Task 7")
-    # print("------------------")
-    # print("Creating tables over statistics...")
-    # database = loadGames(path)
-    # stat = statisticsStockfish(database)
-    # print("Tables made")
-  
-    # # #Task 8
-    # print("------------------")
-    # print("Task 8")
-    # print("------------------")
-    # print("Creating plots over statistics...")
-    # moves = createPlots(database)
-    # print("Plots made")
 
     # #Task 6
-    print("------------------")
+    print("\n------------------")
     print("Task 6")
     print("------------------")
     print("Creating document...")
     doc = Document("Stockfish")
-    # doc.createStatTable(stat)
-    # doc.createPlot(moves)
+    doc.createStatTable(stat)
+    doc.createPlot(moves)
     doc.createWinnersTable(winnersTable)
+    doc.createOpeningsTable(openings, numberOfTimesPlayed)
     doc.write()
     print("Document created")
-
-    

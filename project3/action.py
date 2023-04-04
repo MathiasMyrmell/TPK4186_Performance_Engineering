@@ -37,8 +37,7 @@ class Action:
                 return True
             else:
                 return False
-            
-            
+                     
     def execute(self, currentTime):
         self.ongoing = True
         self.endTime = currentTime + round(Decimal(self.processTime),1)
@@ -51,6 +50,7 @@ class Action:
         elif (self.name =="Load batch to buffer"):
             sys.stdout.write("{0:s}\t{1:s}\n".format(" ", self.getExecuteMessage()))
             self.buffer.add(self.batch, self.endTime)
+            
 
     def isFinished(self, currentTime):
         if currentTime >= self.endTime:

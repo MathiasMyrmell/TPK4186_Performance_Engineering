@@ -3,7 +3,7 @@ from buffer import Buffer
 from batch import Batch
 from unit import Unit
 from task import Task
-
+import sys
 class Productionline:
 
     def __init__(self):
@@ -74,7 +74,6 @@ class Productionline:
         self._addTasksToUnits()
 
         print("Production line created")
-
 
 
     def _createUnits(self):
@@ -194,16 +193,108 @@ class Productionline:
 
         print("\t Tasks added to units")
   
+
+
+
     def loadBuffer(self, buffer, batch):
         if(not buffer.isFull()):
             buffer.addBatch(batch)
 
+    def loadBatchFromBufferToTask(self, batch, buffer):
+        task = buffer.getNextTask()
+        task.startProduction(batch,0)#ADD START TIME
+        buffer.removeBatch(batch)
+
+    def loadBatchFromTaskToBuffer(self, batch, task):
+        buffer = task.getNextBuffer()
+        buffer.addBatch(batch)
+        task.endProduction()
+
+    def status(self):
+        returnValue = ""
+        for buffer in self.buffers:
+            returnValue += buffer.getName() + ": " + str(buffer.currentLoad) + " wafers\n"
+        for task in self.tasks:
+            returnValue += task.getName() + ": " +"Production? " +str(task.getInProduction())+"\n"
+        sys.stdout.write(returnValue)
+
+    def findBatch(self, batch):
+        for buffer in self.buffers:
+            for ba in buffer.batches:
+                if ba == batch:
+                    return buffer
+        for task in self.tasks:
+            if task.batch == batch:
+                return task
+            
+        return None
 
 
 if __name__ == "__main__":
     PRODUCTIONGOAL = 51
     PL = Productionline()
+    #Create batch
+    batch = Batch(25)
+
+    #Load batch to input buffer
+    PL.loadBuffer(PL.buffers[0], batch)
 
 
 
+    # #V1
+    #Load batch from input buffer to task1
+    PL.loadBatchFromBufferToTask(batch, PL.buffers[0])
+    
+    #Load batch from task1 to buffer1
+    PL.loadBatchFromTaskToBuffer(batch, PL.tasks[0])
+    
+    #Load batch from buffer1 to task2
+    PL.loadBatchFromBufferToTask(batch, PL.buffers[1])
+
+    #Load batch from task2 to buffer2
+    PL.loadBatchFromTaskToBuffer(batch, PL.tasks[1])
+
+    #Load batch from buffer2 to task3
+    PL.loadBatchFromBufferToTask(batch, PL.buffers[2])
+
+    #Load batch from task3 to buffer3
+    PL.loadBatchFromTaskToBuffer(batch, PL.tasks[2])
+
+    #Load batch from buffer3 to task4
+    PL.loadBatchFromBufferToTask(batch, PL.buffers[3])
+
+    #Load batch from task4 to buffer4
+    PL.loadBatchFromTaskToBuffer(batch, PL.tasks[3])
+
+    #Load batch from buffer4 to task5
+    PL.loadBatchFromBufferToTask(batch, PL.buffers[4])
+
+    #Load batch from task5 to buffer5
+    PL.loadBatchFromTaskToBuffer(batch, PL.tasks[4])
+
+    #Load batch from buffer5 to task6
+    PL.loadBatchFromBufferToTask(batch, PL.buffers[5])
+
+    #Load batch from task6 to buffer6
+    PL.loadBatchFromTaskToBuffer(batch, PL.tasks[5])
+
+    #Load batch from buffer6 to task7
+    PL.loadBatchFromBufferToTask(batch, PL.buffers[6])
+
+    #Load batch from task7 to buffer7
+    PL.loadBatchFromTaskToBuffer(batch, PL.tasks[6])
+
+    #Load batch from buffer7 to task8
+    PL.loadBatchFromBufferToTask(batch, PL.buffers[7])
+    
+    #Load batch from task8 to buffer8
+    PL.loadBatchFromTaskToBuffer(batch, PL.tasks[7])
+
+    #Load batch from buffer8 to task9
+    PL.loadBatchFromBufferToTask(batch, PL.buffers[8])
+
+    #Load batch from task9 to Output buffer
+    PL.loadBatchFromTaskToBuffer(batch, PL.tasks[8])
+    PL.status()
+    
 

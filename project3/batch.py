@@ -11,7 +11,9 @@ class Batch:
 
     def getNumWafers(self):
         return self.numWafers
-    
+
+    def isReadyForProduction(self):
+        return True
 
 
 

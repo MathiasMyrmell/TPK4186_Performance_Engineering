@@ -16,6 +16,7 @@ class Simulator:
         self.time = round(Decimal(0),1)
 
         self.batches = []
+        
     def setTime(self, time):
         self.time = time
 
@@ -89,26 +90,49 @@ class Simulator:
             i+=1
 
 
+class Printer:
+    def __init__(self, simulator):
+        self.simulator = simulator
+
+
+    def getStatus(self):
+        buffers = self.simulator.productionline.getBuffers()
+        tasks = self.simulator.productionline.getTasks()
+        returnValue = ""
+        for buffer in buffers:
+            returnValue += buffer.getName() + ": " + str(buffer.currentLoad) + " wafers\n"
+        for task in tasks:
+            returnValue += task.getName() + ": " +"Production? " +str(task.getInProduction())+"\n"
+        sys.stdout.write(returnValue)
+
+
 if __name__ == "__main__":
     productionGoal = 20
-    simulator = Simulator(productionGoal)
+    SIM = Simulator(productionGoal)
+    pL = SIM.productionline
+    sC = SIM.scheduler
+    p = Printer(SIM)
     # simulator.run()
 
     print("Simulator")
     
     #Starting production line
-    print("Time: ", simulator.getTime())
-    simulator.startProductionLine()
-    simulator.scheduler.executeNewActions(simulator.getTime())
+    print("Time: ", SIM.getTime())
+    SIM.startProductionLine()
+    sC.executeNewActions(SIM.getTime())
+    
    
     # Jump to one minute
-    simulator.setTime(1)
-    print("Time: ", simulator.getTime())
+    SIM.setTime(1)
+    print("Time: ", SIM.getTime())
     #Check if ongoing actions is finished
-    simulator.scheduler.updateActions(simulator.getTime())
-    simulator.scheduler.executeNewActions(simulator.getTime())
+    sC.updateActions(SIM.getTime())
+    sC.executeNewActions(SIM.getTime())
+    
+    #Jump to 12 minutes
+    SIM.setTime(round(Decimal(12.0) ,1))
+    print("Time: ", SIM.getTime())
+    sC.updateActions(SIM.getTime())
+    sC.executeNewActions(SIM.getTime())
 
-    simulator.setTime(round(Decimal(12.0) ,1))
-    print("Time: ", simulator.getTime())
-    simulator.scheduler.updateActions(simulator.getTime())
-    simulator.scheduler.executeNewActions(simulator.getTime())
+    p.getStatus()

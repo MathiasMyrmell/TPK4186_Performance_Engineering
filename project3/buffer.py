@@ -25,28 +25,32 @@ class Buffer:
     def setPreviousTask(self, task):
         self.previousTask = task
 
-    def getMaxCapacity(self):
-        return self.maxCapacity
+    # def getMaxCapacity(self):
+    #     return self.maxCapacity
     
-    def is_empty(self):
-        return len(self.batches) == 0
+    # def is_empty(self):
+    #     return len(self.batches) == 0
     
     def getBatches(self):
         return self.batches
     
-    def setBatches(self, batches):
-        self.batches = batches
+    # def setBatches(self, batches):
+    #     self.batches = batches
     
-    def add(self, batch, completionTime):
-        load = batch.getNumWafers()
-        self.batches.append([batch, completionTime])
-        self.currentLoad += load
+    # def add(self, batch, completionTime):
+    #     load = batch.getNumWafers()
+    #     self.batches.append([batch, completionTime])
+    #     self.currentLoad += load
     
     def removeBatch(self, batch):
         for b in self.batches:
-            if b[0] == batch:
+            if b == batch:
                 self.currentLoad -= batch.getNumWafers()
                 self.batches.remove(b)
+
+    def addBatch(self, batch):
+        self.batches.append(batch)
+        self.currentLoad += batch.getNumWafers()
 
 
     def isFull(self):

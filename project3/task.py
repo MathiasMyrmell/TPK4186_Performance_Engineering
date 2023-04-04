@@ -21,8 +21,8 @@ class Task:
     def getName(self):
         return self.name
     
-    def getProcessingTime(self):
-        return self.processingTime
+    # def getProcessingTime(self):
+    #     return self.processingTime
     
     def setPreviousBuffer(self, buffer):
         buffer.setNextTask(self)
@@ -35,31 +35,13 @@ class Task:
         buffer.setPreviousTask(self)
         self.nextBuffer = buffer
     
-    def setFinishTime(self, finishTime):
-        self.finishTime = finishTime
-   
+
     def getNextBuffer(self):
         return self.nextBuffer
 
     def getInProduction(self):
         return self.inProduction
     
-    def setInProduction(self, inProduction):
-        self.inProduction = inProduction
-
-    def setStartTime(self, startTime):
-        self.startTime = startTime
-
-
-    def getTimeLeft(self):
-        #Calculate total time
-        totWafers = self.batch.getNumWafers()
-        totTime = self.processingTime * totWafers
-        #Time elapsed
-        timeElapsed = self.elapsedTime
-        #Time left
-        timeLeft = totTime - timeElapsed
-        return timeLeft
 
     def getTotalTime(self):
         #Calculate total time
@@ -71,15 +53,41 @@ class Task:
         self.batch = batch
         self.inProduction = True
         self.finishTime = round(Decimal(self.getTotalTime()),1)+startTime
+        return self.finishTime
+
+    def endProduction(self):
+        self.inProduction = False
+        self.batch = None
+        self.finishTime = 0
         self.elapsedTime = 0
 
-    def canAcceptBatch(self, batch, startTime):
+
+    def canAcceptBatch(self, batch):
         #Check if task is not busy
         if(self.getInProduction() == True):
             return False
-        #Check if next buffer can accept batch
+        #Check if next buffer can´t accept batch
         elif(self.getNextBuffer().canAcceptBatch(batch) == False):
             return False
         else:
             return True
 
+    # def setInProduction(self, inProduction):
+    #     self.inProduction = inProduction
+
+    # def setStartTime(self, startTime):
+    #     self.startTime = startTime
+
+    # def getTimeLeft(self):
+    #     #Calculate total time
+    #     totWafers = self.batch.getNumWafers()
+    #     totTime = self.processingTime * totWafers
+    #     #Time elapsed
+    #     timeElapsed = self.elapsedTime
+    #     #Time left
+    #     timeLeft = totTime - timeElapsed
+    #     return timeLeft
+
+        # def setFinishTime(self, finishTime):
+    #     self.finishTime = finishTime
+   

@@ -5,6 +5,8 @@ from batch import Batch
 import sys
 from decimal import *
 import copy
+import datetime
+
 
 class Printer:
     def __init__(self, simulator):
@@ -20,6 +22,70 @@ class Printer:
         for task in tasks:
             returnValue += task.getName() + ": " +"Production? " +str(task.getInProduction())+"\n"
         sys.stdout.write(returnValue)
+
+
+class Logger:
+    def __init__(self, simulator):
+        self.simulator = simulator
+        self.log = []
+        self.path = "project3/files/"+datetime.datetime.now().strftime("%d/%m/%Y %H:%M:%S").replace(" ","_").replace("/",".")+".txt"
+        self.createFile(self.path)
+
+    def logEvent(self, event):
+        time = self.simulator.getTime()
+        self.log.append([event,time])
+        # self.writeToFile(event, time)
+
+    def saveToFile(self):
+        #Create path
+        
+        #Create new file
+        try:
+            file = open(self.path, "r")
+            file.close()
+        except:
+            print("could not read file")
+        try:
+            file = open(self.path, "a")
+            for event in self.log:
+                file.write(str(event[1]) + ": " + event[0])
+                file.write("\n")
+            file.flush()
+            file.close()
+        except:
+            print("could not append to file")
+        return 0
+    
+    def createFile(self, path):
+        try:
+            f = open(path, "x")
+            f.close()
+            f = open(path, "a")
+            f.write("Time: Event\n")
+        except:
+            print("could not create file")
+        return 0
+    
+    def _createHeader(self):
+        pass
+
+
+    # def writeToFile(self, event, time):
+    #     path = "project3/files/log.txt"
+    #     try:
+    #         file = open(path, "r")
+    #         file.close()
+    #     except:
+    #         print("could not read file")
+    #     try:
+    #         file = open(path, "a")
+    #         file.write(str(time) + ": " + event)
+    #         file.write("\n")
+    #         file.flush()
+    #         file.close()
+    #     except:
+    #         print("could not append to file")
+    #     return 0
 
 
 class Action:
@@ -86,33 +152,38 @@ class Simulator:
         self.productionGoal = productionGoal
         self.scheduler = Scheduler()
         self.productionline = Productionline()
+        self.logger = Logger(self)
+        self.printer = Printer(self)
         self.time = round(Decimal(0),1)
         self.batches = []
     
+    def getTime(self):
+        return self.time
+
     def _createBatches(self, numWafers):
         batches = []
+        i = 1
         while(numWafers > 0):
             if(numWafers//50==0):
-                batches.append(Batch(numWafers))
+                batches.append(Batch(i,numWafers))
                 numWafers = 0
             elif(numWafers//50 > 1):
-                batches.append(Batch(50))
+                batches.append(Batch(i,50))
                 numWafers -= 50
             elif(numWafers%50 == 0):
-                batches.append(Batch(50))
+                batches.append(Batch(i,50))
                 numWafers -= 50
             else:
                 if(numWafers%50 < 20):
                     num = int(numWafers/2)
-                    batches.append(Batch(num))
+                    batches.append(Batch(i,num))
                     numWafers -= num
                 else:
-                    batches.append(Batch(50))
+                    batches.append(Batch(i,50))
                     numWafers -= 50
+            i+=1
         return batches
     
-
-
     def startProductionLine(self):
         #Check if productionGoal is too low
         if productionGoal <20:
@@ -125,7 +196,6 @@ class Simulator:
             action = Action("Load batch to 'Input buffer'", batch)
             action.createPrecedingActions()
             self.scheduler.addAction(action)
-
 
     def updateActions(self):
         oldActions = copy.copy(self.scheduler.actions)
@@ -151,7 +221,6 @@ class Simulator:
                 #Check if action can be executed
                 if self._canActionBeExecuted(action):
                     self.executeAction(action)
-
 
     def _canActionBeExecuted(self,action):
         if action.name == "Load batch to 'Input buffer'":
@@ -183,7 +252,9 @@ class Simulator:
             action.status = True
             action.startTime = self.time
             action.finishTime = self.time + round(Decimal(1),1)
-            sys.stdout.write("Batch " + str(action.batch.numWafers) + " added to inputbuffer\n")
+            outputString = "Batch " + str(action.batch.id) + " added to inputbuffer"
+            # sys.stdout.write(outputString+"\n")
+            self.logger.logEvent(outputString)
         elif action.name == "Load batch from buffer to task":
             action.status = True
             batch = action.batch
@@ -193,7 +264,8 @@ class Simulator:
             action.startTime = self.time
             action.finishTime = finishTime+round(Decimal(1),1)
             buffer.removeBatch(batch)
-            sys.stdout.write("Batch " + str(action.batch.numWafers) + " added to " + str(task.name) + "\n")
+            # sys.stdout.write("Batch " + str(action.batch.id) + " added to " + str(task.name) + "\n")
+            self.logger.logEvent("Batch " + str(action.batch.id) + " added to " + str(task.name))
         elif action.name == "Load batch from task to buffer":
             action.status = True
             batch = action.batch
@@ -203,29 +275,46 @@ class Simulator:
             task.endProduction()
             action.startTime = self.time
             action.finishTime = self.time + round(Decimal(1),1)
-            sys.stdout.write("Batch " + str(action.batch.numWafers) + " added to " + str(buffer.name) + "\n")
-        
+            # sys.stdout.write("Batch " + str(action.batch.id) + " added to " + str(buffer.name) + "\n")
+            self.logger.logEvent("Batch " + str(action.batch.id) + " added to " + str(buffer.name))
+    
     def isFinished(self):
         if len(self.scheduler.actions) == 0:
             return True
         return False
 
+    def checkIfProductionIsValid(self):
+        #Check if only on task per unit is in production at a time
+        for unit in self.productionline.units:
+            tasksInProduction = 0
+            for task in unit.tasks:
+                if task.inProduction:
+                    tasksInProduction += 1
+            if tasksInProduction > 1:
+                self.printer.getStatus()
+                raise ValueError("More than one task in production at a time")
+
+
     def run(self):
         self.startProductionLine()
         while not self.isFinished():
-            sys.stdout.write("--Time: " + str(self.time) + "--\n")
+            # sys.stdout.write("--Time: " + str(self.time) + "--\n")
             #Check if ongoing actions is finished
             self.updateActions()
             
             #Check for new action to be executed
             self.executeNewActions()
 
+            #Check if production is valid
+            self.checkIfProductionIsValid()
             self.time = round(self.time+Decimal(0.1),1)
+        
+        # self.logger.saveToFile()
 
 if __name__ == "__main__":
-    productionGoal = 20
+    productionGoal = 1000  
     SIM = Simulator(productionGoal)
-    P = Printer(SIM)
+    P = SIM.printer
     SC = SIM.scheduler
     PL = SIM.productionline
 

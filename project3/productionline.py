@@ -95,7 +95,7 @@ class Productionline:
         print("\t Tasks created")
 
     def _createBuffers(self):
-        self.buffers.append(Buffer("Input buffer", float('inf')))
+        self.buffers.append(Buffer("Input buffer",120)) #float('inf')
         self.buffers.append(Buffer("Buffer 1",120))
         self.buffers.append(Buffer("Buffer 2",120))
         self.buffers.append(Buffer("Buffer 3",120))
@@ -238,7 +238,6 @@ if __name__ == "__main__":
 
     #Load batch to input buffer
     PL.loadBuffer(PL.buffers[0], batch)
-
 
 
     # #V1

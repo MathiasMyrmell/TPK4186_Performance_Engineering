@@ -66,7 +66,7 @@ class Buffer:
         #Get total number of wafers in buffer
         totWafers = 0
         for b in self.batches:
-            totWafers += b[0].getNumWafers()
+            totWafers += b.getNumWafers()
 
         #Check if buffer can accept batch
         if totWafers + batch.getNumWafers() <= self.maxCapacity:

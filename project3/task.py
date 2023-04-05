@@ -9,6 +9,7 @@ class Task:
         self.processingTime = processingTime
         self.previousBuffer = None
         self.nextBuffer = None
+        self.unit = None
         #Production info
         self.inProduction = False
         self.batch = None
@@ -21,6 +22,11 @@ class Task:
     def getName(self):
         return self.name
     
+    def setUnit(self, unit):
+        self.unit = unit
+
+    def getUnit(self):
+        return self.unit
     # def getProcessingTime(self):
     #     return self.processingTime
     
@@ -53,6 +59,7 @@ class Task:
         self.batch = batch
         self.inProduction = True
         self.finishTime = round(Decimal(self.getTotalTime()),1)+startTime
+        self.unit.setInProduction(True)
         return self.finishTime
 
     def endProduction(self):
@@ -60,6 +67,7 @@ class Task:
         self.batch = None
         self.finishTime = 0
         self.elapsedTime = 0
+        self.unit.setInProduction(False)
 
 
     def canAcceptBatch(self, batch):
@@ -68,6 +76,9 @@ class Task:
             return False
         #Check if next buffer can´t accept batch
         elif(self.getNextBuffer().canAcceptBatch(batch) == False):
+            return False
+        #Check if a task in the unit is running
+        elif(self.getUnit().getInProduction() == True):
             return False
         else:
             return True

@@ -6,12 +6,12 @@ from task import Task
 import sys
 class Productionline:
 
-    def __init__(self):
+    def __init__(self,unit1Heuristic, unit2Heuristic, unit3Heuristic):
         self.units = []
         self.tasks = []
         self.buffers = []
         self.finished = False
-        self.createLine()
+        self.createLine(unit1Heuristic, unit2Heuristic, unit3Heuristic)
     
     #Get list of units
     def getUnits(self):
@@ -54,12 +54,12 @@ class Productionline:
 
 
     #Initialize the production line
-    def createLine(self):
+    def createLine(self,unit1Heuristic, unit2Heuristic, unit3Heuristic):
         print("Creating production line...")
         #Create batches
 
         #Create units
-        self._createUnits()
+        self._createUnits(unit1Heuristic, unit2Heuristic, unit3Heuristic)
 
         #Create Tasks
         self._createTasks()
@@ -76,22 +76,25 @@ class Productionline:
         print("Production line created")
 
 
-    def _createUnits(self):
-        self.units.append(Unit("Unit 1"))
-        self.units.append(Unit("Unit 2"))
-        self.units.append(Unit("Unit 3"))
+    def _createUnits(self,unit1Heuristic, unit2Heuristic, unit3Heuristic):
+        self.units.append(Unit("Unit 1",unit1Heuristic))
+        self.units.append(Unit("Unit 2",unit2Heuristic))
+        self.units.append(Unit("Unit 3",unit3Heuristic))
         print("\t Units created")
 
     def _createTasks(self):
-        self.tasks.append(Task("Task 1",0.5))
-        self.tasks.append(Task("Task 2",3.5))
-        self.tasks.append(Task("Task 3",1.2))
-        self.tasks.append(Task("Task 4",3))
-        self.tasks.append(Task("Task 5",0.8))
-        self.tasks.append(Task("Task 6",0.5))
-        self.tasks.append(Task("Task 7",1))
-        self.tasks.append(Task("Task 8",1.9))
-        self.tasks.append(Task("Task 9",0.3))
+        processingTimes = [0.5,3.5,1.2,3,0.8,0.5,1,1.9,0.3]
+        for i in range(1,10):
+            self.tasks.append(Task(i,"Task "+str(i),processingTimes[i-1]))
+        # self.tasks.append(Task(1,"Task 1",0.5))
+        # self.tasks.append(Task(2,"Task 2",3.5))
+        # self.tasks.append(Task(3,"Task 3",1.2))
+        # self.tasks.append(Task(4,"Task 4",3))
+        # self.tasks.append(Task(5,"Task 5",0.8))
+        # self.tasks.append(Task(6,"Task 6",0.5))
+        # self.tasks.append(Task(7,"Task 7",1))
+        # self.tasks.append(Task(8,"Task 8",1.9))
+        # self.tasks.append(Task(9,"Task 9",0.3))
         print("\t Tasks created")
 
     def _createBuffers(self):
@@ -112,56 +115,56 @@ class Productionline:
         task1 = self.tasks[0]
         inputBuffer = self.buffers[0]
         buffer1 = self.buffers[1]
-        task1.setPreviousBuffer(inputBuffer)
-        task1.setNextBuffer(buffer1)
+        task1.setInputbuffer(inputBuffer)
+        task1.setOutputBuffer(buffer1)
         #Task 2
         task2 = self.tasks[1]
         buffer1 = self.buffers[1]
         buffer2 = self.buffers[2]
-        task2.setPreviousBuffer(buffer1)
-        task2.setNextBuffer(buffer2)
+        task2.setInputbuffer(buffer1)
+        task2.setOutputBuffer(buffer2)
         #Task 3
         task3 = self.tasks[2]
         buffer2 = self.buffers[2]
         buffer3 = self.buffers[3]
-        task3.setPreviousBuffer(buffer2)
-        task3.setNextBuffer(buffer3)
+        task3.setInputbuffer(buffer2)
+        task3.setOutputBuffer(buffer3)
         #Task 4
         task4 = self.tasks[3]
         buffer3 = self.buffers[3]
         buffer4 = self.buffers[4]
-        task4.setPreviousBuffer(buffer3)
-        task4.setNextBuffer(buffer4)
+        task4.setInputbuffer(buffer3)
+        task4.setOutputBuffer(buffer4)
         #Task 5
         task5 = self.tasks[4]
         buffer4 = self.buffers[4]
         buffer5 = self.buffers[5]
-        task5.setPreviousBuffer(buffer4)
-        task5.setNextBuffer(buffer5)
+        task5.setInputbuffer(buffer4)
+        task5.setOutputBuffer(buffer5)
         #Task 6
         task6 = self.tasks[5]
         buffer5 = self.buffers[5]
         buffer6 = self.buffers[6]
-        task6.setPreviousBuffer(buffer5)
-        task6.setNextBuffer(buffer6)
+        task6.setInputbuffer(buffer5)
+        task6.setOutputBuffer(buffer6)
         #Task 7
         task7 = self.tasks[6]
         buffer6 = self.buffers[6]
         buffer7 = self.buffers[7]
-        task7.setPreviousBuffer(buffer6)
-        task7.setNextBuffer(buffer7)
+        task7.setInputbuffer(buffer6)
+        task7.setOutputBuffer(buffer7)
         #Task 8
         task8 = self.tasks[7]
         buffer7 = self.buffers[7]
         buffer8 = self.buffers[8]
-        task8.setPreviousBuffer(buffer7)
-        task8.setNextBuffer(buffer8)
+        task8.setInputbuffer(buffer7)
+        task8.setOutputBuffer(buffer8)
         #Task 9
         task9 = self.tasks[8]
         buffer8 = self.buffers[8]
         outputBuffer = self.buffers[9]
-        task9.setPreviousBuffer(buffer8)
-        task9.setNextBuffer(outputBuffer)
+        task9.setInputbuffer(buffer8)
+        task9.setOutputBuffer(outputBuffer)
 
         print("\t Tasks linked to buffers")
 

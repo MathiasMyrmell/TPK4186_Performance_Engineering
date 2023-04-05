@@ -3,12 +3,15 @@ from buffer import Buffer
 from decimal import *
 class Task: 
 
-    def __init__(self, name, processingTime):
+    def __init__(self,id, name, processingTime):
         #General info
+        self.id = id
         self.name = name
         self.processingTime = processingTime
-        self.previousBuffer = None
-        self.nextBuffer = None
+        # self.previousBuffer = None
+        self.inputbuffer = None
+        #self.nextBuffer = None
+        self.outputbuffer = None
         self.unit = None
         #Production info
         self.inProduction = False
@@ -30,20 +33,23 @@ class Task:
     # def getProcessingTime(self):
     #     return self.processingTime
     
-    def setPreviousBuffer(self, buffer):
+    def getInputbuffer(self):
+        return self.inputbuffer
+    
+    def setInputbuffer(self, buffer):
         buffer.setNextTask(self)
-        self.previousBuffer = buffer
-    
-    def getPreviousBuffer(self):
-        return self.previousBuffer
-    
-    def setNextBuffer(self, buffer):
-        buffer.setPreviousTask(self)
-        self.nextBuffer = buffer
+        self.inputbuffer = buffer
     
 
-    def getNextBuffer(self):
-        return self.nextBuffer
+    
+    def getOutputBuffer(self):
+        return self.outputbuffer
+
+    def setOutputBuffer(self, buffer):
+        buffer.setPreviousTask(self)
+        self.outputbuffer = buffer
+    
+
 
     def getInProduction(self):
         return self.inProduction
@@ -75,13 +81,42 @@ class Task:
         if(self.getInProduction() == True):
             return False
         #Check if next buffer can´t accept batch
-        elif(self.getNextBuffer().canAcceptBatch(batch) == False):
+        elif(self.getOutputBuffer().canAcceptBatch(batch) == False):
             return False
         #Check if a task in the unit is running
         elif(self.getUnit().getInProduction() == True):
             return False
         else:
             return True
+
+    def startProduction2(self, startTime):
+        for batch in self.inputbuffer.getBatches():
+            print("Batch ",batch.id)
+            
+            if(self.canAcceptBatch(batch)):
+                self.batch = batch
+                self.inProduction = True
+                self.finishTime = round(Decimal(self.getTotalTime()),1)+startTime
+                self.unit.setInProduction(True)
+                return self.finishTime
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
 
     # def setInProduction(self, inProduction):
     #     self.inProduction = inProduction

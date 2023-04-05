@@ -79,9 +79,7 @@ class Action:
                 task = buffer.getNextTask() #No next task
                 return Action(name, processingTime, batch, buffer, task)
 
-
-
-
+    
 
 
     def getExecuteMessage(self):

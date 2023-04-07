@@ -1,35 +1,23 @@
 
 
-import sys
-class Scheduler:
 
+class Scheduler:
+    
     def __init__(self):
         self.actions = []
 
+    # # Getters
+    # Returns actions
+    def getActions(self):
+        return self.actions
+    
+    # # Functions
+    # Adds action to scheduler
     def addAction(self, action):
         self.actions.append(action)
 
-    def updateActions(self, currentTime):
-        for action in self.actions:
-            actionFinished = False
-            if action.isOngoing():
-                actionFinished = action.isFinished(currentTime)
-            if actionFinished:
-                newAction = action.finish()
-                if newAction != None:
-                    self.actions.append(newAction)
-                self.actions.remove(action)
-                sys.stdout.write("{0:s}\t{1:s}\n".format(" ", action.getFinishedMessage()))
+    # Removes action from scheduler
+    def removeAction(self, action):
+        self.actions.remove(action)
 
-
-    def executeNewActions(self, currentTime):
-        executedActions = []
-        for action in self.actions:
-            if action.canBeExecuted(currentTime):
-                action.execute(currentTime)
-                executedActions.append(action)
-                self.actions.remove(action)
-        for action in executedActions:
-            self.actions.append(action)
-
-        
+    

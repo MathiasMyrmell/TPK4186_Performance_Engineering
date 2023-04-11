@@ -131,7 +131,6 @@ class Simulator:
 
     def performAction(self, action):
         actionName = action.getName()
-        print("performing action")
         if(actionName == "Load batch to 'Input buffer'"):
             #Calculate completion time
             completionTime = self.getTime() + action.processTime
@@ -187,7 +186,6 @@ class Simulator:
             self.scheduler.insertAction(action)
 
     def checkScheduler(self):
-        print("Checking scheduler")
         scheduler = self.scheduler
         for action in scheduler.actions:
             print(action.ongoing, action.canBePerformed())

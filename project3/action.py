@@ -39,6 +39,7 @@ class Action:
         # Returns task
         def getTask(self):
             return self.task
+        
         # Returns outputbuffer
         def getOutputbuffer(self):
             return self.outputbuffer

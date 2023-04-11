@@ -83,7 +83,6 @@ class Productionline:
         print("\t Tasks linked to buffers")
 
     def _addTasksToUnits(self, tasksInUnits):
-        print("tasksinunits: ", tasksInUnits)
         for i in range(len(self.units)):
             unit = self.units[i]
             for task in tasksInUnits[i]:

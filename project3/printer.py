@@ -1,18 +1,35 @@
 
 import sys
-
+from decimal import *
 class Printer:
-    def __init__(self, simulator):
+    def __init__(self, simulator, logger):
         self.simulator = simulator
+        self.logger = logger
 
 
+    # # Functions
+    def printEvents(self, time):
+        times = self.logger.getLog().keys()
+        # print(time)
+        # print(type(time))
+        for t in times:
+            if t == time:
+                sys.stdout.write("\t"+str(time)+"\n")
+                for event in self.logger.getLog()[t]: 
+                    sys.stdout.write("\t   "+event+"\n")
+    
+
+    # Used for testing
     def getStatus(self):
-        buffers = self.simulator.productionline.getBuffers()
-        tasks = self.simulator.productionline.getTasks()
-        actions = self.simulator.scheduler.getActions()
-        units = self.simulator.productionline.getUnits()
+        buffers = self.simulator.getProductionline().getBuffers()
+        tasks = self.simulator.getProductionline().getTasks()
+        actions = self.simulator.getScheduler().getActions()
+        units = self.simulator.getProductionline().getUnits()
+        batches = self.simulator.batches
         returnValue = "\n"
-        print("Actions: ", len(actions))
+        for batch in batches:
+            returnValue += str(batch.getNumWafers()) +", "
+        returnValue += "\n"
         for action in actions:
             returnValue += action.getName() + ", finishTime: "+str(action.finishTime) +"\n"
         returnValue += "\n"
@@ -23,10 +40,10 @@ class Printer:
             returnValue += task.getName() + ": " +"Production? " +str(task.getInProduction())+"\n"
         returnValue += "\n"
         for unit in units:
-            returnValue += unit.name +"\n"
-            for task in unit.tasks:
+            returnValue += unit.getName() +"\n"
+            for task in unit.getTasks():
                 returnValue +="\t"+ task.getName() + ": " +"Production? " +str(task.getInProduction())+"\n"
+        returnValue+="Batches in system: "+str(len(batches))+"\n"
+
         sys.stdout.write(returnValue)
 
-
-    

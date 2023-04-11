@@ -70,35 +70,4 @@ class Buffer:
             return True
         else:
             return False
-        
-
-
-
-
-
-
-    # def getNextTask(self):
-    #     return self.nextTask
-    
-    # def isFull(self):
-    #     totWafers = 0
-    #     for batch in self.batches:
-    #         totWafers += batch.getNumWafers()
-    #     if totWafers >= self.maxCapacity:
-    #         return True
-    #     else:
-    #         return False
-
-    # def setBatches(self, batches):
-    #     self.batches = batches
-    
-    # def add(self, batch, completionTime):
-    #     load = batch.getNumWafers()
-    #     self.batches.append([batch, completionTime])
-    #     self.currentLoad += load
-    
-
-    
-    # def is_empty(self):
-    #     return len(self.batches) == 0
     

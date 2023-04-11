@@ -85,5 +85,4 @@ class Unit:
                         # Set next action for each action
                         processAction.setNextAction(unloadAction)
                         loadAction.setNextAction(processAction)
-                        print("Action created")
                         return loadAction

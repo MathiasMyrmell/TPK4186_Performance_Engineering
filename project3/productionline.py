@@ -6,7 +6,7 @@ from task import Task
 import sys
 class Productionline:
 
-    def __init__(self,tasksInUnit,heuristics):
+    def __init__(self,tasksInUnit,heuristics):#TODO: fiks printlines
         self.units = []
         self.tasks = []
         self.buffers = []
@@ -36,7 +36,7 @@ class Productionline:
     # # Functions
     #Initialize the production line
     def createLine(self,tasksInUnits,heuristics):
-        print("Creating production line...")
+        # print("Creating production line...")
         #Create batches
 
         #Create units
@@ -54,40 +54,40 @@ class Productionline:
         #Add Tasks to units
         self._addTasksToUnits(tasksInUnits)
 
-        print("Production line created")
+        # print("Production line created")
 
     def _createUnits(self,heuristics):
         for i in range(len(heuristics)):
             self.units.append(Unit("Unit "+str(i+1),heuristics[i]))
-        print("\t Units created")
+        # print("\t Units created")
 
     def _createTasks(self):
         processingTimes = [0.5,3.5,1.2,3,0.8,0.5,1,1.9,0.3]
         for i in range(1,10):
             self.tasks.append(Task(i,"Task "+str(i),processingTimes[i-1]))
 
-        print("\t Tasks created")
+        # print("\t Tasks created")
 
     def _createBuffers(self):
-        self.buffers.append(Buffer("Input buffer",120)) #float('inf')
+        self.buffers.append(Buffer("Input buffer",120))
         for i in range(1,9):
             self.buffers.append(Buffer("Buffer "+str(i),120))
         self.buffers.append(Buffer("Output buffer",float('inf')))
-        print("\t Buffers created")
+        # print("\t Buffers created")
     
     def _linkTasksToBuffers(self):
         for i in range(0,9):
             self.tasks[i].setInputbuffer(self.buffers[i])
             self.tasks[i].setOutputBuffer(self.buffers[i+1])
 
-        print("\t Tasks linked to buffers")
+        # print("\t Tasks linked to buffers")
 
     def _addTasksToUnits(self, tasksInUnits):
         for i in range(len(self.units)):
             unit = self.units[i]
             for task in tasksInUnits[i]:
                 unit.addTask(self.tasks[task-1])
-        print("\t Tasks added to units")
+        # print("\t Tasks added to units")
   
 
 

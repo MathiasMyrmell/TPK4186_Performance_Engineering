@@ -1,0 +1,1649 @@
+Metadata
+----------------------------------------
+Productions goal: 1000
+Unit 1
+	Task 1
+	Task 3
+	Task 6
+	Task 9
+Heuristics: [1, 3, 6, 9]
+Unit 2
+	Task 2
+	Task 5
+	Task 7
+Heuristics: [2, 5, 7]
+Unit 3
+	Task 4
+	Task 8
+Heuristics: [4, 8]
+Time between loading to inputbuffer: 424
+Grouping of batches: 35
+----------------------------------------
+
+Simulation log
+----------------------------------------
+
+0.0	Started loading Batch 1 to inputbuffer
+1.0	Batch 1 added to inputbuffer
+		Started loading Batch 1 to task Task 1
+2.0	Started processing Batch 1 in task Task 1
+		Batch 1 loaded to Task 1
+19.5	Started unloading Batch 1 from task Task 1
+		Batch 1 finish processed in Task 1
+20.5	Batch 1 unloaded to Buffer 1
+		Started loading Batch 1 to task Task 2
+21.5	Started processing Batch 1 in task Task 2
+		Batch 1 loaded to Task 2
+144.0	Started unloading Batch 1 from task Task 2
+		Batch 1 finish processed in Task 2
+145.0	Batch 1 unloaded to Buffer 2
+		Started loading Batch 1 to task Task 3
+146.0	Started processing Batch 1 in task Task 3
+		Batch 1 loaded to Task 3
+188.0	Started unloading Batch 1 from task Task 3
+		Batch 1 finish processed in Task 3
+189.0	Batch 1 unloaded to Buffer 3
+		Started loading Batch 1 to task Task 4
+190.0	Started processing Batch 1 in task Task 4
+		Batch 1 loaded to Task 4
+295.0	Started unloading Batch 1 from task Task 4
+		Batch 1 finish processed in Task 4
+296.0	Batch 1 unloaded to Buffer 4
+		Started loading Batch 1 to task Task 5
+297.0	Started processing Batch 1 in task Task 5
+		Batch 1 loaded to Task 5
+325.0	Started unloading Batch 1 from task Task 5
+		Batch 1 finish processed in Task 5
+326.0	Batch 1 unloaded to Buffer 5
+		Started loading Batch 1 to task Task 6
+327.0	Started processing Batch 1 in task Task 6
+		Batch 1 loaded to Task 6
+344.5	Started unloading Batch 1 from task Task 6
+		Batch 1 finish processed in Task 6
+345.5	Batch 1 unloaded to Buffer 6
+		Started loading Batch 1 to task Task 7
+346.5	Started processing Batch 1 in task Task 7
+		Batch 1 loaded to Task 7
+381.5	Started unloading Batch 1 from task Task 7
+		Batch 1 finish processed in Task 7
+382.5	Batch 1 unloaded to Buffer 7
+		Started loading Batch 1 to task Task 8
+383.5	Started processing Batch 1 in task Task 8
+		Batch 1 loaded to Task 8
+424.0	Started loading Batch 2 to inputbuffer
+425.0	Batch 2 added to inputbuffer
+		Started loading Batch 2 to task Task 1
+426.0	Started processing Batch 2 in task Task 1
+		Batch 2 loaded to Task 1
+443.5	Started unloading Batch 2 from task Task 1
+		Batch 2 finish processed in Task 1
+444.5	Batch 2 unloaded to Buffer 1
+		Started loading Batch 2 to task Task 2
+445.5	Started processing Batch 2 in task Task 2
+		Batch 2 loaded to Task 2
+450.0	Started unloading Batch 1 from task Task 8
+		Batch 1 finish processed in Task 8
+451.0	Batch 1 unloaded to Buffer 8
+		Started loading Batch 1 to task Task 9
+452.0	Started processing Batch 1 in task Task 9
+		Batch 1 loaded to Task 9
+462.5	Started unloading Batch 1 from task Task 9
+		Batch 1 finish processed in Task 9
+463.5	Batch 1 unloaded to Output buffer
+568.0	Started unloading Batch 2 from task Task 2
+		Batch 2 finish processed in Task 2
+569.0	Batch 2 unloaded to Buffer 2
+		Started loading Batch 2 to task Task 3
+570.0	Started processing Batch 2 in task Task 3
+		Batch 2 loaded to Task 3
+612.0	Started unloading Batch 2 from task Task 3
+		Batch 2 finish processed in Task 3
+613.0	Batch 2 unloaded to Buffer 3
+		Started loading Batch 2 to task Task 4
+614.0	Started processing Batch 2 in task Task 4
+		Batch 2 loaded to Task 4
+719.0	Started unloading Batch 2 from task Task 4
+		Batch 2 finish processed in Task 4
+720.0	Batch 2 unloaded to Buffer 4
+		Started loading Batch 2 to task Task 5
+721.0	Started processing Batch 2 in task Task 5
+		Batch 2 loaded to Task 5
+749.0	Started unloading Batch 2 from task Task 5
+		Batch 2 finish processed in Task 5
+750.0	Batch 2 unloaded to Buffer 5
+		Started loading Batch 2 to task Task 6
+751.0	Started processing Batch 2 in task Task 6
+		Batch 2 loaded to Task 6
+768.5	Started unloading Batch 2 from task Task 6
+		Batch 2 finish processed in Task 6
+769.5	Batch 2 unloaded to Buffer 6
+		Started loading Batch 2 to task Task 7
+770.5	Started processing Batch 2 in task Task 7
+		Batch 2 loaded to Task 7
+805.5	Started unloading Batch 2 from task Task 7
+		Batch 2 finish processed in Task 7
+806.5	Batch 2 unloaded to Buffer 7
+		Started loading Batch 2 to task Task 8
+807.5	Started processing Batch 2 in task Task 8
+		Batch 2 loaded to Task 8
+848.0	Started loading Batch 3 to inputbuffer
+849.0	Batch 3 added to inputbuffer
+		Started loading Batch 3 to task Task 1
+850.0	Started processing Batch 3 in task Task 1
+		Batch 3 loaded to Task 1
+867.5	Started unloading Batch 3 from task Task 1
+		Batch 3 finish processed in Task 1
+868.5	Batch 3 unloaded to Buffer 1
+		Started loading Batch 3 to task Task 2
+869.5	Started processing Batch 3 in task Task 2
+		Batch 3 loaded to Task 2
+874.0	Started unloading Batch 2 from task Task 8
+		Batch 2 finish processed in Task 8
+875.0	Batch 2 unloaded to Buffer 8
+		Started loading Batch 2 to task Task 9
+876.0	Started processing Batch 2 in task Task 9
+		Batch 2 loaded to Task 9
+886.5	Started unloading Batch 2 from task Task 9
+		Batch 2 finish processed in Task 9
+887.5	Batch 2 unloaded to Output buffer
+992.0	Started unloading Batch 3 from task Task 2
+		Batch 3 finish processed in Task 2
+993.0	Batch 3 unloaded to Buffer 2
+		Started loading Batch 3 to task Task 3
+994.0	Started processing Batch 3 in task Task 3
+		Batch 3 loaded to Task 3
+1036.0	Started unloading Batch 3 from task Task 3
+		Batch 3 finish processed in Task 3
+1037.0	Batch 3 unloaded to Buffer 3
+		Started loading Batch 3 to task Task 4
+1038.0	Started processing Batch 3 in task Task 4
+		Batch 3 loaded to Task 4
+1143.0	Started unloading Batch 3 from task Task 4
+		Batch 3 finish processed in Task 4
+1144.0	Batch 3 unloaded to Buffer 4
+		Started loading Batch 3 to task Task 5
+1145.0	Started processing Batch 3 in task Task 5
+		Batch 3 loaded to Task 5
+1173.0	Started unloading Batch 3 from task Task 5
+		Batch 3 finish processed in Task 5
+1174.0	Batch 3 unloaded to Buffer 5
+		Started loading Batch 3 to task Task 6
+1175.0	Started processing Batch 3 in task Task 6
+		Batch 3 loaded to Task 6
+1192.5	Started unloading Batch 3 from task Task 6
+		Batch 3 finish processed in Task 6
+1193.5	Batch 3 unloaded to Buffer 6
+		Started loading Batch 3 to task Task 7
+1194.5	Started processing Batch 3 in task Task 7
+		Batch 3 loaded to Task 7
+1229.5	Started unloading Batch 3 from task Task 7
+		Batch 3 finish processed in Task 7
+1230.5	Batch 3 unloaded to Buffer 7
+		Started loading Batch 3 to task Task 8
+1231.5	Started processing Batch 3 in task Task 8
+		Batch 3 loaded to Task 8
+1272.0	Started loading Batch 4 to inputbuffer
+1273.0	Batch 4 added to inputbuffer
+		Started loading Batch 4 to task Task 1
+1274.0	Started processing Batch 4 in task Task 1
+		Batch 4 loaded to Task 1
+1291.5	Started unloading Batch 4 from task Task 1
+		Batch 4 finish processed in Task 1
+1292.5	Batch 4 unloaded to Buffer 1
+		Started loading Batch 4 to task Task 2
+1293.5	Started processing Batch 4 in task Task 2
+		Batch 4 loaded to Task 2
+1298.0	Started unloading Batch 3 from task Task 8
+		Batch 3 finish processed in Task 8
+1299.0	Batch 3 unloaded to Buffer 8
+		Started loading Batch 3 to task Task 9
+1300.0	Started processing Batch 3 in task Task 9
+		Batch 3 loaded to Task 9
+1310.5	Started unloading Batch 3 from task Task 9
+		Batch 3 finish processed in Task 9
+1311.5	Batch 3 unloaded to Output buffer
+1416.0	Started unloading Batch 4 from task Task 2
+		Batch 4 finish processed in Task 2
+1417.0	Batch 4 unloaded to Buffer 2
+		Started loading Batch 4 to task Task 3
+1418.0	Started processing Batch 4 in task Task 3
+		Batch 4 loaded to Task 3
+1460.0	Started unloading Batch 4 from task Task 3
+		Batch 4 finish processed in Task 3
+1461.0	Batch 4 unloaded to Buffer 3
+		Started loading Batch 4 to task Task 4
+1462.0	Started processing Batch 4 in task Task 4
+		Batch 4 loaded to Task 4
+1567.0	Started unloading Batch 4 from task Task 4
+		Batch 4 finish processed in Task 4
+1568.0	Batch 4 unloaded to Buffer 4
+		Started loading Batch 4 to task Task 5
+1569.0	Started processing Batch 4 in task Task 5
+		Batch 4 loaded to Task 5
+1597.0	Started unloading Batch 4 from task Task 5
+		Batch 4 finish processed in Task 5
+1598.0	Batch 4 unloaded to Buffer 5
+		Started loading Batch 4 to task Task 6
+1599.0	Started processing Batch 4 in task Task 6
+		Batch 4 loaded to Task 6
+1616.5	Started unloading Batch 4 from task Task 6
+		Batch 4 finish processed in Task 6
+1617.5	Batch 4 unloaded to Buffer 6
+		Started loading Batch 4 to task Task 7
+1618.5	Started processing Batch 4 in task Task 7
+		Batch 4 loaded to Task 7
+1653.5	Started unloading Batch 4 from task Task 7
+		Batch 4 finish processed in Task 7
+1654.5	Batch 4 unloaded to Buffer 7
+		Started loading Batch 4 to task Task 8
+1655.5	Started processing Batch 4 in task Task 8
+		Batch 4 loaded to Task 8
+1696.0	Started loading Batch 5 to inputbuffer
+1697.0	Batch 5 added to inputbuffer
+		Started loading Batch 5 to task Task 1
+1698.0	Started processing Batch 5 in task Task 1
+		Batch 5 loaded to Task 1
+1715.5	Started unloading Batch 5 from task Task 1
+		Batch 5 finish processed in Task 1
+1716.5	Batch 5 unloaded to Buffer 1
+		Started loading Batch 5 to task Task 2
+1717.5	Started processing Batch 5 in task Task 2
+		Batch 5 loaded to Task 2
+1722.0	Started unloading Batch 4 from task Task 8
+		Batch 4 finish processed in Task 8
+1723.0	Batch 4 unloaded to Buffer 8
+		Started loading Batch 4 to task Task 9
+1724.0	Started processing Batch 4 in task Task 9
+		Batch 4 loaded to Task 9
+1734.5	Started unloading Batch 4 from task Task 9
+		Batch 4 finish processed in Task 9
+1735.5	Batch 4 unloaded to Output buffer
+1840.0	Started unloading Batch 5 from task Task 2
+		Batch 5 finish processed in Task 2
+1841.0	Batch 5 unloaded to Buffer 2
+		Started loading Batch 5 to task Task 3
+1842.0	Started processing Batch 5 in task Task 3
+		Batch 5 loaded to Task 3
+1884.0	Started unloading Batch 5 from task Task 3
+		Batch 5 finish processed in Task 3
+1885.0	Batch 5 unloaded to Buffer 3
+		Started loading Batch 5 to task Task 4
+1886.0	Started processing Batch 5 in task Task 4
+		Batch 5 loaded to Task 4
+1991.0	Started unloading Batch 5 from task Task 4
+		Batch 5 finish processed in Task 4
+1992.0	Batch 5 unloaded to Buffer 4
+		Started loading Batch 5 to task Task 5
+1993.0	Started processing Batch 5 in task Task 5
+		Batch 5 loaded to Task 5
+2021.0	Started unloading Batch 5 from task Task 5
+		Batch 5 finish processed in Task 5
+2022.0	Batch 5 unloaded to Buffer 5
+		Started loading Batch 5 to task Task 6
+2023.0	Started processing Batch 5 in task Task 6
+		Batch 5 loaded to Task 6
+2040.5	Started unloading Batch 5 from task Task 6
+		Batch 5 finish processed in Task 6
+2041.5	Batch 5 unloaded to Buffer 6
+		Started loading Batch 5 to task Task 7
+2042.5	Started processing Batch 5 in task Task 7
+		Batch 5 loaded to Task 7
+2077.5	Started unloading Batch 5 from task Task 7
+		Batch 5 finish processed in Task 7
+2078.5	Batch 5 unloaded to Buffer 7
+		Started loading Batch 5 to task Task 8
+2079.5	Started processing Batch 5 in task Task 8
+		Batch 5 loaded to Task 8
+2120.0	Started loading Batch 6 to inputbuffer
+2121.0	Batch 6 added to inputbuffer
+		Started loading Batch 6 to task Task 1
+2122.0	Started processing Batch 6 in task Task 1
+		Batch 6 loaded to Task 1
+2139.5	Started unloading Batch 6 from task Task 1
+		Batch 6 finish processed in Task 1
+2140.5	Batch 6 unloaded to Buffer 1
+		Started loading Batch 6 to task Task 2
+2141.5	Started processing Batch 6 in task Task 2
+		Batch 6 loaded to Task 2
+2146.0	Started unloading Batch 5 from task Task 8
+		Batch 5 finish processed in Task 8
+2147.0	Batch 5 unloaded to Buffer 8
+		Started loading Batch 5 to task Task 9
+2148.0	Started processing Batch 5 in task Task 9
+		Batch 5 loaded to Task 9
+2158.5	Started unloading Batch 5 from task Task 9
+		Batch 5 finish processed in Task 9
+2159.5	Batch 5 unloaded to Output buffer
+2264.0	Started unloading Batch 6 from task Task 2
+		Batch 6 finish processed in Task 2
+2265.0	Batch 6 unloaded to Buffer 2
+		Started loading Batch 6 to task Task 3
+2266.0	Started processing Batch 6 in task Task 3
+		Batch 6 loaded to Task 3
+2308.0	Started unloading Batch 6 from task Task 3
+		Batch 6 finish processed in Task 3
+2309.0	Batch 6 unloaded to Buffer 3
+		Started loading Batch 6 to task Task 4
+2310.0	Started processing Batch 6 in task Task 4
+		Batch 6 loaded to Task 4
+2415.0	Started unloading Batch 6 from task Task 4
+		Batch 6 finish processed in Task 4
+2416.0	Batch 6 unloaded to Buffer 4
+		Started loading Batch 6 to task Task 5
+2417.0	Started processing Batch 6 in task Task 5
+		Batch 6 loaded to Task 5
+2445.0	Started unloading Batch 6 from task Task 5
+		Batch 6 finish processed in Task 5
+2446.0	Batch 6 unloaded to Buffer 5
+		Started loading Batch 6 to task Task 6
+2447.0	Started processing Batch 6 in task Task 6
+		Batch 6 loaded to Task 6
+2464.5	Started unloading Batch 6 from task Task 6
+		Batch 6 finish processed in Task 6
+2465.5	Batch 6 unloaded to Buffer 6
+		Started loading Batch 6 to task Task 7
+2466.5	Started processing Batch 6 in task Task 7
+		Batch 6 loaded to Task 7
+2501.5	Started unloading Batch 6 from task Task 7
+		Batch 6 finish processed in Task 7
+2502.5	Batch 6 unloaded to Buffer 7
+		Started loading Batch 6 to task Task 8
+2503.5	Started processing Batch 6 in task Task 8
+		Batch 6 loaded to Task 8
+2544.0	Started loading Batch 7 to inputbuffer
+2545.0	Batch 7 added to inputbuffer
+		Started loading Batch 7 to task Task 1
+2546.0	Started processing Batch 7 in task Task 1
+		Batch 7 loaded to Task 1
+2563.5	Started unloading Batch 7 from task Task 1
+		Batch 7 finish processed in Task 1
+2564.5	Batch 7 unloaded to Buffer 1
+		Started loading Batch 7 to task Task 2
+2565.5	Started processing Batch 7 in task Task 2
+		Batch 7 loaded to Task 2
+2570.0	Started unloading Batch 6 from task Task 8
+		Batch 6 finish processed in Task 8
+2571.0	Batch 6 unloaded to Buffer 8
+		Started loading Batch 6 to task Task 9
+2572.0	Started processing Batch 6 in task Task 9
+		Batch 6 loaded to Task 9
+2582.5	Started unloading Batch 6 from task Task 9
+		Batch 6 finish processed in Task 9
+2583.5	Batch 6 unloaded to Output buffer
+2688.0	Started unloading Batch 7 from task Task 2
+		Batch 7 finish processed in Task 2
+2689.0	Batch 7 unloaded to Buffer 2
+		Started loading Batch 7 to task Task 3
+2690.0	Started processing Batch 7 in task Task 3
+		Batch 7 loaded to Task 3
+2732.0	Started unloading Batch 7 from task Task 3
+		Batch 7 finish processed in Task 3
+2733.0	Batch 7 unloaded to Buffer 3
+		Started loading Batch 7 to task Task 4
+2734.0	Started processing Batch 7 in task Task 4
+		Batch 7 loaded to Task 4
+2839.0	Started unloading Batch 7 from task Task 4
+		Batch 7 finish processed in Task 4
+2840.0	Batch 7 unloaded to Buffer 4
+		Started loading Batch 7 to task Task 5
+2841.0	Started processing Batch 7 in task Task 5
+		Batch 7 loaded to Task 5
+2869.0	Started unloading Batch 7 from task Task 5
+		Batch 7 finish processed in Task 5
+2870.0	Batch 7 unloaded to Buffer 5
+		Started loading Batch 7 to task Task 6
+2871.0	Started processing Batch 7 in task Task 6
+		Batch 7 loaded to Task 6
+2888.5	Started unloading Batch 7 from task Task 6
+		Batch 7 finish processed in Task 6
+2889.5	Batch 7 unloaded to Buffer 6
+		Started loading Batch 7 to task Task 7
+2890.5	Started processing Batch 7 in task Task 7
+		Batch 7 loaded to Task 7
+2925.5	Started unloading Batch 7 from task Task 7
+		Batch 7 finish processed in Task 7
+2926.5	Batch 7 unloaded to Buffer 7
+		Started loading Batch 7 to task Task 8
+2927.5	Started processing Batch 7 in task Task 8
+		Batch 7 loaded to Task 8
+2968.0	Started loading Batch 8 to inputbuffer
+2969.0	Batch 8 added to inputbuffer
+		Started loading Batch 8 to task Task 1
+2970.0	Started processing Batch 8 in task Task 1
+		Batch 8 loaded to Task 1
+2987.5	Started unloading Batch 8 from task Task 1
+		Batch 8 finish processed in Task 1
+2988.5	Batch 8 unloaded to Buffer 1
+		Started loading Batch 8 to task Task 2
+2989.5	Started processing Batch 8 in task Task 2
+		Batch 8 loaded to Task 2
+2994.0	Started unloading Batch 7 from task Task 8
+		Batch 7 finish processed in Task 8
+2995.0	Batch 7 unloaded to Buffer 8
+		Started loading Batch 7 to task Task 9
+2996.0	Started processing Batch 7 in task Task 9
+		Batch 7 loaded to Task 9
+3006.5	Started unloading Batch 7 from task Task 9
+		Batch 7 finish processed in Task 9
+3007.5	Batch 7 unloaded to Output buffer
+3112.0	Started unloading Batch 8 from task Task 2
+		Batch 8 finish processed in Task 2
+3113.0	Batch 8 unloaded to Buffer 2
+		Started loading Batch 8 to task Task 3
+3114.0	Started processing Batch 8 in task Task 3
+		Batch 8 loaded to Task 3
+3156.0	Started unloading Batch 8 from task Task 3
+		Batch 8 finish processed in Task 3
+3157.0	Batch 8 unloaded to Buffer 3
+		Started loading Batch 8 to task Task 4
+3158.0	Started processing Batch 8 in task Task 4
+		Batch 8 loaded to Task 4
+3263.0	Started unloading Batch 8 from task Task 4
+		Batch 8 finish processed in Task 4
+3264.0	Batch 8 unloaded to Buffer 4
+		Started loading Batch 8 to task Task 5
+3265.0	Started processing Batch 8 in task Task 5
+		Batch 8 loaded to Task 5
+3293.0	Started unloading Batch 8 from task Task 5
+		Batch 8 finish processed in Task 5
+3294.0	Batch 8 unloaded to Buffer 5
+		Started loading Batch 8 to task Task 6
+3295.0	Started processing Batch 8 in task Task 6
+		Batch 8 loaded to Task 6
+3312.5	Started unloading Batch 8 from task Task 6
+		Batch 8 finish processed in Task 6
+3313.5	Batch 8 unloaded to Buffer 6
+		Started loading Batch 8 to task Task 7
+3314.5	Started processing Batch 8 in task Task 7
+		Batch 8 loaded to Task 7
+3349.5	Started unloading Batch 8 from task Task 7
+		Batch 8 finish processed in Task 7
+3350.5	Batch 8 unloaded to Buffer 7
+		Started loading Batch 8 to task Task 8
+3351.5	Started processing Batch 8 in task Task 8
+		Batch 8 loaded to Task 8
+3392.0	Started loading Batch 9 to inputbuffer
+3393.0	Batch 9 added to inputbuffer
+		Started loading Batch 9 to task Task 1
+3394.0	Started processing Batch 9 in task Task 1
+		Batch 9 loaded to Task 1
+3411.5	Started unloading Batch 9 from task Task 1
+		Batch 9 finish processed in Task 1
+3412.5	Batch 9 unloaded to Buffer 1
+		Started loading Batch 9 to task Task 2
+3413.5	Started processing Batch 9 in task Task 2
+		Batch 9 loaded to Task 2
+3418.0	Started unloading Batch 8 from task Task 8
+		Batch 8 finish processed in Task 8
+3419.0	Batch 8 unloaded to Buffer 8
+		Started loading Batch 8 to task Task 9
+3420.0	Started processing Batch 8 in task Task 9
+		Batch 8 loaded to Task 9
+3430.5	Started unloading Batch 8 from task Task 9
+		Batch 8 finish processed in Task 9
+3431.5	Batch 8 unloaded to Output buffer
+3536.0	Started unloading Batch 9 from task Task 2
+		Batch 9 finish processed in Task 2
+3537.0	Batch 9 unloaded to Buffer 2
+		Started loading Batch 9 to task Task 3
+3538.0	Started processing Batch 9 in task Task 3
+		Batch 9 loaded to Task 3
+3580.0	Started unloading Batch 9 from task Task 3
+		Batch 9 finish processed in Task 3
+3581.0	Batch 9 unloaded to Buffer 3
+		Started loading Batch 9 to task Task 4
+3582.0	Started processing Batch 9 in task Task 4
+		Batch 9 loaded to Task 4
+3687.0	Started unloading Batch 9 from task Task 4
+		Batch 9 finish processed in Task 4
+3688.0	Batch 9 unloaded to Buffer 4
+		Started loading Batch 9 to task Task 5
+3689.0	Started processing Batch 9 in task Task 5
+		Batch 9 loaded to Task 5
+3717.0	Started unloading Batch 9 from task Task 5
+		Batch 9 finish processed in Task 5
+3718.0	Batch 9 unloaded to Buffer 5
+		Started loading Batch 9 to task Task 6
+3719.0	Started processing Batch 9 in task Task 6
+		Batch 9 loaded to Task 6
+3736.5	Started unloading Batch 9 from task Task 6
+		Batch 9 finish processed in Task 6
+3737.5	Batch 9 unloaded to Buffer 6
+		Started loading Batch 9 to task Task 7
+3738.5	Started processing Batch 9 in task Task 7
+		Batch 9 loaded to Task 7
+3773.5	Started unloading Batch 9 from task Task 7
+		Batch 9 finish processed in Task 7
+3774.5	Batch 9 unloaded to Buffer 7
+		Started loading Batch 9 to task Task 8
+3775.5	Started processing Batch 9 in task Task 8
+		Batch 9 loaded to Task 8
+3816.0	Started loading Batch 10 to inputbuffer
+3817.0	Batch 10 added to inputbuffer
+		Started loading Batch 10 to task Task 1
+3818.0	Started processing Batch 10 in task Task 1
+		Batch 10 loaded to Task 1
+3835.5	Started unloading Batch 10 from task Task 1
+		Batch 10 finish processed in Task 1
+3836.5	Batch 10 unloaded to Buffer 1
+		Started loading Batch 10 to task Task 2
+3837.5	Started processing Batch 10 in task Task 2
+		Batch 10 loaded to Task 2
+3842.0	Started unloading Batch 9 from task Task 8
+		Batch 9 finish processed in Task 8
+3843.0	Batch 9 unloaded to Buffer 8
+		Started loading Batch 9 to task Task 9
+3844.0	Started processing Batch 9 in task Task 9
+		Batch 9 loaded to Task 9
+3854.5	Started unloading Batch 9 from task Task 9
+		Batch 9 finish processed in Task 9
+3855.5	Batch 9 unloaded to Output buffer
+3960.0	Started unloading Batch 10 from task Task 2
+		Batch 10 finish processed in Task 2
+3961.0	Batch 10 unloaded to Buffer 2
+		Started loading Batch 10 to task Task 3
+3962.0	Started processing Batch 10 in task Task 3
+		Batch 10 loaded to Task 3
+4004.0	Started unloading Batch 10 from task Task 3
+		Batch 10 finish processed in Task 3
+4005.0	Batch 10 unloaded to Buffer 3
+		Started loading Batch 10 to task Task 4
+4006.0	Started processing Batch 10 in task Task 4
+		Batch 10 loaded to Task 4
+4111.0	Started unloading Batch 10 from task Task 4
+		Batch 10 finish processed in Task 4
+4112.0	Batch 10 unloaded to Buffer 4
+		Started loading Batch 10 to task Task 5
+4113.0	Started processing Batch 10 in task Task 5
+		Batch 10 loaded to Task 5
+4141.0	Started unloading Batch 10 from task Task 5
+		Batch 10 finish processed in Task 5
+4142.0	Batch 10 unloaded to Buffer 5
+		Started loading Batch 10 to task Task 6
+4143.0	Started processing Batch 10 in task Task 6
+		Batch 10 loaded to Task 6
+4160.5	Started unloading Batch 10 from task Task 6
+		Batch 10 finish processed in Task 6
+4161.5	Batch 10 unloaded to Buffer 6
+		Started loading Batch 10 to task Task 7
+4162.5	Started processing Batch 10 in task Task 7
+		Batch 10 loaded to Task 7
+4197.5	Started unloading Batch 10 from task Task 7
+		Batch 10 finish processed in Task 7
+4198.5	Batch 10 unloaded to Buffer 7
+		Started loading Batch 10 to task Task 8
+4199.5	Started processing Batch 10 in task Task 8
+		Batch 10 loaded to Task 8
+4240.0	Started loading Batch 11 to inputbuffer
+4241.0	Batch 11 added to inputbuffer
+		Started loading Batch 11 to task Task 1
+4242.0	Started processing Batch 11 in task Task 1
+		Batch 11 loaded to Task 1
+4259.5	Started unloading Batch 11 from task Task 1
+		Batch 11 finish processed in Task 1
+4260.5	Batch 11 unloaded to Buffer 1
+		Started loading Batch 11 to task Task 2
+4261.5	Started processing Batch 11 in task Task 2
+		Batch 11 loaded to Task 2
+4266.0	Started unloading Batch 10 from task Task 8
+		Batch 10 finish processed in Task 8
+4267.0	Batch 10 unloaded to Buffer 8
+		Started loading Batch 10 to task Task 9
+4268.0	Started processing Batch 10 in task Task 9
+		Batch 10 loaded to Task 9
+4278.5	Started unloading Batch 10 from task Task 9
+		Batch 10 finish processed in Task 9
+4279.5	Batch 10 unloaded to Output buffer
+4384.0	Started unloading Batch 11 from task Task 2
+		Batch 11 finish processed in Task 2
+4385.0	Batch 11 unloaded to Buffer 2
+		Started loading Batch 11 to task Task 3
+4386.0	Started processing Batch 11 in task Task 3
+		Batch 11 loaded to Task 3
+4428.0	Started unloading Batch 11 from task Task 3
+		Batch 11 finish processed in Task 3
+4429.0	Batch 11 unloaded to Buffer 3
+		Started loading Batch 11 to task Task 4
+4430.0	Started processing Batch 11 in task Task 4
+		Batch 11 loaded to Task 4
+4535.0	Started unloading Batch 11 from task Task 4
+		Batch 11 finish processed in Task 4
+4536.0	Batch 11 unloaded to Buffer 4
+		Started loading Batch 11 to task Task 5
+4537.0	Started processing Batch 11 in task Task 5
+		Batch 11 loaded to Task 5
+4565.0	Started unloading Batch 11 from task Task 5
+		Batch 11 finish processed in Task 5
+4566.0	Batch 11 unloaded to Buffer 5
+		Started loading Batch 11 to task Task 6
+4567.0	Started processing Batch 11 in task Task 6
+		Batch 11 loaded to Task 6
+4584.5	Started unloading Batch 11 from task Task 6
+		Batch 11 finish processed in Task 6
+4585.5	Batch 11 unloaded to Buffer 6
+		Started loading Batch 11 to task Task 7
+4586.5	Started processing Batch 11 in task Task 7
+		Batch 11 loaded to Task 7
+4621.5	Started unloading Batch 11 from task Task 7
+		Batch 11 finish processed in Task 7
+4622.5	Batch 11 unloaded to Buffer 7
+		Started loading Batch 11 to task Task 8
+4623.5	Started processing Batch 11 in task Task 8
+		Batch 11 loaded to Task 8
+4664.0	Started loading Batch 12 to inputbuffer
+4665.0	Batch 12 added to inputbuffer
+		Started loading Batch 12 to task Task 1
+4666.0	Started processing Batch 12 in task Task 1
+		Batch 12 loaded to Task 1
+4683.5	Started unloading Batch 12 from task Task 1
+		Batch 12 finish processed in Task 1
+4684.5	Batch 12 unloaded to Buffer 1
+		Started loading Batch 12 to task Task 2
+4685.5	Started processing Batch 12 in task Task 2
+		Batch 12 loaded to Task 2
+4690.0	Started unloading Batch 11 from task Task 8
+		Batch 11 finish processed in Task 8
+4691.0	Batch 11 unloaded to Buffer 8
+		Started loading Batch 11 to task Task 9
+4692.0	Started processing Batch 11 in task Task 9
+		Batch 11 loaded to Task 9
+4702.5	Started unloading Batch 11 from task Task 9
+		Batch 11 finish processed in Task 9
+4703.5	Batch 11 unloaded to Output buffer
+4808.0	Started unloading Batch 12 from task Task 2
+		Batch 12 finish processed in Task 2
+4809.0	Batch 12 unloaded to Buffer 2
+		Started loading Batch 12 to task Task 3
+4810.0	Started processing Batch 12 in task Task 3
+		Batch 12 loaded to Task 3
+4852.0	Started unloading Batch 12 from task Task 3
+		Batch 12 finish processed in Task 3
+4853.0	Batch 12 unloaded to Buffer 3
+		Started loading Batch 12 to task Task 4
+4854.0	Started processing Batch 12 in task Task 4
+		Batch 12 loaded to Task 4
+4959.0	Started unloading Batch 12 from task Task 4
+		Batch 12 finish processed in Task 4
+4960.0	Batch 12 unloaded to Buffer 4
+		Started loading Batch 12 to task Task 5
+4961.0	Started processing Batch 12 in task Task 5
+		Batch 12 loaded to Task 5
+4989.0	Started unloading Batch 12 from task Task 5
+		Batch 12 finish processed in Task 5
+4990.0	Batch 12 unloaded to Buffer 5
+		Started loading Batch 12 to task Task 6
+4991.0	Started processing Batch 12 in task Task 6
+		Batch 12 loaded to Task 6
+5008.5	Started unloading Batch 12 from task Task 6
+		Batch 12 finish processed in Task 6
+5009.5	Batch 12 unloaded to Buffer 6
+		Started loading Batch 12 to task Task 7
+5010.5	Started processing Batch 12 in task Task 7
+		Batch 12 loaded to Task 7
+5045.5	Started unloading Batch 12 from task Task 7
+		Batch 12 finish processed in Task 7
+5046.5	Batch 12 unloaded to Buffer 7
+		Started loading Batch 12 to task Task 8
+5047.5	Started processing Batch 12 in task Task 8
+		Batch 12 loaded to Task 8
+5088.0	Started loading Batch 13 to inputbuffer
+5089.0	Batch 13 added to inputbuffer
+		Started loading Batch 13 to task Task 1
+5090.0	Started processing Batch 13 in task Task 1
+		Batch 13 loaded to Task 1
+5107.5	Started unloading Batch 13 from task Task 1
+		Batch 13 finish processed in Task 1
+5108.5	Batch 13 unloaded to Buffer 1
+		Started loading Batch 13 to task Task 2
+5109.5	Started processing Batch 13 in task Task 2
+		Batch 13 loaded to Task 2
+5114.0	Started unloading Batch 12 from task Task 8
+		Batch 12 finish processed in Task 8
+5115.0	Batch 12 unloaded to Buffer 8
+		Started loading Batch 12 to task Task 9
+5116.0	Started processing Batch 12 in task Task 9
+		Batch 12 loaded to Task 9
+5126.5	Started unloading Batch 12 from task Task 9
+		Batch 12 finish processed in Task 9
+5127.5	Batch 12 unloaded to Output buffer
+5232.0	Started unloading Batch 13 from task Task 2
+		Batch 13 finish processed in Task 2
+5233.0	Batch 13 unloaded to Buffer 2
+		Started loading Batch 13 to task Task 3
+5234.0	Started processing Batch 13 in task Task 3
+		Batch 13 loaded to Task 3
+5276.0	Started unloading Batch 13 from task Task 3
+		Batch 13 finish processed in Task 3
+5277.0	Batch 13 unloaded to Buffer 3
+		Started loading Batch 13 to task Task 4
+5278.0	Started processing Batch 13 in task Task 4
+		Batch 13 loaded to Task 4
+5383.0	Started unloading Batch 13 from task Task 4
+		Batch 13 finish processed in Task 4
+5384.0	Batch 13 unloaded to Buffer 4
+		Started loading Batch 13 to task Task 5
+5385.0	Started processing Batch 13 in task Task 5
+		Batch 13 loaded to Task 5
+5413.0	Started unloading Batch 13 from task Task 5
+		Batch 13 finish processed in Task 5
+5414.0	Batch 13 unloaded to Buffer 5
+		Started loading Batch 13 to task Task 6
+5415.0	Started processing Batch 13 in task Task 6
+		Batch 13 loaded to Task 6
+5432.5	Started unloading Batch 13 from task Task 6
+		Batch 13 finish processed in Task 6
+5433.5	Batch 13 unloaded to Buffer 6
+		Started loading Batch 13 to task Task 7
+5434.5	Started processing Batch 13 in task Task 7
+		Batch 13 loaded to Task 7
+5469.5	Started unloading Batch 13 from task Task 7
+		Batch 13 finish processed in Task 7
+5470.5	Batch 13 unloaded to Buffer 7
+		Started loading Batch 13 to task Task 8
+5471.5	Started processing Batch 13 in task Task 8
+		Batch 13 loaded to Task 8
+5512.0	Started loading Batch 14 to inputbuffer
+5513.0	Batch 14 added to inputbuffer
+		Started loading Batch 14 to task Task 1
+5514.0	Started processing Batch 14 in task Task 1
+		Batch 14 loaded to Task 1
+5531.5	Started unloading Batch 14 from task Task 1
+		Batch 14 finish processed in Task 1
+5532.5	Batch 14 unloaded to Buffer 1
+		Started loading Batch 14 to task Task 2
+5533.5	Started processing Batch 14 in task Task 2
+		Batch 14 loaded to Task 2
+5538.0	Started unloading Batch 13 from task Task 8
+		Batch 13 finish processed in Task 8
+5539.0	Batch 13 unloaded to Buffer 8
+		Started loading Batch 13 to task Task 9
+5540.0	Started processing Batch 13 in task Task 9
+		Batch 13 loaded to Task 9
+5550.5	Started unloading Batch 13 from task Task 9
+		Batch 13 finish processed in Task 9
+5551.5	Batch 13 unloaded to Output buffer
+5656.0	Started unloading Batch 14 from task Task 2
+		Batch 14 finish processed in Task 2
+5657.0	Batch 14 unloaded to Buffer 2
+		Started loading Batch 14 to task Task 3
+5658.0	Started processing Batch 14 in task Task 3
+		Batch 14 loaded to Task 3
+5700.0	Started unloading Batch 14 from task Task 3
+		Batch 14 finish processed in Task 3
+5701.0	Batch 14 unloaded to Buffer 3
+		Started loading Batch 14 to task Task 4
+5702.0	Started processing Batch 14 in task Task 4
+		Batch 14 loaded to Task 4
+5807.0	Started unloading Batch 14 from task Task 4
+		Batch 14 finish processed in Task 4
+5808.0	Batch 14 unloaded to Buffer 4
+		Started loading Batch 14 to task Task 5
+5809.0	Started processing Batch 14 in task Task 5
+		Batch 14 loaded to Task 5
+5837.0	Started unloading Batch 14 from task Task 5
+		Batch 14 finish processed in Task 5
+5838.0	Batch 14 unloaded to Buffer 5
+		Started loading Batch 14 to task Task 6
+5839.0	Started processing Batch 14 in task Task 6
+		Batch 14 loaded to Task 6
+5856.5	Started unloading Batch 14 from task Task 6
+		Batch 14 finish processed in Task 6
+5857.5	Batch 14 unloaded to Buffer 6
+		Started loading Batch 14 to task Task 7
+5858.5	Started processing Batch 14 in task Task 7
+		Batch 14 loaded to Task 7
+5893.5	Started unloading Batch 14 from task Task 7
+		Batch 14 finish processed in Task 7
+5894.5	Batch 14 unloaded to Buffer 7
+		Started loading Batch 14 to task Task 8
+5895.5	Started processing Batch 14 in task Task 8
+		Batch 14 loaded to Task 8
+5936.0	Started loading Batch 15 to inputbuffer
+5937.0	Batch 15 added to inputbuffer
+		Started loading Batch 15 to task Task 1
+5938.0	Started processing Batch 15 in task Task 1
+		Batch 15 loaded to Task 1
+5955.5	Started unloading Batch 15 from task Task 1
+		Batch 15 finish processed in Task 1
+5956.5	Batch 15 unloaded to Buffer 1
+		Started loading Batch 15 to task Task 2
+5957.5	Started processing Batch 15 in task Task 2
+		Batch 15 loaded to Task 2
+5962.0	Started unloading Batch 14 from task Task 8
+		Batch 14 finish processed in Task 8
+5963.0	Batch 14 unloaded to Buffer 8
+		Started loading Batch 14 to task Task 9
+5964.0	Started processing Batch 14 in task Task 9
+		Batch 14 loaded to Task 9
+5974.5	Started unloading Batch 14 from task Task 9
+		Batch 14 finish processed in Task 9
+5975.5	Batch 14 unloaded to Output buffer
+6080.0	Started unloading Batch 15 from task Task 2
+		Batch 15 finish processed in Task 2
+6081.0	Batch 15 unloaded to Buffer 2
+		Started loading Batch 15 to task Task 3
+6082.0	Started processing Batch 15 in task Task 3
+		Batch 15 loaded to Task 3
+6124.0	Started unloading Batch 15 from task Task 3
+		Batch 15 finish processed in Task 3
+6125.0	Batch 15 unloaded to Buffer 3
+		Started loading Batch 15 to task Task 4
+6126.0	Started processing Batch 15 in task Task 4
+		Batch 15 loaded to Task 4
+6231.0	Started unloading Batch 15 from task Task 4
+		Batch 15 finish processed in Task 4
+6232.0	Batch 15 unloaded to Buffer 4
+		Started loading Batch 15 to task Task 5
+6233.0	Started processing Batch 15 in task Task 5
+		Batch 15 loaded to Task 5
+6261.0	Started unloading Batch 15 from task Task 5
+		Batch 15 finish processed in Task 5
+6262.0	Batch 15 unloaded to Buffer 5
+		Started loading Batch 15 to task Task 6
+6263.0	Started processing Batch 15 in task Task 6
+		Batch 15 loaded to Task 6
+6280.5	Started unloading Batch 15 from task Task 6
+		Batch 15 finish processed in Task 6
+6281.5	Batch 15 unloaded to Buffer 6
+		Started loading Batch 15 to task Task 7
+6282.5	Started processing Batch 15 in task Task 7
+		Batch 15 loaded to Task 7
+6317.5	Started unloading Batch 15 from task Task 7
+		Batch 15 finish processed in Task 7
+6318.5	Batch 15 unloaded to Buffer 7
+		Started loading Batch 15 to task Task 8
+6319.5	Started processing Batch 15 in task Task 8
+		Batch 15 loaded to Task 8
+6360.0	Started loading Batch 16 to inputbuffer
+6361.0	Batch 16 added to inputbuffer
+		Started loading Batch 16 to task Task 1
+6362.0	Started processing Batch 16 in task Task 1
+		Batch 16 loaded to Task 1
+6379.5	Started unloading Batch 16 from task Task 1
+		Batch 16 finish processed in Task 1
+6380.5	Batch 16 unloaded to Buffer 1
+		Started loading Batch 16 to task Task 2
+6381.5	Started processing Batch 16 in task Task 2
+		Batch 16 loaded to Task 2
+6386.0	Started unloading Batch 15 from task Task 8
+		Batch 15 finish processed in Task 8
+6387.0	Batch 15 unloaded to Buffer 8
+		Started loading Batch 15 to task Task 9
+6388.0	Started processing Batch 15 in task Task 9
+		Batch 15 loaded to Task 9
+6398.5	Started unloading Batch 15 from task Task 9
+		Batch 15 finish processed in Task 9
+6399.5	Batch 15 unloaded to Output buffer
+6504.0	Started unloading Batch 16 from task Task 2
+		Batch 16 finish processed in Task 2
+6505.0	Batch 16 unloaded to Buffer 2
+		Started loading Batch 16 to task Task 3
+6506.0	Started processing Batch 16 in task Task 3
+		Batch 16 loaded to Task 3
+6548.0	Started unloading Batch 16 from task Task 3
+		Batch 16 finish processed in Task 3
+6549.0	Batch 16 unloaded to Buffer 3
+		Started loading Batch 16 to task Task 4
+6550.0	Started processing Batch 16 in task Task 4
+		Batch 16 loaded to Task 4
+6655.0	Started unloading Batch 16 from task Task 4
+		Batch 16 finish processed in Task 4
+6656.0	Batch 16 unloaded to Buffer 4
+		Started loading Batch 16 to task Task 5
+6657.0	Started processing Batch 16 in task Task 5
+		Batch 16 loaded to Task 5
+6685.0	Started unloading Batch 16 from task Task 5
+		Batch 16 finish processed in Task 5
+6686.0	Batch 16 unloaded to Buffer 5
+		Started loading Batch 16 to task Task 6
+6687.0	Started processing Batch 16 in task Task 6
+		Batch 16 loaded to Task 6
+6704.5	Started unloading Batch 16 from task Task 6
+		Batch 16 finish processed in Task 6
+6705.5	Batch 16 unloaded to Buffer 6
+		Started loading Batch 16 to task Task 7
+6706.5	Started processing Batch 16 in task Task 7
+		Batch 16 loaded to Task 7
+6741.5	Started unloading Batch 16 from task Task 7
+		Batch 16 finish processed in Task 7
+6742.5	Batch 16 unloaded to Buffer 7
+		Started loading Batch 16 to task Task 8
+6743.5	Started processing Batch 16 in task Task 8
+		Batch 16 loaded to Task 8
+6784.0	Started loading Batch 17 to inputbuffer
+6785.0	Batch 17 added to inputbuffer
+		Started loading Batch 17 to task Task 1
+6786.0	Started processing Batch 17 in task Task 1
+		Batch 17 loaded to Task 1
+6803.5	Started unloading Batch 17 from task Task 1
+		Batch 17 finish processed in Task 1
+6804.5	Batch 17 unloaded to Buffer 1
+		Started loading Batch 17 to task Task 2
+6805.5	Started processing Batch 17 in task Task 2
+		Batch 17 loaded to Task 2
+6810.0	Started unloading Batch 16 from task Task 8
+		Batch 16 finish processed in Task 8
+6811.0	Batch 16 unloaded to Buffer 8
+		Started loading Batch 16 to task Task 9
+6812.0	Started processing Batch 16 in task Task 9
+		Batch 16 loaded to Task 9
+6822.5	Started unloading Batch 16 from task Task 9
+		Batch 16 finish processed in Task 9
+6823.5	Batch 16 unloaded to Output buffer
+6928.0	Started unloading Batch 17 from task Task 2
+		Batch 17 finish processed in Task 2
+6929.0	Batch 17 unloaded to Buffer 2
+		Started loading Batch 17 to task Task 3
+6930.0	Started processing Batch 17 in task Task 3
+		Batch 17 loaded to Task 3
+6972.0	Started unloading Batch 17 from task Task 3
+		Batch 17 finish processed in Task 3
+6973.0	Batch 17 unloaded to Buffer 3
+		Started loading Batch 17 to task Task 4
+6974.0	Started processing Batch 17 in task Task 4
+		Batch 17 loaded to Task 4
+7079.0	Started unloading Batch 17 from task Task 4
+		Batch 17 finish processed in Task 4
+7080.0	Batch 17 unloaded to Buffer 4
+		Started loading Batch 17 to task Task 5
+7081.0	Started processing Batch 17 in task Task 5
+		Batch 17 loaded to Task 5
+7109.0	Started unloading Batch 17 from task Task 5
+		Batch 17 finish processed in Task 5
+7110.0	Batch 17 unloaded to Buffer 5
+		Started loading Batch 17 to task Task 6
+7111.0	Started processing Batch 17 in task Task 6
+		Batch 17 loaded to Task 6
+7128.5	Started unloading Batch 17 from task Task 6
+		Batch 17 finish processed in Task 6
+7129.5	Batch 17 unloaded to Buffer 6
+		Started loading Batch 17 to task Task 7
+7130.5	Started processing Batch 17 in task Task 7
+		Batch 17 loaded to Task 7
+7165.5	Started unloading Batch 17 from task Task 7
+		Batch 17 finish processed in Task 7
+7166.5	Batch 17 unloaded to Buffer 7
+		Started loading Batch 17 to task Task 8
+7167.5	Started processing Batch 17 in task Task 8
+		Batch 17 loaded to Task 8
+7208.0	Started loading Batch 18 to inputbuffer
+7209.0	Batch 18 added to inputbuffer
+		Started loading Batch 18 to task Task 1
+7210.0	Started processing Batch 18 in task Task 1
+		Batch 18 loaded to Task 1
+7227.5	Started unloading Batch 18 from task Task 1
+		Batch 18 finish processed in Task 1
+7228.5	Batch 18 unloaded to Buffer 1
+		Started loading Batch 18 to task Task 2
+7229.5	Started processing Batch 18 in task Task 2
+		Batch 18 loaded to Task 2
+7234.0	Started unloading Batch 17 from task Task 8
+		Batch 17 finish processed in Task 8
+7235.0	Batch 17 unloaded to Buffer 8
+		Started loading Batch 17 to task Task 9
+7236.0	Started processing Batch 17 in task Task 9
+		Batch 17 loaded to Task 9
+7246.5	Started unloading Batch 17 from task Task 9
+		Batch 17 finish processed in Task 9
+7247.5	Batch 17 unloaded to Output buffer
+7352.0	Started unloading Batch 18 from task Task 2
+		Batch 18 finish processed in Task 2
+7353.0	Batch 18 unloaded to Buffer 2
+		Started loading Batch 18 to task Task 3
+7354.0	Started processing Batch 18 in task Task 3
+		Batch 18 loaded to Task 3
+7396.0	Started unloading Batch 18 from task Task 3
+		Batch 18 finish processed in Task 3
+7397.0	Batch 18 unloaded to Buffer 3
+		Started loading Batch 18 to task Task 4
+7398.0	Started processing Batch 18 in task Task 4
+		Batch 18 loaded to Task 4
+7503.0	Started unloading Batch 18 from task Task 4
+		Batch 18 finish processed in Task 4
+7504.0	Batch 18 unloaded to Buffer 4
+		Started loading Batch 18 to task Task 5
+7505.0	Started processing Batch 18 in task Task 5
+		Batch 18 loaded to Task 5
+7533.0	Started unloading Batch 18 from task Task 5
+		Batch 18 finish processed in Task 5
+7534.0	Batch 18 unloaded to Buffer 5
+		Started loading Batch 18 to task Task 6
+7535.0	Started processing Batch 18 in task Task 6
+		Batch 18 loaded to Task 6
+7552.5	Started unloading Batch 18 from task Task 6
+		Batch 18 finish processed in Task 6
+7553.5	Batch 18 unloaded to Buffer 6
+		Started loading Batch 18 to task Task 7
+7554.5	Started processing Batch 18 in task Task 7
+		Batch 18 loaded to Task 7
+7589.5	Started unloading Batch 18 from task Task 7
+		Batch 18 finish processed in Task 7
+7590.5	Batch 18 unloaded to Buffer 7
+		Started loading Batch 18 to task Task 8
+7591.5	Started processing Batch 18 in task Task 8
+		Batch 18 loaded to Task 8
+7632.0	Started loading Batch 19 to inputbuffer
+7633.0	Batch 19 added to inputbuffer
+		Started loading Batch 19 to task Task 1
+7634.0	Started processing Batch 19 in task Task 1
+		Batch 19 loaded to Task 1
+7651.5	Started unloading Batch 19 from task Task 1
+		Batch 19 finish processed in Task 1
+7652.5	Batch 19 unloaded to Buffer 1
+		Started loading Batch 19 to task Task 2
+7653.5	Started processing Batch 19 in task Task 2
+		Batch 19 loaded to Task 2
+7658.0	Started unloading Batch 18 from task Task 8
+		Batch 18 finish processed in Task 8
+7659.0	Batch 18 unloaded to Buffer 8
+		Started loading Batch 18 to task Task 9
+7660.0	Started processing Batch 18 in task Task 9
+		Batch 18 loaded to Task 9
+7670.5	Started unloading Batch 18 from task Task 9
+		Batch 18 finish processed in Task 9
+7671.5	Batch 18 unloaded to Output buffer
+7776.0	Started unloading Batch 19 from task Task 2
+		Batch 19 finish processed in Task 2
+7777.0	Batch 19 unloaded to Buffer 2
+		Started loading Batch 19 to task Task 3
+7778.0	Started processing Batch 19 in task Task 3
+		Batch 19 loaded to Task 3
+7820.0	Started unloading Batch 19 from task Task 3
+		Batch 19 finish processed in Task 3
+7821.0	Batch 19 unloaded to Buffer 3
+		Started loading Batch 19 to task Task 4
+7822.0	Started processing Batch 19 in task Task 4
+		Batch 19 loaded to Task 4
+7927.0	Started unloading Batch 19 from task Task 4
+		Batch 19 finish processed in Task 4
+7928.0	Batch 19 unloaded to Buffer 4
+		Started loading Batch 19 to task Task 5
+7929.0	Started processing Batch 19 in task Task 5
+		Batch 19 loaded to Task 5
+7957.0	Started unloading Batch 19 from task Task 5
+		Batch 19 finish processed in Task 5
+7958.0	Batch 19 unloaded to Buffer 5
+		Started loading Batch 19 to task Task 6
+7959.0	Started processing Batch 19 in task Task 6
+		Batch 19 loaded to Task 6
+7976.5	Started unloading Batch 19 from task Task 6
+		Batch 19 finish processed in Task 6
+7977.5	Batch 19 unloaded to Buffer 6
+		Started loading Batch 19 to task Task 7
+7978.5	Started processing Batch 19 in task Task 7
+		Batch 19 loaded to Task 7
+8013.5	Started unloading Batch 19 from task Task 7
+		Batch 19 finish processed in Task 7
+8014.5	Batch 19 unloaded to Buffer 7
+		Started loading Batch 19 to task Task 8
+8015.5	Started processing Batch 19 in task Task 8
+		Batch 19 loaded to Task 8
+8056.0	Started loading Batch 20 to inputbuffer
+8057.0	Batch 20 added to inputbuffer
+		Started loading Batch 20 to task Task 1
+8058.0	Started processing Batch 20 in task Task 1
+		Batch 20 loaded to Task 1
+8075.5	Started unloading Batch 20 from task Task 1
+		Batch 20 finish processed in Task 1
+8076.5	Batch 20 unloaded to Buffer 1
+		Started loading Batch 20 to task Task 2
+8077.5	Started processing Batch 20 in task Task 2
+		Batch 20 loaded to Task 2
+8082.0	Started unloading Batch 19 from task Task 8
+		Batch 19 finish processed in Task 8
+8083.0	Batch 19 unloaded to Buffer 8
+		Started loading Batch 19 to task Task 9
+8084.0	Started processing Batch 19 in task Task 9
+		Batch 19 loaded to Task 9
+8094.5	Started unloading Batch 19 from task Task 9
+		Batch 19 finish processed in Task 9
+8095.5	Batch 19 unloaded to Output buffer
+8200.0	Started unloading Batch 20 from task Task 2
+		Batch 20 finish processed in Task 2
+8201.0	Batch 20 unloaded to Buffer 2
+		Started loading Batch 20 to task Task 3
+8202.0	Started processing Batch 20 in task Task 3
+		Batch 20 loaded to Task 3
+8244.0	Started unloading Batch 20 from task Task 3
+		Batch 20 finish processed in Task 3
+8245.0	Batch 20 unloaded to Buffer 3
+		Started loading Batch 20 to task Task 4
+8246.0	Started processing Batch 20 in task Task 4
+		Batch 20 loaded to Task 4
+8351.0	Started unloading Batch 20 from task Task 4
+		Batch 20 finish processed in Task 4
+8352.0	Batch 20 unloaded to Buffer 4
+		Started loading Batch 20 to task Task 5
+8353.0	Started processing Batch 20 in task Task 5
+		Batch 20 loaded to Task 5
+8381.0	Started unloading Batch 20 from task Task 5
+		Batch 20 finish processed in Task 5
+8382.0	Batch 20 unloaded to Buffer 5
+		Started loading Batch 20 to task Task 6
+8383.0	Started processing Batch 20 in task Task 6
+		Batch 20 loaded to Task 6
+8400.5	Started unloading Batch 20 from task Task 6
+		Batch 20 finish processed in Task 6
+8401.5	Batch 20 unloaded to Buffer 6
+		Started loading Batch 20 to task Task 7
+8402.5	Started processing Batch 20 in task Task 7
+		Batch 20 loaded to Task 7
+8437.5	Started unloading Batch 20 from task Task 7
+		Batch 20 finish processed in Task 7
+8438.5	Batch 20 unloaded to Buffer 7
+		Started loading Batch 20 to task Task 8
+8439.5	Started processing Batch 20 in task Task 8
+		Batch 20 loaded to Task 8
+8480.0	Started loading Batch 21 to inputbuffer
+8481.0	Batch 21 added to inputbuffer
+		Started loading Batch 21 to task Task 1
+8482.0	Started processing Batch 21 in task Task 1
+		Batch 21 loaded to Task 1
+8499.5	Started unloading Batch 21 from task Task 1
+		Batch 21 finish processed in Task 1
+8500.5	Batch 21 unloaded to Buffer 1
+		Started loading Batch 21 to task Task 2
+8501.5	Started processing Batch 21 in task Task 2
+		Batch 21 loaded to Task 2
+8506.0	Started unloading Batch 20 from task Task 8
+		Batch 20 finish processed in Task 8
+8507.0	Batch 20 unloaded to Buffer 8
+		Started loading Batch 20 to task Task 9
+8508.0	Started processing Batch 20 in task Task 9
+		Batch 20 loaded to Task 9
+8518.5	Started unloading Batch 20 from task Task 9
+		Batch 20 finish processed in Task 9
+8519.5	Batch 20 unloaded to Output buffer
+8624.0	Started unloading Batch 21 from task Task 2
+		Batch 21 finish processed in Task 2
+8625.0	Batch 21 unloaded to Buffer 2
+		Started loading Batch 21 to task Task 3
+8626.0	Started processing Batch 21 in task Task 3
+		Batch 21 loaded to Task 3
+8668.0	Started unloading Batch 21 from task Task 3
+		Batch 21 finish processed in Task 3
+8669.0	Batch 21 unloaded to Buffer 3
+		Started loading Batch 21 to task Task 4
+8670.0	Started processing Batch 21 in task Task 4
+		Batch 21 loaded to Task 4
+8775.0	Started unloading Batch 21 from task Task 4
+		Batch 21 finish processed in Task 4
+8776.0	Batch 21 unloaded to Buffer 4
+		Started loading Batch 21 to task Task 5
+8777.0	Started processing Batch 21 in task Task 5
+		Batch 21 loaded to Task 5
+8805.0	Started unloading Batch 21 from task Task 5
+		Batch 21 finish processed in Task 5
+8806.0	Batch 21 unloaded to Buffer 5
+		Started loading Batch 21 to task Task 6
+8807.0	Started processing Batch 21 in task Task 6
+		Batch 21 loaded to Task 6
+8824.5	Started unloading Batch 21 from task Task 6
+		Batch 21 finish processed in Task 6
+8825.5	Batch 21 unloaded to Buffer 6
+		Started loading Batch 21 to task Task 7
+8826.5	Started processing Batch 21 in task Task 7
+		Batch 21 loaded to Task 7
+8861.5	Started unloading Batch 21 from task Task 7
+		Batch 21 finish processed in Task 7
+8862.5	Batch 21 unloaded to Buffer 7
+		Started loading Batch 21 to task Task 8
+8863.5	Started processing Batch 21 in task Task 8
+		Batch 21 loaded to Task 8
+8904.0	Started loading Batch 22 to inputbuffer
+8905.0	Batch 22 added to inputbuffer
+		Started loading Batch 22 to task Task 1
+8906.0	Started processing Batch 22 in task Task 1
+		Batch 22 loaded to Task 1
+8923.5	Started unloading Batch 22 from task Task 1
+		Batch 22 finish processed in Task 1
+8924.5	Batch 22 unloaded to Buffer 1
+		Started loading Batch 22 to task Task 2
+8925.5	Started processing Batch 22 in task Task 2
+		Batch 22 loaded to Task 2
+8930.0	Started unloading Batch 21 from task Task 8
+		Batch 21 finish processed in Task 8
+8931.0	Batch 21 unloaded to Buffer 8
+		Started loading Batch 21 to task Task 9
+8932.0	Started processing Batch 21 in task Task 9
+		Batch 21 loaded to Task 9
+8942.5	Started unloading Batch 21 from task Task 9
+		Batch 21 finish processed in Task 9
+8943.5	Batch 21 unloaded to Output buffer
+9048.0	Started unloading Batch 22 from task Task 2
+		Batch 22 finish processed in Task 2
+9049.0	Batch 22 unloaded to Buffer 2
+		Started loading Batch 22 to task Task 3
+9050.0	Started processing Batch 22 in task Task 3
+		Batch 22 loaded to Task 3
+9092.0	Started unloading Batch 22 from task Task 3
+		Batch 22 finish processed in Task 3
+9093.0	Batch 22 unloaded to Buffer 3
+		Started loading Batch 22 to task Task 4
+9094.0	Started processing Batch 22 in task Task 4
+		Batch 22 loaded to Task 4
+9199.0	Started unloading Batch 22 from task Task 4
+		Batch 22 finish processed in Task 4
+9200.0	Batch 22 unloaded to Buffer 4
+		Started loading Batch 22 to task Task 5
+9201.0	Started processing Batch 22 in task Task 5
+		Batch 22 loaded to Task 5
+9229.0	Started unloading Batch 22 from task Task 5
+		Batch 22 finish processed in Task 5
+9230.0	Batch 22 unloaded to Buffer 5
+		Started loading Batch 22 to task Task 6
+9231.0	Started processing Batch 22 in task Task 6
+		Batch 22 loaded to Task 6
+9248.5	Started unloading Batch 22 from task Task 6
+		Batch 22 finish processed in Task 6
+9249.5	Batch 22 unloaded to Buffer 6
+		Started loading Batch 22 to task Task 7
+9250.5	Started processing Batch 22 in task Task 7
+		Batch 22 loaded to Task 7
+9285.5	Started unloading Batch 22 from task Task 7
+		Batch 22 finish processed in Task 7
+9286.5	Batch 22 unloaded to Buffer 7
+		Started loading Batch 22 to task Task 8
+9287.5	Started processing Batch 22 in task Task 8
+		Batch 22 loaded to Task 8
+9328.0	Started loading Batch 23 to inputbuffer
+9329.0	Batch 23 added to inputbuffer
+		Started loading Batch 23 to task Task 1
+9330.0	Started processing Batch 23 in task Task 1
+		Batch 23 loaded to Task 1
+9347.5	Started unloading Batch 23 from task Task 1
+		Batch 23 finish processed in Task 1
+9348.5	Batch 23 unloaded to Buffer 1
+		Started loading Batch 23 to task Task 2
+9349.5	Started processing Batch 23 in task Task 2
+		Batch 23 loaded to Task 2
+9354.0	Started unloading Batch 22 from task Task 8
+		Batch 22 finish processed in Task 8
+9355.0	Batch 22 unloaded to Buffer 8
+		Started loading Batch 22 to task Task 9
+9356.0	Started processing Batch 22 in task Task 9
+		Batch 22 loaded to Task 9
+9366.5	Started unloading Batch 22 from task Task 9
+		Batch 22 finish processed in Task 9
+9367.5	Batch 22 unloaded to Output buffer
+9472.0	Started unloading Batch 23 from task Task 2
+		Batch 23 finish processed in Task 2
+9473.0	Batch 23 unloaded to Buffer 2
+		Started loading Batch 23 to task Task 3
+9474.0	Started processing Batch 23 in task Task 3
+		Batch 23 loaded to Task 3
+9516.0	Started unloading Batch 23 from task Task 3
+		Batch 23 finish processed in Task 3
+9517.0	Batch 23 unloaded to Buffer 3
+		Started loading Batch 23 to task Task 4
+9518.0	Started processing Batch 23 in task Task 4
+		Batch 23 loaded to Task 4
+9623.0	Started unloading Batch 23 from task Task 4
+		Batch 23 finish processed in Task 4
+9624.0	Batch 23 unloaded to Buffer 4
+		Started loading Batch 23 to task Task 5
+9625.0	Started processing Batch 23 in task Task 5
+		Batch 23 loaded to Task 5
+9653.0	Started unloading Batch 23 from task Task 5
+		Batch 23 finish processed in Task 5
+9654.0	Batch 23 unloaded to Buffer 5
+		Started loading Batch 23 to task Task 6
+9655.0	Started processing Batch 23 in task Task 6
+		Batch 23 loaded to Task 6
+9672.5	Started unloading Batch 23 from task Task 6
+		Batch 23 finish processed in Task 6
+9673.5	Batch 23 unloaded to Buffer 6
+		Started loading Batch 23 to task Task 7
+9674.5	Started processing Batch 23 in task Task 7
+		Batch 23 loaded to Task 7
+9709.5	Started unloading Batch 23 from task Task 7
+		Batch 23 finish processed in Task 7
+9710.5	Batch 23 unloaded to Buffer 7
+		Started loading Batch 23 to task Task 8
+9711.5	Started processing Batch 23 in task Task 8
+		Batch 23 loaded to Task 8
+9752.0	Started loading Batch 24 to inputbuffer
+9753.0	Batch 24 added to inputbuffer
+		Started loading Batch 24 to task Task 1
+9754.0	Started processing Batch 24 in task Task 1
+		Batch 24 loaded to Task 1
+9771.5	Started unloading Batch 24 from task Task 1
+		Batch 24 finish processed in Task 1
+9772.5	Batch 24 unloaded to Buffer 1
+		Started loading Batch 24 to task Task 2
+9773.5	Started processing Batch 24 in task Task 2
+		Batch 24 loaded to Task 2
+9778.0	Started unloading Batch 23 from task Task 8
+		Batch 23 finish processed in Task 8
+9779.0	Batch 23 unloaded to Buffer 8
+		Started loading Batch 23 to task Task 9
+9780.0	Started processing Batch 23 in task Task 9
+		Batch 23 loaded to Task 9
+9790.5	Started unloading Batch 23 from task Task 9
+		Batch 23 finish processed in Task 9
+9791.5	Batch 23 unloaded to Output buffer
+9896.0	Started unloading Batch 24 from task Task 2
+		Batch 24 finish processed in Task 2
+9897.0	Batch 24 unloaded to Buffer 2
+		Started loading Batch 24 to task Task 3
+9898.0	Started processing Batch 24 in task Task 3
+		Batch 24 loaded to Task 3
+9940.0	Started unloading Batch 24 from task Task 3
+		Batch 24 finish processed in Task 3
+9941.0	Batch 24 unloaded to Buffer 3
+		Started loading Batch 24 to task Task 4
+9942.0	Started processing Batch 24 in task Task 4
+		Batch 24 loaded to Task 4
+10047.0	Started unloading Batch 24 from task Task 4
+		Batch 24 finish processed in Task 4
+10048.0	Batch 24 unloaded to Buffer 4
+		Started loading Batch 24 to task Task 5
+10049.0	Started processing Batch 24 in task Task 5
+		Batch 24 loaded to Task 5
+10077.0	Started unloading Batch 24 from task Task 5
+		Batch 24 finish processed in Task 5
+10078.0	Batch 24 unloaded to Buffer 5
+		Started loading Batch 24 to task Task 6
+10079.0	Started processing Batch 24 in task Task 6
+		Batch 24 loaded to Task 6
+10096.5	Started unloading Batch 24 from task Task 6
+		Batch 24 finish processed in Task 6
+10097.5	Batch 24 unloaded to Buffer 6
+		Started loading Batch 24 to task Task 7
+10098.5	Started processing Batch 24 in task Task 7
+		Batch 24 loaded to Task 7
+10133.5	Started unloading Batch 24 from task Task 7
+		Batch 24 finish processed in Task 7
+10134.5	Batch 24 unloaded to Buffer 7
+		Started loading Batch 24 to task Task 8
+10135.5	Started processing Batch 24 in task Task 8
+		Batch 24 loaded to Task 8
+10176.0	Started loading Batch 25 to inputbuffer
+10177.0	Batch 25 added to inputbuffer
+		Started loading Batch 25 to task Task 1
+10178.0	Started processing Batch 25 in task Task 1
+		Batch 25 loaded to Task 1
+10195.5	Started unloading Batch 25 from task Task 1
+		Batch 25 finish processed in Task 1
+10196.5	Batch 25 unloaded to Buffer 1
+		Started loading Batch 25 to task Task 2
+10197.5	Started processing Batch 25 in task Task 2
+		Batch 25 loaded to Task 2
+10202.0	Started unloading Batch 24 from task Task 8
+		Batch 24 finish processed in Task 8
+10203.0	Batch 24 unloaded to Buffer 8
+		Started loading Batch 24 to task Task 9
+10204.0	Started processing Batch 24 in task Task 9
+		Batch 24 loaded to Task 9
+10214.5	Started unloading Batch 24 from task Task 9
+		Batch 24 finish processed in Task 9
+10215.5	Batch 24 unloaded to Output buffer
+10320.0	Started unloading Batch 25 from task Task 2
+		Batch 25 finish processed in Task 2
+10321.0	Batch 25 unloaded to Buffer 2
+		Started loading Batch 25 to task Task 3
+10322.0	Started processing Batch 25 in task Task 3
+		Batch 25 loaded to Task 3
+10364.0	Started unloading Batch 25 from task Task 3
+		Batch 25 finish processed in Task 3
+10365.0	Batch 25 unloaded to Buffer 3
+		Started loading Batch 25 to task Task 4
+10366.0	Started processing Batch 25 in task Task 4
+		Batch 25 loaded to Task 4
+10471.0	Started unloading Batch 25 from task Task 4
+		Batch 25 finish processed in Task 4
+10472.0	Batch 25 unloaded to Buffer 4
+		Started loading Batch 25 to task Task 5
+10473.0	Started processing Batch 25 in task Task 5
+		Batch 25 loaded to Task 5
+10501.0	Started unloading Batch 25 from task Task 5
+		Batch 25 finish processed in Task 5
+10502.0	Batch 25 unloaded to Buffer 5
+		Started loading Batch 25 to task Task 6
+10503.0	Started processing Batch 25 in task Task 6
+		Batch 25 loaded to Task 6
+10520.5	Started unloading Batch 25 from task Task 6
+		Batch 25 finish processed in Task 6
+10521.5	Batch 25 unloaded to Buffer 6
+		Started loading Batch 25 to task Task 7
+10522.5	Started processing Batch 25 in task Task 7
+		Batch 25 loaded to Task 7
+10557.5	Started unloading Batch 25 from task Task 7
+		Batch 25 finish processed in Task 7
+10558.5	Batch 25 unloaded to Buffer 7
+		Started loading Batch 25 to task Task 8
+10559.5	Started processing Batch 25 in task Task 8
+		Batch 25 loaded to Task 8
+10600.0	Started loading Batch 26 to inputbuffer
+10601.0	Batch 26 added to inputbuffer
+		Started loading Batch 26 to task Task 1
+10602.0	Started processing Batch 26 in task Task 1
+		Batch 26 loaded to Task 1
+10619.5	Started unloading Batch 26 from task Task 1
+		Batch 26 finish processed in Task 1
+10620.5	Batch 26 unloaded to Buffer 1
+		Started loading Batch 26 to task Task 2
+10621.5	Started processing Batch 26 in task Task 2
+		Batch 26 loaded to Task 2
+10626.0	Started unloading Batch 25 from task Task 8
+		Batch 25 finish processed in Task 8
+10627.0	Batch 25 unloaded to Buffer 8
+		Started loading Batch 25 to task Task 9
+10628.0	Started processing Batch 25 in task Task 9
+		Batch 25 loaded to Task 9
+10638.5	Started unloading Batch 25 from task Task 9
+		Batch 25 finish processed in Task 9
+10639.5	Batch 25 unloaded to Output buffer
+10744.0	Started unloading Batch 26 from task Task 2
+		Batch 26 finish processed in Task 2
+10745.0	Batch 26 unloaded to Buffer 2
+		Started loading Batch 26 to task Task 3
+10746.0	Started processing Batch 26 in task Task 3
+		Batch 26 loaded to Task 3
+10788.0	Started unloading Batch 26 from task Task 3
+		Batch 26 finish processed in Task 3
+10789.0	Batch 26 unloaded to Buffer 3
+		Started loading Batch 26 to task Task 4
+10790.0	Started processing Batch 26 in task Task 4
+		Batch 26 loaded to Task 4
+10895.0	Started unloading Batch 26 from task Task 4
+		Batch 26 finish processed in Task 4
+10896.0	Batch 26 unloaded to Buffer 4
+		Started loading Batch 26 to task Task 5
+10897.0	Started processing Batch 26 in task Task 5
+		Batch 26 loaded to Task 5
+10925.0	Started unloading Batch 26 from task Task 5
+		Batch 26 finish processed in Task 5
+10926.0	Batch 26 unloaded to Buffer 5
+		Started loading Batch 26 to task Task 6
+10927.0	Started processing Batch 26 in task Task 6
+		Batch 26 loaded to Task 6
+10944.5	Started unloading Batch 26 from task Task 6
+		Batch 26 finish processed in Task 6
+10945.5	Batch 26 unloaded to Buffer 6
+		Started loading Batch 26 to task Task 7
+10946.5	Started processing Batch 26 in task Task 7
+		Batch 26 loaded to Task 7
+10981.5	Started unloading Batch 26 from task Task 7
+		Batch 26 finish processed in Task 7
+10982.5	Batch 26 unloaded to Buffer 7
+		Started loading Batch 26 to task Task 8
+10983.5	Started processing Batch 26 in task Task 8
+		Batch 26 loaded to Task 8
+11024.0	Started loading Batch 27 to inputbuffer
+11025.0	Batch 27 added to inputbuffer
+		Started loading Batch 27 to task Task 1
+11026.0	Started processing Batch 27 in task Task 1
+		Batch 27 loaded to Task 1
+11043.5	Started unloading Batch 27 from task Task 1
+		Batch 27 finish processed in Task 1
+11044.5	Batch 27 unloaded to Buffer 1
+		Started loading Batch 27 to task Task 2
+11045.5	Started processing Batch 27 in task Task 2
+		Batch 27 loaded to Task 2
+11050.0	Started unloading Batch 26 from task Task 8
+		Batch 26 finish processed in Task 8
+11051.0	Batch 26 unloaded to Buffer 8
+		Started loading Batch 26 to task Task 9
+11052.0	Started processing Batch 26 in task Task 9
+		Batch 26 loaded to Task 9
+11062.5	Started unloading Batch 26 from task Task 9
+		Batch 26 finish processed in Task 9
+11063.5	Batch 26 unloaded to Output buffer
+11168.0	Started unloading Batch 27 from task Task 2
+		Batch 27 finish processed in Task 2
+11169.0	Batch 27 unloaded to Buffer 2
+		Started loading Batch 27 to task Task 3
+11170.0	Started processing Batch 27 in task Task 3
+		Batch 27 loaded to Task 3
+11212.0	Started unloading Batch 27 from task Task 3
+		Batch 27 finish processed in Task 3
+11213.0	Batch 27 unloaded to Buffer 3
+		Started loading Batch 27 to task Task 4
+11214.0	Started processing Batch 27 in task Task 4
+		Batch 27 loaded to Task 4
+11319.0	Started unloading Batch 27 from task Task 4
+		Batch 27 finish processed in Task 4
+11320.0	Batch 27 unloaded to Buffer 4
+		Started loading Batch 27 to task Task 5
+11321.0	Started processing Batch 27 in task Task 5
+		Batch 27 loaded to Task 5
+11349.0	Started unloading Batch 27 from task Task 5
+		Batch 27 finish processed in Task 5
+11350.0	Batch 27 unloaded to Buffer 5
+		Started loading Batch 27 to task Task 6
+11351.0	Started processing Batch 27 in task Task 6
+		Batch 27 loaded to Task 6
+11368.5	Started unloading Batch 27 from task Task 6
+		Batch 27 finish processed in Task 6
+11369.5	Batch 27 unloaded to Buffer 6
+		Started loading Batch 27 to task Task 7
+11370.5	Started processing Batch 27 in task Task 7
+		Batch 27 loaded to Task 7
+11405.5	Started unloading Batch 27 from task Task 7
+		Batch 27 finish processed in Task 7
+11406.5	Batch 27 unloaded to Buffer 7
+		Started loading Batch 27 to task Task 8
+11407.5	Started processing Batch 27 in task Task 8
+		Batch 27 loaded to Task 8
+11448.0	Started loading Batch 28 to inputbuffer
+11449.0	Batch 28 added to inputbuffer
+		Started loading Batch 28 to task Task 1
+11450.0	Started processing Batch 28 in task Task 1
+		Batch 28 loaded to Task 1
+11467.5	Started unloading Batch 28 from task Task 1
+		Batch 28 finish processed in Task 1
+11468.5	Batch 28 unloaded to Buffer 1
+		Started loading Batch 28 to task Task 2
+11469.5	Started processing Batch 28 in task Task 2
+		Batch 28 loaded to Task 2
+11474.0	Started unloading Batch 27 from task Task 8
+		Batch 27 finish processed in Task 8
+11475.0	Batch 27 unloaded to Buffer 8
+		Started loading Batch 27 to task Task 9
+11476.0	Started processing Batch 27 in task Task 9
+		Batch 27 loaded to Task 9
+11486.5	Started unloading Batch 27 from task Task 9
+		Batch 27 finish processed in Task 9
+11487.5	Batch 27 unloaded to Output buffer
+11592.0	Started unloading Batch 28 from task Task 2
+		Batch 28 finish processed in Task 2
+11593.0	Batch 28 unloaded to Buffer 2
+		Started loading Batch 28 to task Task 3
+11594.0	Started processing Batch 28 in task Task 3
+		Batch 28 loaded to Task 3
+11636.0	Started unloading Batch 28 from task Task 3
+		Batch 28 finish processed in Task 3
+11637.0	Batch 28 unloaded to Buffer 3
+		Started loading Batch 28 to task Task 4
+11638.0	Started processing Batch 28 in task Task 4
+		Batch 28 loaded to Task 4
+11743.0	Started unloading Batch 28 from task Task 4
+		Batch 28 finish processed in Task 4
+11744.0	Batch 28 unloaded to Buffer 4
+		Started loading Batch 28 to task Task 5
+11745.0	Started processing Batch 28 in task Task 5
+		Batch 28 loaded to Task 5
+11773.0	Started unloading Batch 28 from task Task 5
+		Batch 28 finish processed in Task 5
+11774.0	Batch 28 unloaded to Buffer 5
+		Started loading Batch 28 to task Task 6
+11775.0	Started processing Batch 28 in task Task 6
+		Batch 28 loaded to Task 6
+11792.5	Started unloading Batch 28 from task Task 6
+		Batch 28 finish processed in Task 6
+11793.5	Batch 28 unloaded to Buffer 6
+		Started loading Batch 28 to task Task 7
+11794.5	Started processing Batch 28 in task Task 7
+		Batch 28 loaded to Task 7
+11829.5	Started unloading Batch 28 from task Task 7
+		Batch 28 finish processed in Task 7
+11830.5	Batch 28 unloaded to Buffer 7
+		Started loading Batch 28 to task Task 8
+11831.5	Started processing Batch 28 in task Task 8
+		Batch 28 loaded to Task 8
+11872.0	Started loading Batch 29 to inputbuffer
+11873.0	Batch 29 added to inputbuffer
+		Started loading Batch 29 to task Task 1
+11874.0	Started processing Batch 29 in task Task 1
+		Batch 29 loaded to Task 1
+11884.0	Started unloading Batch 29 from task Task 1
+		Batch 29 finish processed in Task 1
+11885.0	Batch 29 unloaded to Buffer 1
+		Started loading Batch 29 to task Task 2
+11886.0	Started processing Batch 29 in task Task 2
+		Batch 29 loaded to Task 2
+11898.0	Started unloading Batch 28 from task Task 8
+		Batch 28 finish processed in Task 8
+11899.0	Batch 28 unloaded to Buffer 8
+		Started loading Batch 28 to task Task 9
+11900.0	Started processing Batch 28 in task Task 9
+		Batch 28 loaded to Task 9
+11910.5	Started unloading Batch 28 from task Task 9
+		Batch 28 finish processed in Task 9
+11911.5	Batch 28 unloaded to Output buffer
+11956.0	Started unloading Batch 29 from task Task 2
+		Batch 29 finish processed in Task 2
+11957.0	Batch 29 unloaded to Buffer 2
+		Started loading Batch 29 to task Task 3
+11958.0	Started processing Batch 29 in task Task 3
+		Batch 29 loaded to Task 3
+11982.0	Started unloading Batch 29 from task Task 3
+		Batch 29 finish processed in Task 3
+11983.0	Batch 29 unloaded to Buffer 3
+		Started loading Batch 29 to task Task 4
+11984.0	Started processing Batch 29 in task Task 4
+		Batch 29 loaded to Task 4
+12044.0	Started unloading Batch 29 from task Task 4
+		Batch 29 finish processed in Task 4
+12045.0	Batch 29 unloaded to Buffer 4
+		Started loading Batch 29 to task Task 5
+12046.0	Started processing Batch 29 in task Task 5
+		Batch 29 loaded to Task 5
+12062.0	Started unloading Batch 29 from task Task 5
+		Batch 29 finish processed in Task 5
+12063.0	Batch 29 unloaded to Buffer 5
+		Started loading Batch 29 to task Task 6
+12064.0	Started processing Batch 29 in task Task 6
+		Batch 29 loaded to Task 6
+12074.0	Started unloading Batch 29 from task Task 6
+		Batch 29 finish processed in Task 6
+12075.0	Batch 29 unloaded to Buffer 6
+		Started loading Batch 29 to task Task 7
+12076.0	Started processing Batch 29 in task Task 7
+		Batch 29 loaded to Task 7
+12096.0	Started unloading Batch 29 from task Task 7
+		Batch 29 finish processed in Task 7
+12097.0	Batch 29 unloaded to Buffer 7
+		Started loading Batch 29 to task Task 8
+12098.0	Started processing Batch 29 in task Task 8
+		Batch 29 loaded to Task 8
+12136.0	Started unloading Batch 29 from task Task 8
+		Batch 29 finish processed in Task 8
+12137.0	Batch 29 unloaded to Buffer 8
+		Started loading Batch 29 to task Task 9
+12138.0	Started processing Batch 29 in task Task 9
+		Batch 29 loaded to Task 9
+12144.0	Started unloading Batch 29 from task Task 9
+		Batch 29 finish processed in Task 9
+12145.0	Batch 29 unloaded to Output buffer

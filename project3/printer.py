@@ -3,8 +3,10 @@ import sys
 from decimal import *
 class Printer:
     def __init__(self, simulator, logger):
+
         self.simulator = simulator
         self.logger = logger
+
 
 
     # # Functions

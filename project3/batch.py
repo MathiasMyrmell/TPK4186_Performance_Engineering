@@ -8,7 +8,7 @@ class Batch:
             self.id = id
             self.numWafers = numWafers
         else:
-            raise ValueError("Number of wafers must be between 20 and 50")
+            raise ValueError("Number of wafers must be between 20 and 50\n\t You tried "+str(numWafers)+"\n")
     
     # #Getters
     # Get batch id

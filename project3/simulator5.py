@@ -10,10 +10,14 @@ from logger import Logger
 import sys
 from decimal import *
 import copy
+import os
+
+import numpy as np
+import matplotlib.pyplot as plt
 
 class Simulator:
 
-    def __init__(self, productionGoal, tasksInUnits, heuristics, loadToInputBufferInterval, groupingOfBatches):
+    def __init__(self, path, productionGoal, tasksInUnits, heuristics, loadToInputBufferInterval, groupingOfBatches):
         try:
             if productionGoal <20:
                 raise ValueError("Production goal must be more than 20")
@@ -27,7 +31,7 @@ class Simulator:
                 self.loadToInputBufferInterval = loadToInputBufferInterval
                 self.scheduler = Scheduler()
                 self.productionline = Productionline(self.tasksInUnits, self.heuristics)
-                self.logger = Logger()
+                self.logger = Logger(path)
                 self.printer = Printer(self, self.logger)
                 
                 self.batches = self.createBatches(self.productionGoal, self.groupingOfBatches)
@@ -65,8 +69,20 @@ class Simulator:
     # # Functions
     # Creates batchs in chosen sizes, and returns a list of batches
     def createBatches(self, numWafers, groupingOfBatches):
-        
-        
+        batches = []
+        i = 1
+        while numWafers>0:
+            if numWafers >= groupingOfBatches+20 and numWafers >= groupingOfBatches:
+                batches.append(Batch(i,groupingOfBatches))
+                numWafers -= groupingOfBatches
+            elif 20<=numWafers<=50:
+                batches.append(Batch(i,numWafers))
+                numWafers = 0
+            else:
+                batchSize = int(round(numWafers/2,0))
+                batches.append(Batch(i,batchSize))
+                numWafers -= batchSize
+            i+=1
         
         # Gammel metode
         # batches = []
@@ -276,7 +292,7 @@ class Simulator:
     # Runs the simulation
     def run(self):
 
-        sys.stdout.write("Starting simulation...\n")
+        # sys.stdout.write("Starting simulation...\n")
         i = 0
         while not self.isFinished() :#and i<12000:
             try:    
@@ -293,7 +309,7 @@ class Simulator:
                 self.createLoadToInputBufferAction()
 
                 # Print events to console
-                self.printer.printEvents(self.getTime()) 
+                # self.printer.printEvents(self.getTime()) 
                 if not self.isFinished():
                     # Update time
                     self.updateTime()
@@ -303,25 +319,172 @@ class Simulator:
                 sys.stdout.write("Simulation terminated\n")
                 break
             
-        sys.stdout.write("Simulation finished\n")
+        # sys.stdout.write("Simulation finished\n")
         self.logger.saveToFile(self.getInfo())
-        return self.getTime()
+        return int(self.getTime())
 
 
 if __name__ == "__main__":
-    sys.stdout.write("Starting program...\n")
-    productionGoal = 1000
-    tasksInUnits = [[1,3,6,9],[2,5,7],[4,8]]
-    heuristics = [[1,3,6,9],[2,5,7],[4,8]]
-    loadToInputBufferInterval = 1
-    groupingOfBatches = None #TODO: Implement grouping of batches
-    SIM = Simulator(productionGoal,tasksInUnits, heuristics, loadToInputBufferInterval, groupingOfBatches)
-    P = SIM.printer
-    SC = SIM.scheduler
-    PL = SIM.productionline
+    # sys.stdout.write("Starting program...\n")
+    # path = "project3/standardSimulation/"
+    # productionGoal = 50
+    # tasksInUnits = [[1,3,6,9],[2,5,7],[4,8]]
+    # heuristics = [[1,3,6,9],[2,5,7],[4,8]]
+    # loadToInputBufferInterval = 1
+    # groupingOfBatches = 50
+    # SIM = Simulator(path, productionGoal,tasksInUnits, heuristics, loadToInputBufferInterval, groupingOfBatches)
+    # P = SIM.printer
+    # SC = SIM.scheduler
+    # PL = SIM.productionline
 
     # print(SIM.run())
-    P.getStatus()
+    # P.getStatus()
 
-#6323
+    #Testing batch sizes
+    path = "project3/testing/batchSizes/"
+    batchSizes = [20,35,50]
+    batchProdductionTime = [273, 462, 654]
+    plotData = []
+    totFiles = 1
+    for k in range(len(batchSizes)):
+        resultat = []
+        for j in range(1,batchProdductionTime[k], 3):
+            productionGoal = 1000
+            tasksInUnits = [[1,3,6,9],[2,5,7],[4,8]]
+            heuristics = [[1,3,6,9],[2,5,7],[4,8]]
+            loadToInputBufferInterval = j
+            groupingOfBatches = batchSizes[k]
+            SIM = Simulator(path+str(batchSizes[k])+"/",productionGoal,tasksInUnits, heuristics, loadToInputBufferInterval, groupingOfBatches)
+            P = SIM.printer
+            SC = SIM.scheduler
+            PL = SIM.productionline
+
+            runningtime = SIM.run()
+            res = [j,runningtime]
+            resultat.append(res)
+            # print(i, SIM.run())
+            # P.getStatus()
+            print(str(batchSizes[k])+" file number: "+str(totFiles))
+            totFiles += 1
+        # print(resultat)
+        print("Batch size: "+str(batchSizes[k])+ " done")
+        totFiles = 1
+
+    def getInfoFromFile(file):
+        groupingOfBatches = ""
+        lastLine = ""
+        # try:
+        f = open(file, "r")
+        i = 1
+        
+        for line in f:
+            # Grouping of batches
+            # if i == 20:
+            #     groupingOfBatches = line
+
+            # Time between batches to input buffer
+            if i == 19:
+                groupingOfBatches = line
+            lastLine = line
+            i += 1
+        f.close()
+        # except:
+            # print("could not read file")
+        return [groupingOfBatches, lastLine]
+
+    def getData(info):
+        # print(info)
+        #Get grouping
+        grouping = info[0].split(" ")[-1].split("\n")[0]
+        # print(grouping)
+
+        #Get running time
+        runningTime = info[1].split("\t")[0]
+        
+        # print("grouping", grouping)
+        # print("runningTime", runningTime)
+        return [float(grouping),float(runningTime)]
     
+    print("Started reading files")
+    path = "project3/testing/batchSizes/"
+    os.chdir(path)
+    for m in range(len(batchSizes)):
+        print("Batch size: "+str(batchSizes[m])+" started")
+        os.chdir(str(batchSizes[m])+"/")
+        result = []
+        for file in os.listdir():
+            if file.endswith(".txt"):
+                info = getInfoFromFile(file)
+                result.append(getData(info))
+
+        print("Files read")
+        # print(result)
+        
+        # Sort result
+        print("Sorting data")
+        print("Result: ", result)
+        data = []
+        while len(result)>0:
+            lowestLoadingtime = 1000000000000000
+            for res in result:
+                if res[0] < lowestLoadingtime:
+                    lowestLoadingtime = res[0]
+            for res in result:
+                if res[0] == lowestLoadingtime:
+                    data.append(res)
+                    result.remove(res)
+                    break
+            lowestLoadingtime = 1000000000000000
+        
+        print("Data sorted")
+        print("Sorted: ", data)
+        xAxis = []
+        yAxis = []
+        print("Creating plot data")
+        for i in range(len(data)):
+            xAxis.append(data[i][0])
+            yAxis.append(data[i][1])
+        # Print plot
+        # print("xAxis: ", xAxis)
+        # print("yAxis: ", yAxis)
+        plotData.append([batchSizes[m],xAxis,yAxis])
+        print("Plot data created")
+        os.chdir("..")
+    os.chdir("../../..")
+    print("Plotting")
+    fig = plt.figure()
+    legend = []
+    colors = ['g', 'r', 'b']
+    i = 0
+    print("plotData", plotData)
+    for plot in plotData:
+        legend.append(str(plot[0]))
+        plt.plot(plot[1], plot[2], label="Batch size: " + str(plot[0]), color=colors[i])
+        # plt.plot(xAxis, yAxis)
+        i+=1
+    plt.xlabel("Loadingtime to inputbuffer interval",fontsize='13')	
+    plt.ylabel("Time",fontsize='13')
+    plt.legend(legend, loc='upper left')
+    fig.savefig("project3/figures/fig.png")
+    plt.show()
+
+
+    # # result = [[201.0, 10171.0], [1.0, 6604.6]]
+    # result = [[401.0, 11501.0], [1.0, 6358.0], [201.0, 6050.5]]
+    # # result = [[601.0, 12073.0], [201.0, 6371.1], [1.0, 6323.0], [401.0, 8401.1]]
+
+    # data = []
+    # while len(result)>0:
+    #     lowestLoadingtime = 1000000000000000
+    #     for res in result:
+    #         if res[0] < lowestLoadingtime:
+    #             lowestLoadingtime = res[0]
+    #     for res in result:
+    #         if res[0] == lowestLoadingtime:
+    #             data.append(res)
+    #             result.remove(res)
+    #             break
+    #     lowestLoadingtime = 1000000000000000
+    
+    # print("Data sorted")
+    # print(data)

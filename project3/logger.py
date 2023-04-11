@@ -2,9 +2,9 @@
 import datetime
 import sys
 class Logger:
-    def __init__(self):
+    def __init__(self, path):
         self.log = {}
-        self.path = "project3/files/"+datetime.datetime.now().strftime("%d/%m/%Y %H:%M:%S").replace(" ","_").replace("/",".")+".txt"
+        self.path = path+datetime.datetime.now().strftime("%d/%m/%Y %H:%M:%S").replace(" ","_").replace("/",".")+".txt"
 
     # # Getters
     # Returns log
@@ -82,16 +82,16 @@ class Logger:
                 newTime = True
                 for event in self.log[time]:
                     if newTime == True:
-                        file.write("{0:f}\t{1:s}\n".format(time, event))
+                        file.write("\n{0:f}\t{1:s}".format(time, event))
                         newTime = False
                     else:
-                        file.write("{0:s}\t{1:s}\n".format("\t", event))
+                        file.write("\n{0:s}\t{1:s}".format("\t", event))
                 newTime = True
 
             file.flush()
             file.close()
         except:
             print("could not append to file")
-        sys.stdout.write("Simulation log saved to file: "+self.path+"\n")
+        # sys.stdout.write("Simulation log saved to file: "+self.path+"\n")
         return 0
     

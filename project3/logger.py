@@ -47,24 +47,24 @@ class Logger:
             file.close()
         except:
             print("could not read file")
-        # try:
-        file = open(self.path, "a")
-        file.write("Metadata\n----------------------------------------\n")
-        file.write("Productions goal: "+str(info[0])+"\n")
-        #Tasks
-        for i in range(0, len(info[1])):
-            unitNr = i+1
-            file.write("Unit "+str(unitNr)+"\n")
-            for task in info[1][i]:
-                file.write("\t"+"Task "+str(task)+"\n")
-            file.write("Heuristics: "+str(info[2][i])+"\n")
-        file.write("Time between loading to inputbuffer: "+ str(info[3])+"\n")
-        file.write("Grouping of batches: "+ str(info[4])+"\n")
-        file.write("----------------------------------------\n")
-        file.flush()
-        file.close()
-        # except:
-        #     print("could not append to file")
+        try:
+            file = open(self.path, "a")
+            file.write("Metadata\n----------------------------------------\n")
+            file.write("Productions goal: "+str(info[0])+"\n")
+            #Tasks
+            for i in range(0, len(info[1])):
+                unitNr = i+1
+                file.write("Unit "+str(unitNr)+"\n")
+                for task in info[1][i]:
+                    file.write("\t"+"Task "+str(task)+"\n")
+                file.write("Heuristics: "+str(info[2][i])+"\n")
+            file.write("Time between loading to inputbuffer: "+ str(info[3])+"\n")
+            file.write("Grouping of batches: "+ str(info[4])+"\n")
+            file.write("----------------------------------------\n")
+            file.flush()
+            file.close()
+        except:
+            print("could not append to file")
         return 0
 
     # Writes to file
@@ -92,6 +92,6 @@ class Logger:
             file.close()
         except:
             print("could not append to file")
-        # sys.stdout.write("Simulation log saved to file: "+self.path+"\n")
+        sys.stdout.write("Simulation log saved to file: "+self.path+"\n")
         return 0
     

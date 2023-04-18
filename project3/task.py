@@ -15,7 +15,6 @@ class Task:
         self.inProduction = False
         self.batch = None
         self.startTime = 0
-        self.elapsedTime = 0
         self.finishTime = 0
 
     # #Getters
@@ -93,85 +92,3 @@ class Task:
             return False
         else:
             return True
-
-
-
-
-
-
-
-
-
-
-
-
-    # def startProduction(self, batch, startTime):
-    #     self.batch = batch
-    #     self.inProduction = True
-    #     self.finishTime = round(Decimal(self.getTotalTime()),1)+startTime
-    #     self.unit.setInProduction(True)
-    #     return self.finishTime
-
-    # def startProduction(self, startTime):
-    #     for batch in self.inputbuffer.getBatches():
-    #         if self.canAcceptBatch(batch):
-    #             pass
-
-
-
-
-    #         # print("Batch ",batch.id)
-    #         # if(self.canAcceptBatch(batch)):
-    #         #     self.batch = batch
-    #         #     self.inProduction = True
-    #         #     self.finishTime = round(Decimal(self.getTotalTime()),1)+startTime
-    #         #     self.unit.setInProduction(True)
-    #         #     return self.finishTime
-
-    # def getProcessingTime(self):
-    #     return self.processingTime
-    
-    # def getInputbuffer(self):
-    #     return self.inputbuffer
-    
-    # def getTotalTime(self):
-    #     #Calculate total time
-    #     totWafers = self.batch.getNumWafers()
-    #     totTime = self.processingTime * totWafers
-    #     return totTime
-    
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-    # def setInProduction(self, inProduction):
-    #     self.inProduction = inProduction
-
-    # def setStartTime(self, startTime):
-    #     self.startTime = startTime
-
-    # def getTimeLeft(self):
-    #     #Calculate total time
-    #     totWafers = self.batch.getNumWafers()
-    #     totTime = self.processingTime * totWafers
-    #     #Time elapsed
-    #     timeElapsed = self.elapsedTime
-    #     #Time left
-    #     timeLeft = totTime - timeElapsed
-    #     return timeLeft
-
-        # def setFinishTime(self, finishTime):
-    #     self.finishTime = finishTime
-   

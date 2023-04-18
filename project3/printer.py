@@ -3,7 +3,6 @@ import sys
 from decimal import *
 class Printer:
     def __init__(self, simulator, logger):
-
         self.simulator = simulator
         self.logger = logger
 
@@ -12,8 +11,6 @@ class Printer:
     # # Functions
     def printEvents(self, time):
         times = self.logger.getLog().keys()
-        # print(time)
-        # print(type(time))
         for t in times:
             if t == time:
                 sys.stdout.write("\t"+str(time)+"\n")

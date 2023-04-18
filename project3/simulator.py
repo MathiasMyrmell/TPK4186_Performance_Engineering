@@ -1,326 +1,269 @@
-
+#Import classes
 from productionline import Productionline
 from batch import Batch
-from unit import Unit
-from task import Task
-from buffer import Buffer
+from action import Action
+from scheduler import Scheduler
+from printer import Printer
+from logger import Logger
 
+# Import other modules
 import sys
 from decimal import *
+import copy
 
-class Action:
-    def __init__(self, name, processTime, batch, buffer, task):
-        self.name = name
-        self.processTime = processTime
-    #     self.progressTime = 0
-        self.batch = batch
-        self.buffer = buffer
-        self.task = task
-        self.ongoing = False
-        self.finished = False
-    #     self.nextAction = None
-        self.completionTime = None
-
-    def getName(self):
-        return self.name
-    
-    def getFinished(self):
-        return self.finished
-    # def getCompletionTime(self):
-    #     return self.completionTime
-
-    def setCompletionTime(self,completionTime):
-        self.completionTime = completionTime
-    
-    def canBePerformed(self):
-        if(self.ongoing == True):
-            return False
-        elif(self.name == "Load batch to 'Input buffer'"):
-            if(self.buffer.canAcceptBatch(self.batch) == False):
-                return False
-        
-
-        return True
-
-
-    #     if(self.ongoing == True):
-    #         progressTime += Decimal(0.1)
-    #         return False
-    #     if(self.name == "Load batch from buffer to task"):
-    #         #Check if next buffer can accept batch
-    #         if(self.task.getNextBuffer().canAcceptBatch(self.batch, self.completionTime) == False):
-    #             return False
-    #         #Check if task is not busy
-    #         elif(self.task.getInProduction() == True):
-    #             return False
-    #         else:
-    #             self.task.startProduction(self.batch, self.completionTime)
-    #             self.nextAction = Action("Load batch from task to buffer", 1, self.batch, self.task.getNextBuffer(), self.task)
-    #         return True
-    #     elif(self.name == "Load batch from task to buffer"):
-    #         pass
-
-class Scheduler:
-    def __init__(self):
-        self.actions = []
-
-
-    def getActions(self):
-        return self.actions
-    
-    def insertAction(self, action):
-        self.actions.append(action)
-
-    def isEmpty(self):
-        return len(self.actions) == 0
-
-    def removeAction(self, action):
-        self.actions.remove(action)
-
-    def popFirstAction(self):
-        if self.isEmpty():
-            return None
-        return self.actions.pop(0)
 
 class Simulator:
-    def __init__(self, productionGoal):
-        self.batches = self._createBatches(productionGoal)
-        self.productionline = Productionline()
-        self.scheduler = Scheduler()
-        self.time = Decimal(0.0)
-        # self.productionGoal = 0
 
-
-    # Creating batches
-    def _createBatches(self, numWafers):
-        batches = []
-        while(numWafers > 0):
-            if(numWafers//50==0):
-                batches.append(Batch(numWafers))
-                numWafers = 0
-            elif(numWafers//50 > 1):
-                batches.append(Batch(50))
-                numWafers -= 50
-            elif(numWafers%50 == 0):
-                batches.append(Batch(50))
-                numWafers -= 50
+    def __init__(self, path, productionGoal, tasksInUnits, heuristics, loadToInputBufferInterval, groupingOfBatches):
+        try:
+            if productionGoal <20:
+                raise ValueError("Production goal must be more than 20")
             else:
-                if(numWafers%50 < 20):
-                    num = int(numWafers/2)
-                    batches.append(Batch(num))
-                    numWafers -= num
-                else:
-                    batches.append(Batch(50))
-                    numWafers -= 50
+                self.time = round(Decimal(0),1)
+                self.productionGoal = productionGoal
+                self.tasksInUnits = tasksInUnits
+                self.heuristics = heuristics
+                self.loadToInputBufferInterval = loadToInputBufferInterval
+                self.groupingOfBatches = groupingOfBatches
+                self.loadToInputBufferInterval = loadToInputBufferInterval
+                self.scheduler = Scheduler()
+                self.productionline = Productionline(self.tasksInUnits, self.heuristics)
+                self.logger = Logger(path)
+                self.printer = Printer(self, self.logger)
+                
+                self.batches = self.createBatches(self.productionGoal, self.groupingOfBatches)
+        except ValueError as e:
+            sys.stdout.write("{}{}".format("\t",str(e))+"\n")
+            sys.stdout.write("Program terminated\n")
+            
+            # Exits the program
+            sys.exit(1)
+    
+    # # Getters
+    # Returns current simulation time
+    def getTime(self):
+        return self.time
+
+    # Returns info about the simulation
+    def getInfo(self):
+        info = [self.productionGoal, self.tasksInUnits, self.heuristics, self.loadToInputBufferInterval, self.groupingOfBatches]
+        return info
+
+    # Returns the productionline
+    def getProductionline(self):
+        return self.productionline
+    
+    # Returns the scheduler
+    def getScheduler(self):
+        return self.scheduler
+    
+
+    # # Setters
+    def updateTime(self):
+        self.time = self.time+round(Decimal(0.1),1)
+
+
+    # # Functions
+    # Creates batchs in chosen sizes, and returns a list of batches
+    def createBatches(self, numWafers, groupingOfBatches):
+        batches = []
+        i = 1
+        while numWafers>0:
+            if numWafers >= groupingOfBatches+20 and numWafers >= groupingOfBatches:
+                batches.append(Batch(i,groupingOfBatches))
+                numWafers -= groupingOfBatches
+            elif 20<=numWafers<=50:
+                batches.append(Batch(i,numWafers))
+                numWafers = 0
+            else:
+                batchSize = int(round(numWafers/2,0))
+                batches.append(Batch(i,batchSize))
+                numWafers -= batchSize
+            i+=1
         return batches
     
-    def getTime(self):
-        return round(self.time,1)
+    # Creates action for loading batches to inputbuffer
+    def createLoadToInputBufferAction(self):
+        if len(self.batches) == 0:
+            return
+        batches = copy.copy(self.batches)
+        for i in range(len(batches)):
+            if (self._atInterval() and self._spaceInInputBuffer(batches[i])):
+                batch = self.batches.pop(i)
+                self._executeLoadToInputBufferAction(batch)
+                break
     
-    # def setTime(self, time):
-    #     self.time = time
-
-    # def getProductionline(self):
-    #     return self.productionline
-
-    # def isFinished(self):
-    #     return self.finished
-
-    # def setProductionGoal(self, productionGoal):
-    #     self.productionGoal = productionGoal
-
-    def performAction(self, action):
-        actionName = action.getName()
-        if(actionName == "Load batch to 'Input buffer'"):
-            #Calculate completion time
-            completionTime = self.getTime() + action.processTime
-            #Set completion time
-            action.setCompletionTime(completionTime)
-            #Set as ongoing
-            action.ongoing = True
-            #Add batch to buffer
-            action.buffer.add(action.batch,completionTime)
-            #Set as ongoing
-            sys.stdout.write("{0:s}\t{1:s}\n".format(" ", "Loading batch to input buffer"))
-            # #Create next action
-            # newAction = Action("Load batch from 'Input buffer' to 'Task 1'", 1, action.batch, action.buffer, self.productionline.getTask("Task 1"))
-            # self.scheduler.insertAction(newAction)
-            # #Create log
-            # act = "Loading batch from "+"'Input buffer'"+" to "+"'Task 1'"
-            # sys.stdout.write("{0:f}\t{1:s}\n".format(self.getTime(),act))
-        elif(actionName == "Load batch from buffer to task"):
-            #Calculate completion time
-            completionTime = self.getTime() + action.processTime
-            #Set completion time
-            action.setCompletionTime(completionTime)
-            #Remove batch from buffer
-            action.buffer.removeBatch(action.batch)
-            #Set finish time for task
-            action.task.setFinishTime(completionTime)
-            #Set as ongoing
-            sys.stdout.write("{0:s}\t{1:s}\n".format(" ", "Loading batch from buffer to task"))
-            # #Create next action
-            # newAction = Action("Load batch from task to buffer", 1, action.batch, action.buffer, action.task)
-            # self.scheduler.insertAction(newAction)
-            # #Create log
-            # act = "Loading batch from "+"'"+action.task.getName()+"'"+" to "+"'"+action.buffer.getName()+"'"
-            # sys.stdout.write("{0:s}\t{1:s}\n".format(" ",act))
-        
-        
-        
-        # if(actionName == "Load batch from buffer to task"):
-        #     bufferName = action.buffer.getName()
-        #     taskName = action.task.getName()
-        #     act = "Loading batch from "+"'"+bufferName+"'"+" to "+"'"+taskName+"'"
-        #     sys.stdout.write("{0:f}\t{1:s}\n".format(self.getTime(),act))
-        # elif(actionName == "Load batch from task to buffer"):
-        #     taskName = action.task.getName()
-        #     bufferName = action.buffer.getName()
-        #     act = "Loading batch from "+"'"+taskName+"'"+" to "+"'"+bufferName+"'"
-
-
-    def createInitialLoadActionsForBatches(self):
-        inputbuffer = self.productionline.getBuffer("Input buffer")
-        for batch in self.batches:
-            action = Action("Load batch to 'Input buffer'", 1, batch, inputbuffer, self.productionline.getTask("Task 1"))
-            self.scheduler.insertAction(action)
-
-    def checkScheduler(self):
-        scheduler = self.scheduler
-        for action in scheduler.actions:
-            print(action.ongoing, action.canBePerformed())
-
-            if action.getFinished():
-                scheduler.removeAction(action)
-            elif (not action.ongoing) and (action.canBePerformed()):
-                self.performAction(action)
-
-
-    def updateTime(self):
-        print("Updating time")
-        #Update time for tasks in production
-        for task in self.productionline.getTasks():
-            if task.getInProduction():
-                task.elapsedTime += Decimal(0.1)
-
-
-
-    def checkTasks(self):
-        print("Checking tasks")
-        for task in self.productionline.getTasks():
-            #Check if task is in production
-            if(task.getInProduction()):#Task in production
-                #Check if batch is finished
-                if task.checkIfBatchIsFinished(self.getTime()):
-                    #Create new action for batch
-                    newAction = Action("Load batch from task to buffer", 1, task.getBatch(), task.getBuffer(), task)
-                    self.scheduler.insertAction(newAction)
-            else:#Task not in production
-                #Check if previous buffer is empty
-                previousBuffer = task.getPreviousBuffer()
-                if(previousBuffer.currentLoad == 0):
-                    break
-                #Check next buffer
-                nextBuffer = task.getNextBuffer()
-                if(nextBuffer.currentLoad == nextBuffer.maxCapacity):
-                    break
-                nextBufferCapacity = nextBuffer.maxCapacity - nextBuffer.currentLoad
-
-                #Check if batch is finished loading
-                for batch in previousBuffer.getBatches():
-                    if(batch[1] >= self.getTime() and nextBufferCapacity>=batch[0].getNumWafers()):#<=
-                        #Create new action for batch
-                        newAction = Action("Load batch from buffer to task", 1, batch[0], previousBuffer, task)
-                        self.scheduler.insertAction(newAction)
-                        break
-                
-
-
-                
-
-
-
-            # if(task.getInProduction()):
-            #     task.checkIfBatchIsFinished(self.getTime())
-            # else:
-            #     previousBuffer = task.getPreviousBuffer()
-            #     if(previousBuffer.currentLoad != 0):
-            #         #Check if batch is finished loading
-            #         for batch in previousBuffer.getBatches():
-            #             if(batch[1] <= self.getTime()):
-            #                 #Create new action for batch
-            #                 newAction = Action("Load batch from buffer to task", 1, batch[0], previousBuffer, task)
-            #                 self.performAction(newAction)
-            #                 break
-
-
-
-    def checkFinished(self):
-        loadInOutputbuffer = self.productionline.getBuffer("Output buffer").currentLoad
-        lastTaskRunning = self.productionline.getTask("Task 9").getInProduction()
-        if(loadInOutputbuffer == self.productionGoal and not lastTaskRunning):
+    # Checks if current time is at interval set by user
+    def _atInterval(self):
+        if (self.time % self.loadToInputBufferInterval)==0:
             return True
+        return False
 
+    # Checks if inputbuffer has space for batch
+    def _spaceInInputBuffer(self, batch):
+        if self.productionline.getBuffer("Input buffer").canAcceptBatch(batch):
+            return True
+    
+    # # Executes load to inputbuffer action
+    def _executeLoadToInputBufferAction(self, batch):
+        inputbuffer = self.productionline.getBuffer("Input buffer")
+        startTime = self.time
+        finishTime = self.time + round(Decimal(1),1)
+        action = Action("Load batch to 'Input buffer'",batch, startTime, finishTime, inputbuffer)
+        self.scheduler.addAction(action)
+        action.setStatus(True)
+        outputString = "Started loading Batch " + str(action.getBatch().getId()) + " to inputbuffer"
+        self.logger.logEvent(self.time,outputString)
+
+    # Checks if simulation is finished
+    def isFinished(self):
+        if self.productionGoal == self.productionline.getBuffer("Output buffer").getCurrentLoad() and len(self.scheduler.getActions())==0:
+            return True
+        return False
+
+    # Updates state of the simulation
+    def updateState(self):
+        #Check ongoing actions
+        self._checkOngoingActions()
+        
+        #Create new actions
+        self._createNewActions()
+
+    def _checkOngoingActions(self):
+        for action in self.scheduler.getActions():
+            if action.getStatus() == True:
+                if action.getFinishTime() <= self.time:
+                    #Finish action
+                    self._finishAction(action)
+
+    def _createNewActions(self):
+        for unit in self.productionline.getUnits():
+            if unit.getInProduction() == True:
+                continue
+            newAction = unit.createProductionStartAction(self.time)
+            if newAction != None:
+                self.scheduler.addAction(newAction)
+    
+    # Executes pending actions in scheduler 
+    def executeNewActions(self):
+        actions = self.scheduler.getActions()
+        # Skip if there are no actions
+        if len(actions) == 0:
+            return
+        units = self.productionline.getUnits()
+        # Check every unit
+        for unit in units:
+            # Skip if unit is in production
+            if unit.getInProduction():
+                continue
+            # Check if unit can start production of a new batch
+            for task in unit.heuristics:
+                for action in actions:
+                    # Skip "Load to input buffer" actions
+                    if action.getTask() == None:
+                        continue
+                    if action.getTask().getId() == task:
+                        self._executeAction(unit,action)
+
+    # Finishes an action that is finished, and removes it from the scheduler
+    def _finishAction(self, action):
+        if action.getName() == "Load batch to 'Input buffer'":
+            #Add batch to inputbuffer
+            inputbuffer = action.getInputbuffer()
+            inputbuffer.addBatch(action.getBatch())
+            # Remove action
+            self.scheduler.removeAction(action)
+            outputString = "Batch " + str(action.getBatch().getId()) + " added to inputbuffer"
+            self.logger.logEvent(self.time,outputString)
+        elif action.getName() == "Load to task":
+            #Remove batch from buffer
+            action.getInputbuffer().removeBatch(action.getBatch())
+            newAction = action.getNextAction()
+            self.scheduler.removeAction(action)
+            self.scheduler.addAction(newAction)
+            self._executeAction(None,newAction)
+            outputString = "Batch " + str(action.getBatch().getId()) + " loaded to " + str(action.getTask().getName())
+            self.logger.logEvent(self.time, outputString)
+
+        elif action.getName() == "Process batch":
+            newAction = action.getNextAction()
+            self.scheduler.removeAction(action)
+            self.scheduler.addAction(newAction)
+            self._executeAction(None,newAction)
+            outputString ="Batch " + str(action.getBatch().getId()) + " finish processed in " + str(action.getTask().getName())
+            self.logger.logEvent(self.time, outputString)
+        
+        elif action.getName() == "Unload to buffer":
+            self.scheduler.removeAction(action)
+            action.getTask().getUnit().endProduction()
+            action.getOutputbuffer().addBatch(action.getBatch())
+            outputString = "Batch " + str(action.getBatch().getId()) + " unloaded to " + str(action.outputbuffer.name)
+            self.logger.logEvent(self.time,outputString)
+
+    # Executes an action
+    def _executeAction(self, unit,newAction):
+        if newAction.getName() == "Load to task":
+            unit.setInProduction(True)
+            newAction.setStatus(True)
+            newAction.getTask().setInProduction(True)
+            outputString = "Started loading Batch " + str(newAction.getBatch().getId()) + " to task " + newAction.getTask().getName()
+            self.logger.logEvent(self.time,outputString)
+        elif newAction.getName() == "Process batch":
+            outputString = "Started processing Batch " + str(newAction.getBatch().getId()) + " in task " + newAction.getTask().getName()
+            self.logger.logEvent(self.time,outputString)
+            newAction.setStatus(True)
+        elif newAction.getName() == "Unload to buffer":
+            outputString = "Started unloading Batch " + str(newAction.getBatch().getId()) + " from task " + newAction.getTask().getName()
+            self.logger.logEvent(self.time,outputString)
+            newAction.setStatus(True)
+        return 0
+    
+    # Runs the simulation
     def run(self):
-        print("Running simulation...")
-        self.createInitialLoadActionsForBatches()
-        #Simulation loop
-        # while not self.scheduler.isEmpty() or self.getTime() < 3:
-        # while checkFinished():
-        for i in range(20):
-            # Init
-            sys.stdout.write("{0:s}\t{1:s}\n".format(str(self.getTime()), "Actions performed"))
+        i = 0
+        while not self.isFinished() :
+            try:    
+                # #Check if ongoing actions is finished, and/or create new actions
+                self.updateState()
 
-            #Check scheduler
-            self.checkScheduler()
+                # #Check for new action to be executed
+                self.executeNewActions()
 
-            # Update
-            self.updateTime()
+                # Load new batch into inputbuffer if possible
+                self.createLoadToInputBufferAction()
 
-            #Check Tasks
-            self.checkTasks()    
-
-            print(self.productionline.getBuffer("Input buffer").currentLoad)
-
-
-
-            # #Get action
-            # action = None
-            # #Check new actions
-            # for i in range (len(self.scheduler.getActions())):
-            #     act = self.scheduler.getActions()[i]
-            #     if(act.canBePerformed()):
-            #         action = self.scheduler.actions.pop(i)
-            #         break
-            # #Perform action
-            # if(action != None):
-            #     self.performAction(action)
-               
-            # # Check tasks
-            # self.checkTasks()
+                # Print events to console
+                self.printer.printEvents(self.getTime()) 
+                if not self.isFinished():
+                    # Update time
+                    self.updateTime()
+                    i += 1
+            except ValueError as e:
+                sys.stdout.write(str(e) + "\n")
+                sys.stdout.write("Simulation terminated\n")
+                break
             
-            # #Check buffers
-            # for buffer in self.productionline.getBuffers():
-            #     if(buffer.currentLoad!=0):
-            #         for batch in buffer.getBatches():
-            #             #If bactch is finished loading to buffer
-            #             if(batch[1]<=self.getTime()):
-            #                 #Create new action for batch
-            #                 newAction = Action("Load batch from buffer to task", 1, batch[0], buffer, buffer.nextTask)
-            #                 self.scheduler.insertAction(newAction)
-            #                 sys.stdout.write("{0:s}\t{1:s}\n".format("", "Started loading batch to "+buffer.nextTask.getName()))
+        sys.stdout.write("Simulation finished\n")
+        self.logger.saveToFile(self.getInfo())
 
-            #Update IRL time
-            self.time += Decimal(0.1)
-            i+=1
-            # Make every task go up 0.1 time units
 
-                
-                
-        print("Simulation finished!")
+    
+
+
 
 if __name__ == "__main__":
+    sys.stdout.write("Starting program...\n")
+    path = "project3/standardSimulation/"
     productionGoal = 50
-    SIM = Simulator(productionGoal)
-    # print("Batches:", SIM.batches)
+    tasksInUnits = [[1,3,6,9],[2,5,7],[4,8]]
+    heuristics = [[1,3,6,9],[2,5,7],[4,8]]
+    loadToInputBufferInterval = 1
+    groupingOfBatches = 50
+    SIM = Simulator(path, productionGoal,tasksInUnits, heuristics, loadToInputBufferInterval, groupingOfBatches)
+    P = SIM.printer
+    SC = SIM.scheduler
+    PL = SIM.productionline
+    
     SIM.run()
+    P.getStatus()
+    

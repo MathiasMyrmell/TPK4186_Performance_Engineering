@@ -1,6 +1,3 @@
-
-
-
 class Batch:
 
     def __init__(self, id, numWafers):
@@ -18,22 +15,4 @@ class Batch:
     # Get number of wafers in batch
     def getNumWafers(self):
         return self.numWafers
-
-
-
-
-
-
-
-
-
-    # def isReadyForProduction(self):
-    #     return True
-
-
-
-
-    
-        
-    
     

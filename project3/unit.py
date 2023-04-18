@@ -38,16 +38,6 @@ class Unit:
         task.setUnit(self)
         self.tasks.append(task)
 
-   # Starts production
-    def startProduction(self, startTime):
-        for id in self.heuristics:
-            task = self._getTaskById(id)
-            if task != None:
-                startedProduction = task.startProduction(startTime)
-                if startedProduction:
-                    self.inProduction = True
-                    return True
-
     def _getTaskById(self, id):
         for task in self.tasks:
             if task.getId() == id:
@@ -60,10 +50,9 @@ class Unit:
         for task in self.tasks:
             task.endProduction()
 
-    # TODO: Hva gjør denne?
+    # Creates action to start production
     def createProductionStartAction(self, startTime):
         for id in self.heuristics:
-            # print("Task id: ", id)
             task = self._getTaskById(id)
             if task != None:
                 for batch in task.getInputbuffer().getBatches():

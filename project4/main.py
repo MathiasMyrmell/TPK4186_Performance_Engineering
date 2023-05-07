@@ -1,8 +1,10 @@
 import openpyxl
 from task import Task
 from pert import PERT
+from machineLearning import ML
 import random
 import copy
+from sklearn import svm
 
 ## Load tasks from excel file
 def load(path):
@@ -82,54 +84,42 @@ def task4(path):
         # diagram.printEarlyAndLateDates()
         # diagram.getDurations()
         standardProjects.append(diagram)
-    # print("Number of projects: ", len(standardProjects))
+
+    # Standard time for project for each risk factor
+    # expectedRunningTime = {}
+    # for p in range(len(riskFactors)):
+    #     demo = copy.deepcopy(standardProjects[p])
+    #     finishTime = demo.executeProject().finishTime
+    #     # print(finishTime)
+    #     expectedRunningTime[riskFactors[p]] = finishTime
+
+    # print("Expected running time: ", expectedRunningTime)
 
     # Create 1000 random projects per risk factor
     projects = {}
     for r in riskFactors:
         projects[r] = []
-    print(projects)
+    # print(projects)
     for i in range(len(riskFactors)):
         base = standardProjects[i]
-        print("Risk factor: ", riskFactors[i])
-        for j in range(0,2):
+        # print("Risk factor: ", riskFactors[i])
+        for j in range(0,1000):#
             proj = copy.deepcopy(base)
             projNewDuration = _randomDuration(proj)
             executed = projNewDuration.executeProject()
-            executed.getDuration()
-            print(executed.finishTime)
+            # executed.getDuration()
+            # print(executed.finishTime)
             executed.printEarlyAndLateDates()
             projects[riskFactors[i]].append(executed)
 
-
-    # for key, value in projects.items():
-    #     print(key, value)
-    #     for p in value:
-    #         print(p.printEarlyAndLateDates())
-    # projects = {}
-    # for r in riskFactors:
-    #     projects[r] = []
-    # for i in range(0, len(riskFactors)):
-    #     stdProj = standardProjects[i]
-    #     proj = copy.deepcopy(stdProj)
-    #     # print("Risk factor: ", riskFactors[i])
-    #     # print(projects)
-    #     for j in range(0,10):
-    #         projNewDuration = _randomDuration(proj)
-    #         # print(projNewDuration.getDurations())
-    #         riskFactor = riskFactors[i]
-    #         # print("a", projNewDuration)
-    #         projects[riskFactor].append(projNewDuration.executeProject())
-    # ## test executing one project
-    # # p = projects[0]
-    # # p.printEarlyAndLateDates()
     # factor8 = projects[0.8]
     # for p in factor8:
     #     # print(p)
     #     p.getDurations()
 
-    # ## Classify projects
-    # # classifyProjects(projects)
+
+    # Classify projects
+    classifyProjects(projects)
 
 def _calculateNewDuration(duration, factor):
     newDuration = []
@@ -161,27 +151,86 @@ def _randomDuration(proj):
 
 
 
-def classifyProjects(projects):
+def classifyProjects(projects,):
+    classification = {"Successfull": [], "Acceptable": [], "Failed": []}
     for key, value in projects.items():
-        print(value[0].finishTime)
-
+        for p in value:
+            eFinishTime = p.expectedTime
+            finishTime = p.finishTime
+            factor = finishTime/eFinishTime
+            if factor <1.05:
+                classification["Successfull"].append(p)
+            elif factor <1.15:
+                classification["Acceptable"].append(p)
+            else:
+                classification["Failed"].append(p)
+    for key, value in classification.items():
+        print(key, len(value))#, value)
 
 
 
 if  __name__ == "__main__":
-    # path = "project4/dataFiles/Villa.xlsx"
-    path = "project4/dataFiles/Warehouse.xlsx"
-    tasks = load(path)
+    Path_V = "project4/dataFiles/Villa.xlsx"
+    Path_W = "project4/dataFiles/Warehouse.xlsx"
+    Tasks_V = load(Path_V)
+    Tasks_W = load(Path_W)
 
-    # # #Create Diagram
-    # diagram = PERT(tasks)
-    # # # Print the process plan
+
+    # # #Task 1
+    print("--------------------Task 3--------------------")
+    # # #Create diagram
+    diagram = PERT("Test Project", Tasks_W)
+    # # #Execute project
+    diagram.executeProject(1)
+    # # #Calculate durations
+    # finishTimes = diagram.calculateFinishTimes()
+    print("For ",diagram.getName(), " the finish times is: \n Shortest: ", diagram.getShortestDuration(), "\n Expected: ", diagram.getExpectedDuration(), "\n Longest: ",diagram.getLongestDuration())
+
+    # # print early dates of p
+    print("earlyDates", diagram.earlyDates)
+    print("lateDates", diagram.lateDates)
+
+
+
+
+
+
+    # # Print the process plan
     # diagram.printProcessPlan()
-    # # # Print early and late dates
+    # # # # Print early and late dates
     # diagram.printEarlyAndLateDates()
 
-    task4(path)
+    # task4(path)
 
 
 
     ####### Wrong middel time for task d in Warehouse? in task description it is 2 but in file it is 1
+
+
+
+
+    # ## #Machine learning
+    # # Create machine learning object
+    # ml = ML()
+    # # Load data
+    # ml.loadFile(pathW)
+    # ml.loadFile(pathV)
+
+    # ## Preprocess data
+    # ml.preprocessData()
+
+    # ## Add gates to each project
+    # ml.addIntermediateGates("Warehouse", "F")
+    # ml.addIntermediateGates("Villa", "F.1")
+
+    # ## Create set of data for Classification and Regression
+    # learningTestData = ml.createInstancesDataClassification()
+    # # print("learningTestDataMain",learningTestData)
+
+
+    # ## Perform classification
+    # # ml.classification(learningTestData)
+
+    # ## Perform regression
+    # ml.regression(learningTestData)
+

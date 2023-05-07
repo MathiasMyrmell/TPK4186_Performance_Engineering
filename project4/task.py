@@ -10,8 +10,15 @@ class Task:
         self.durations = self._durations(durations)
         self.predecessors = self._predecessors(predecessors)
         self.successors = []
+        self.criticality = False
 
         self.duration = self._duration()
+
+    def __str__(self):
+        return self.code
+    
+    def __repr__(self):
+        return self.__str__()
 
     def _duration(self):
         if type(self.durations) != list:
@@ -113,6 +120,13 @@ class Task:
     def getDuration(self):
         return self.duration
 
+    def getShortestDuration(self):
+        return self.durations[0]
+    def getExpectedDuration(self):
+        return self.durations[1]
+    def getLongestDuration(self):
+        return self.durations[2]
+    
 
 
 

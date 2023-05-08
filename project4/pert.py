@@ -9,7 +9,7 @@ class PERT:
         self.name = name
         self.riskFactor = riskFactor
         self.tasks = tasks
-        self.printer = Printer()
+        self.printer = Printer(self)
         
 
         # For executing project
@@ -19,6 +19,8 @@ class PERT:
         self.lateDates = None
         self.criticality = None
         self.projectClass = None
+        self.expectedTime = None
+        self.expectedTimes()
 
         # for machine learning
         self.intermediateGate = None
@@ -34,8 +36,9 @@ class PERT:
     def getTasks(self):
         return self.tasks
     
-    def getFirstTask(self):
-        for task in self.tasks:
+    def getFirstTask(self, tasks):
+
+        for task in tasks:
             if len(task.predecessors) == 0:
                 return task
         return None
@@ -85,29 +88,28 @@ class PERT:
     def setIntermediateGate(self, intermediateGate):
         self.intermediateGate = intermediateGate
 
+    def setTasks(self, tasks):
+        self.tasks = tasks
 
     
 
-    def __str__(self):
-        return str(self.riskFactor)
+    # def __str__(self):
+    #     return str(self.riskFactor)
     
-    def __repr__(self):
-        return self.__str__()
+    # def __repr__(self):
+    #     return self.__str__()
 
     def printProcessPlan(self):
-        tasksCopy = copy.copy(self.tasks)
-        self.printer.printProcessPlan(tasksCopy)
+        self.printer.printProcessPlan()
 
     def printEarlyAndLateDates(self):
-        tasksCopy = copy.copy(self.tasks)
-        self.printer.printEarlyAndLateDates(tasksCopy)
+        self.printer.printEarlyAndLateDates()
     
-
-    def executeProject(self, duration):
-        nodes = self.execute(duration)
+    def expectedTimes(self):
+        nodes = self.execute()
         finishTimes = []
         for i in range(3):
-            nodes = self.execute(i)
+            nodes = self.execute()
             finishTime = 0
             for key, value in nodes.items():
                 if value[2]>finishTime:
@@ -116,21 +118,30 @@ class PERT:
             self.calculateEarlyAndLateDates()
             self.calculateCriticality()
         self.finishTimes = finishTimes
-        # return finishTime
+        self.expectedTime = finishTimes[1]
+        return finishTimes[1]
+
+    def executeProject(self):
+        nodes = self.execute()
+        finishTime = 0
+        for key, value in nodes.items():
+            if value[2]>finishTime:
+                finishTime = value[2]
+        self.finishTime = finishTime
+        # return finishTimes[1]
 
    
-    def execute(self, duration):
+    def execute(self):
         # key: task
         # value: [duration, earlyStart, earlyFinish]
-        tasks = copy.deepcopy(self.tasks)
+        tasks = self.tasks
         nodes = {}
         for task in tasks:
             if task.getDurations() == None:
                 nodes[task] = [0, None, None]
                 continue
-
-            nodes[task] = [task.getDurations()[duration], None, None]
-        startNode = self.getFirstTask()
+            nodes[task] = [task.getDuration(), None, None]
+        startNode = self.getFirstTask(tasks)
         nodes[startNode] = [0,0,0]
         endNode = self.getEndTask(tasks)
         nodes[endNode] = [0,None,None]
@@ -180,6 +191,7 @@ class PERT:
     def calculateEarlyAndLateDates(self):
         self._calculateEarlyDates()
         self._calculateLateDates()
+        
 
 
     def _calculateEarlyDates(self):
@@ -190,7 +202,7 @@ class PERT:
                 nodes[task] = [0, None, None]
                 continue
             nodes[task] = [task.getDuration(), None, None]
-        startNode = self.getFirstTask()
+        startNode = self.getFirstTask(tasks)
         nodes[startNode] = [0,0,0]
         
         endNode = self.getEndTask(tasks)
@@ -234,7 +246,9 @@ class PERT:
 
                 if nodes[endNode][1] != None and nodes[endNode][2] != None:
                     stopp = True
-        
+        for task, value in nodes.items():
+            late = value[1:]
+            nodes[task] = late
         self.earlyDates = nodes
     
     def _calculateLateDates(self):
@@ -244,61 +258,69 @@ class PERT:
         nodes = {}
         for key, value in tasks.items():
             nodes[key] = value+[None,None]
-        startNode = self.getFirstTask()
-        nodes[startNode] = [0,0,0,None,None]
+        startNode = self.getFirstTask(tasks)
+        nodes[startNode] = [0,0,None,None]
         endNode = self.getEndTask(tasks)
         #Set late start and late finish for endNode to early start and early finish
         lateSaE = nodes[endNode][1]
+        nodes[endNode][2] = lateSaE
         nodes[endNode][3] = lateSaE
-        nodes[endNode][4] = lateSaE
 
         stopp = False
         while stopp == False:
-            print("nodes",nodes)
-            print("keys",nodes.keys())
+
             for task in reversed(nodes.keys()):
-                print("code",task)
                 node = self.getTaskByCode(task.code)
-                print(node)
-                if nodes[node][3]!=None and nodes[node][4]!=None:
+                if nodes[node][2]!=None and nodes[node][3]!=None:
                         continue
                 # Get successors
                 successors = node.getSuccessors()
                 # For each successor, get late startTimes
                 lateSTsuc = []
                 for suc in successors:
-                    lateSTsuc.append(nodes[suc][3])
+                    lateSTsuc.append(nodes[suc][2])
                 # Get min lateEndTime
                 break_flag = False
                 for suc in successors:
-                    if nodes[suc][4] == None:
+                    if nodes[suc][3] == None:
                         break_flag = True
                         break
                     else:
-                        lateETsuc = nodes[suc][2]
+                        lateETsuc = nodes[suc][1]
                 if break_flag:
                     continue
                 lEndTime = min(lateSTsuc)
 
                 #Calculate lateStartTime
-                duration = nodes[node][0]
+                # duration = nodes[node][0]
+                if node.getDuration() == None:
+                    duration = 0
+                else:
+                    duration = node.getDurations()[1]
                 lStartTime = round(lEndTime - duration,3)
 
                 # Set lateStart and lateFinish
-                nodes[node][3] = lStartTime
-                nodes[node][4] = lEndTime
-                if nodes[startNode][3] != None and nodes[startNode][4] != None:
+                nodes[node][2] = lStartTime
+                nodes[node][3] = lEndTime
+                if nodes[startNode][2] != None and nodes[startNode][3] != None:
                     stopp = True
+        for task, value in nodes.items():
+            late = value[2:]
+            nodes[task] = late
         self.lateDates = nodes
         return nodes
     
     
-    
     def calculateCriticality(self):
-        # print("late",self._getLateDates())
-        pass
-
-
+        criticality = []
+        for task, value in self.earlyDates.items():
+            earlyStart = value[0]
+            lateStart = self.lateDates[task][0]
+            isStart = task.isStartTask()
+            isEnd = task.isEndTask()
+            if earlyStart == lateStart and not isStart and not isEnd:
+                criticality.append(task)
+        self.criticality = criticality
 
     def getRows(self):
         tasks = copy.deepcopy(self.tasks)
@@ -400,6 +422,7 @@ class PERT:
                 # For each successor, get late startTimes
                 lateSTsuc = []
                 for suc in successors:
+
                     lateSTsuc.append(nodes[suc][3])
                 # Get min lateEndTime
                 break_flag = False

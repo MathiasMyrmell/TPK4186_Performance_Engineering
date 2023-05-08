@@ -117,7 +117,10 @@ class Task:
     
     def setDuration(self, duration):
         self.duration = duration
+    
     def getDuration(self):
+        if self.duration == None:
+            return None
         return self.duration
 
     def getShortestDuration(self):
@@ -128,5 +131,13 @@ class Task:
         return self.durations[2]
     
 
-
+    def isStartTask(self):
+        if len(self.predecessors) == 0:
+            return True
+        return False
+    
+    def isEndTask(self):
+        if len(self.successors) == 0:
+            return True
+        return False
 

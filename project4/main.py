@@ -181,56 +181,47 @@ if  __name__ == "__main__":
     # # #Create diagram
     diagram = PERT("Test Project", Tasks_W)
     # # #Execute project
-    diagram.executeProject(1)
+    diagram.executeProject()
     # # #Calculate durations
     # finishTimes = diagram.calculateFinishTimes()
-    print("For ",diagram.getName(), " the finish times is: \n Shortest: ", diagram.getShortestDuration(), "\n Expected: ", diagram.getExpectedDuration(), "\n Longest: ",diagram.getLongestDuration())
+    # print("For ",diagram.getName(), " the finish times is: \n Shortest: ", diagram.getShortestDuration(), "\n Expected: ", diagram.getExpectedDuration(), "\n Longest: ",diagram.getLongestDuration())
 
     # # print early dates of p
-    print("earlyDates", diagram.earlyDates)
-    print("lateDates", diagram.lateDates)
-
-
-
-
-
+    # print("earlyDates", diagram.earlyDates)
+    # print("lateDates", diagram.lateDates)
 
     # # Print the process plan
     # diagram.printProcessPlan()
-    # # # # Print early and late dates
+    # # # # # Print early and late dates
     # diagram.printEarlyAndLateDates()
 
-    # task4(path)
 
+    ## #Machine learning
+    # # Task 4
+    print("--------------------Task 4--------------------")
 
-
-    ####### Wrong middel time for task d in Warehouse? in task description it is 2 but in file it is 1
-
-
-
-
-    # ## #Machine learning
-    # # Create machine learning object
-    # ml = ML()
+    # # # Create machine learning object
+    ml = ML()
     # # Load data
-    # ml.loadFile(pathW)
-    # ml.loadFile(pathV)
+    # ml.loadFile(Path_V)
+    ml.loadFile(Path_W)
 
     # ## Preprocess data
-    # ml.preprocessData()
+    ml.preprocessData()
 
     # ## Add gates to each project
-    # ml.addIntermediateGates("Warehouse", "F")
+    ml.addIntermediateGates("Warehouse", "F")
     # ml.addIntermediateGates("Villa", "F.1")
 
-    # ## Create set of data for Classification and Regression
-    # learningTestData = ml.createInstancesDataClassification()
-    # # print("learningTestDataMain",learningTestData)
+    # # ## Create set of data for Classification and Regression
+    learningTestData = ml.createInstancesDataClassification()
+    print("learningTestDataMain",learningTestData)
 
 
-    # ## Perform classification
-    # # ml.classification(learningTestData)
+    # # ## Perform classification
+    res = ml.classification(learningTestData)
+    ml.printClassification(res)
 
-    # ## Perform regression
+    # # ## Perform regression
     # ml.regression(learningTestData)
 

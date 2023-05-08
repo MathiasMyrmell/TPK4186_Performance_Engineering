@@ -6,6 +6,7 @@ import random
 import copy
 from sklearn import svm
 
+# # Task 2
 ## Load tasks from excel file
 def load(path):
     wb = openpyxl.load_workbook(path)
@@ -63,111 +64,6 @@ def _addPreAndSuc(tasks, wb):
                     task.successors.append(t)
 
 
-## Machine learning
-def task4(path):
-    standardProjects = []
-    # # Calculate new durations
-    riskFactors = [0.8,1.0,1.2,1.4]
-    for factor in riskFactors:
-        # print("Risk factor: ", factor)
-        tasks = load(path)
-        for task in tasks:
-            duration = task.getDurations()
-            # print("oldDuration",duration)
-            newDuration = _calculateNewDuration(duration, factor)
-            # print("newDuration",newDuration)
-            task.setDurations(newDuration)
-
-        #Create Diagram
-
-        diagram = PERT(tasks)
-        # diagram.printEarlyAndLateDates()
-        # diagram.getDurations()
-        standardProjects.append(diagram)
-
-    # Standard time for project for each risk factor
-    # expectedRunningTime = {}
-    # for p in range(len(riskFactors)):
-    #     demo = copy.deepcopy(standardProjects[p])
-    #     finishTime = demo.executeProject().finishTime
-    #     # print(finishTime)
-    #     expectedRunningTime[riskFactors[p]] = finishTime
-
-    # print("Expected running time: ", expectedRunningTime)
-
-    # Create 1000 random projects per risk factor
-    projects = {}
-    for r in riskFactors:
-        projects[r] = []
-    # print(projects)
-    for i in range(len(riskFactors)):
-        base = standardProjects[i]
-        # print("Risk factor: ", riskFactors[i])
-        for j in range(0,1000):#
-            proj = copy.deepcopy(base)
-            projNewDuration = _randomDuration(proj)
-            executed = projNewDuration.executeProject()
-            # executed.getDuration()
-            # print(executed.finishTime)
-            executed.printEarlyAndLateDates()
-            projects[riskFactors[i]].append(executed)
-
-    # factor8 = projects[0.8]
-    # for p in factor8:
-    #     # print(p)
-    #     p.getDurations()
-
-
-    # Classify projects
-    classifyProjects(projects)
-
-def _calculateNewDuration(duration, factor):
-    newDuration = []
-    if(type(duration) != list):
-        return duration
-    newExpected = round(duration[1]*factor,3)
-    oldMinimum = duration[0]
-    oldExpected = duration[1]
-    oldMaximum = duration[2]
-    if(newExpected<oldMinimum):
-        newDuration = [newExpected, oldExpected, oldMaximum]
-    elif(newExpected>oldMaximum):
-        newDuration = [oldMinimum, oldExpected, newExpected]
-    else:
-        newDuration = [oldMinimum, newExpected, oldMaximum]
-    return newDuration
-
-
-def _randomDuration(proj):
-    project = copy.deepcopy(proj)
-    tasks = project.tasks
-    for task in tasks:
-        if task.getDurations() == None:
-            continue
-        else:
-            selectedDuration = random.choice(task.getDurations())
-            task.setDuration(selectedDuration)
-    return project
-
-
-
-def classifyProjects(projects,):
-    classification = {"Successfull": [], "Acceptable": [], "Failed": []}
-    for key, value in projects.items():
-        for p in value:
-            eFinishTime = p.expectedTime
-            finishTime = p.finishTime
-            factor = finishTime/eFinishTime
-            if factor <1.05:
-                classification["Successfull"].append(p)
-            elif factor <1.15:
-                classification["Acceptable"].append(p)
-            else:
-                classification["Failed"].append(p)
-    for key, value in classification.items():
-        print(key, len(value))#, value)
-
-
 
 if  __name__ == "__main__":
     Path_V = "project4/dataFiles/Villa.xlsx"
@@ -182,18 +78,15 @@ if  __name__ == "__main__":
     diagram = PERT("Test Project", Tasks_W)
     # # #Execute project
     diagram.executeProject()
-    # # #Calculate durations
-    # finishTimes = diagram.calculateFinishTimes()
-    # print("For ",diagram.getName(), " the finish times is: \n Shortest: ", diagram.getShortestDuration(), "\n Expected: ", diagram.getExpectedDuration(), "\n Longest: ",diagram.getLongestDuration())
 
-    # # print early dates of p
-    # print("earlyDates", diagram.earlyDates)
-    # print("lateDates", diagram.lateDates)
+    # print early dates of p
+    print("earlyDates", diagram.earlyDates)
+    print("lateDates", diagram.lateDates)
 
-    # # Print the process plan
-    # diagram.printProcessPlan()
-    # # # # # Print early and late dates
-    # diagram.printEarlyAndLateDates()
+    # Print the process plan
+    diagram.printProcessPlan()
+    # # # # Print early and late dates
+    diagram.printEarlyAndLateDates()
 
 
     ## #Machine learning
@@ -203,25 +96,27 @@ if  __name__ == "__main__":
     # # # Create machine learning object
     ml = ML()
     # # Load data
-    # ml.loadFile(Path_V)
+    ml.loadFile(Path_V)
     ml.loadFile(Path_W)
 
     # ## Preprocess data
     ml.preprocessData()
 
+    # # Task 5
+    print("--------------------Task 5--------------------")
     # ## Add gates to each project
     ml.addIntermediateGates("Warehouse", "F")
-    # ml.addIntermediateGates("Villa", "F.1")
+    ml.addIntermediateGates("Villa", "Q.1")
 
     # # ## Create set of data for Classification and Regression
     learningTestData = ml.createInstancesDataClassification()
-    print("learningTestDataMain",learningTestData)
-
-
     # # ## Perform classification
     res = ml.classification(learningTestData)
     ml.printClassification(res)
 
+    # # Task 6
+    print("--------------------Task 6--------------------")
     # # ## Perform regression
-    # ml.regression(learningTestData)
+    resReg = ml.regression(learningTestData)
+    ml.printRegression(resReg)
 

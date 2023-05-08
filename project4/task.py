@@ -1,4 +1,4 @@
-
+# # Task 1
 
 class Task:
 
@@ -25,19 +25,19 @@ class Task:
             return None
         return self.durations[1]
     
-    def getExpectedDuration(self):
-        if type(self.duration) != list:
-            return self.duration
-        return self.duration[1]
+    # def getExpectedDuration(self):
+    #     if type(self.duration) != list:
+    #         return self.duration
+    #     return self.duration[1]
     
     def getDurations(self):
         return self.durations
     
-    def getEarlyDuration(self):
-        return self.durations[0]
+    # def getEarlyDuration(self):
+    #     return self.durations[0]
     
-    def getLateDuration(self):
-        return self.durations[2]
+    # def getLateDuration(self):
+    #     return self.durations[2]
     
     def getPredecessors(self):
         return self.predecessors
@@ -48,7 +48,7 @@ class Task:
     def setDurations(self, durations):
         self.durations = durations
 
-    # Change format from string to list
+    # # Change format from string to list
     def _durations(self, durations):
         returnValue = []
         if type(durations) != str:
@@ -71,9 +71,9 @@ class Task:
     def setPredecessors(self, predecessors):
         self.predecessors = predecessors
     
-    def setSuccessors(self, successors):
-        self.successors = successors
-    #For printer only
+    # def setSuccessors(self, successors):
+    #     self.successors = successors
+    # #For printer only
     def getDescriptionStr(self):
         if (self.description == None):
             return ""
@@ -123,12 +123,12 @@ class Task:
             return None
         return self.duration
 
-    def getShortestDuration(self):
-        return self.durations[0]
-    def getExpectedDuration(self):
-        return self.durations[1]
-    def getLongestDuration(self):
-        return self.durations[2]
+    # def getShortestDuration(self):
+    #     return self.durations[0]
+    # def getExpectedDuration(self):
+    #     return self.durations[1]
+    # def getLongestDuration(self):
+    #     return self.durations[2]
     
 
     def isStartTask(self):

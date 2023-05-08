@@ -5,11 +5,12 @@ class Printer():
     def __init__(self, diagram = None):
         self.diagram = diagram
 
+    ## Prints process plan
     def printProcessPlan(self):
-        tasks = self.diagram.tasks
-        earlyDates = self.diagram.earlyDates
-        lateDates = self.diagram.lateDates
-        criticality = self.diagram.criticality
+        tasks = self.diagram.getTasks()
+        earlyDates = self.diagram.getEarlyDates()
+        lateDates = self.diagram.getLateDates()
+        criticality = self.diagram.getCriticality()
         table = PrettyTable()
         table.field_names = ["Type","Code", "Description","Duration","Predecessors","Successors"]
         types = []
@@ -19,13 +20,12 @@ class Printer():
         predecessors = []
         successors = []
 
-
         for task in tasks:
             # Get type
-            type = task.type
+            type = task.getType()
             types.append(type)
             # Get code
-            code = task.code
+            code = task.getCode()
             codes.append(code)
             # Get description
             description = task.getDescriptionStr()
@@ -73,6 +73,7 @@ class Printer():
         table.add_column("Criticality", criticalities)
         print(table)
 
+    ## Prints early and late dates table
     def printEarlyAndLateDates(self):
         tasks = self.diagram.tasks
         earlyDates = self.diagram.earlyDates
@@ -91,14 +92,14 @@ class Printer():
             table.add_row([column_names[row]] + tableRows[row])
         print(table)
 
+    # Returns header row to table
     def _getHeaderRow(self, tasks):
         header = []
         for task in tasks:
             header.append(task.code)
         return header
 
-
-    
+    # Converts data to table form
     def _convertToTableForm(self, header, earlyDates, lateDates):
         duration = []
         earlyStart = []
@@ -123,8 +124,9 @@ class Printer():
     ## Print test results
     # Classification
     def printClassification(self, res):
-        print("result: ", res)
-
+        print("---------------------------------------------------------------------------------")
+        print("                                 Classification                                  ")
+        print("---------------------------------------------------------------------------------")
         for projectName, tests in res.items():
             table = PrettyTable()
             table.title = projectName
@@ -136,3 +138,18 @@ class Printer():
                 table.add_row([test, correct, wrong, accuracy])
             print(table)
 
+    # Regression
+    def printRegression(self, res):
+        print("---------------------------------------------------------------------------------")
+        print("                                   Regression                                    ")
+        print("---------------------------------------------------------------------------------")
+        for projectName, tests in res.items():
+            table = PrettyTable()
+            table.title = projectName
+            table.field_names = ["Test", "Calculated Finish Time", "Actual Finish Time", "Loss"]
+            for test, result in tests.items():
+                calculatedFinishTime = round(result[0],4)
+                actualFinishTime = round(result[1],4)
+                loss = round(result[2],4)
+                table.add_row([test, calculatedFinishTime, actualFinishTime, loss])
+            print(table)

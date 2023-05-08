@@ -26,15 +26,15 @@ class PERT:
         self.intermediateGate = None
 
 
-    ## Getters
-    def getName(self):
-        return self.name
+    # ## Getters
+    # def getName(self):
+    #     return self.name
     
-    def getRiskFactor(self):
-        return self.riskFactor
+    # def getRiskFactor(self):
+    #     return self.riskFactor
     
-    def getTasks(self):
-        return self.tasks
+    # def getTasks(self):
+    #     return self.tasks
     
     def getFirstTask(self, tasks):
 
@@ -43,8 +43,8 @@ class PERT:
                 return task
         return None
     
-    def getEndTask(self):
-        return self.tasks[-1]
+    # def getEndTask(self):
+    #     return self.tasks[-1]
 
     def getTaskByCode(self, code):
         for task in self.tasks:
@@ -52,16 +52,10 @@ class PERT:
                 return task
         return None
     
-    def getDurations(self):
-        for task in self.tasks:
-            # print(task.getDurations())
-            pass
-
-    # def getFirstTask(self, tasks):
-    #     for task in tasks:
-    #         if len(task.predecessors) == 0:
-    #             return task
-    #     return None
+    # def getDurations(self):
+    #     for task in self.tasks:
+    #         # print(task.getDurations())
+    #         pass
 
     def getEndTask(self, tasks):
         for task in tasks:
@@ -69,22 +63,22 @@ class PERT:
                 return task
         return None
 
-    def getDuration(self):
-        l = []
-        for task in self.tasks:
-            l.append(task.getDuration())
+    # def getDuration(self):
+    #     l = []
+    #     for task in self.tasks:
+    #         l.append(task.getDuration())
 
-        # print(l)
+    #     # print(l)
 
-    def getIntermedateGate(self):
-        return self.intermediateGate
+    # def getIntermedateGate(self):
+    #     return self.intermediateGate
     
-    def getNumTasks(self):
-        return len(self.tasks)
+    # def getNumTasks(self):
+    #     return len(self.tasks)
 
 
 
-    ## Setters
+    # ## Setters
     def setIntermediateGate(self, intermediateGate):
         self.intermediateGate = intermediateGate
 
@@ -93,107 +87,14 @@ class PERT:
 
     
 
-    # def __str__(self):
-    #     return str(self.riskFactor)
-    
-    # def __repr__(self):
-    #     return self.__str__()
 
-    def printProcessPlan(self):
-        self.printer.printProcessPlan()
-
-    def printEarlyAndLateDates(self):
-        self.printer.printEarlyAndLateDates()
-    
-    def expectedTimes(self):
-        nodes = self.execute()
-        finishTimes = []
-        for i in range(3):
-            nodes = self.execute()
-            finishTime = 0
-            for key, value in nodes.items():
-                if value[2]>finishTime:
-                    finishTime = value[2]
-            finishTimes.append(finishTime)
-            self.calculateEarlyAndLateDates()
-            self.calculateCriticality()
-        self.finishTimes = finishTimes
-        self.expectedTime = finishTimes[1]
-        return finishTimes[1]
-
-    def executeProject(self):
-        nodes = self.execute()
-        finishTime = 0
-        for key, value in nodes.items():
-            if value[2]>finishTime:
-                finishTime = value[2]
-        self.finishTime = finishTime
-        # return finishTimes[1]
-
-   
-    def execute(self):
-        # key: task
-        # value: [duration, earlyStart, earlyFinish]
-        tasks = self.tasks
-        nodes = {}
-        for task in tasks:
-            if task.getDurations() == None:
-                nodes[task] = [0, None, None]
-                continue
-            nodes[task] = [task.getDuration(), None, None]
-        startNode = self.getFirstTask(tasks)
-        nodes[startNode] = [0,0,0]
-        endNode = self.getEndTask(tasks)
-        nodes[endNode] = [0,None,None]
-
-        stopp = False
-        while stopp == False:
-            for node in nodes.keys():
-                # print("--------------------")
-                # If node is already calculated, continue with next node
-                if nodes[node][1]!=None and nodes[node][2]!=None:
-                    continue
-                # Get predecessors
-                predecessors = node.getPredecessors()
-                # For each predecessor, get early startTimes
-                earlyStartTimes = []
-
-                # Check if all predecessors have earlyStart and earlyFinish. if not continue with next node
-                break_flag = False
-                for pre in predecessors:
-                    if nodes[pre][2] == None:
-                        break_flag = True
-                        break
-                    else:
-                        earlyStartTimes.append(nodes[pre][2])
-                if break_flag:
-                    continue
-
-                # Get max earlyStartTime
-                if len(earlyStartTimes) == 0:
-                    maxEarlyStartTime = 0
-                else:
-                    maxEarlyStartTime = max(earlyStartTimes)
-                # Get duration
-                duration = nodes[node][0]
-                # Calculate earlyFinishTime
-                earlyFinishTime = round(maxEarlyStartTime + duration,3)
-                # Set earlyStart and earlyFinish
-                nodes[node][1] = maxEarlyStartTime
-                nodes[node][2] = earlyFinishTime
-
-
-                if nodes[endNode][1] != None and nodes[endNode][2] != None:
-                    stopp = True
-        return nodes
-
-    
+    # ### Functions
+    # # # Task 3
+    # # Calculate Early and late dates for the project
     def calculateEarlyAndLateDates(self):
         self._calculateEarlyDates()
         self._calculateLateDates()
-        
-
-
+    
     def _calculateEarlyDates(self):
         nodes = {}
         tasks = self.tasks
@@ -310,6 +211,90 @@ class PERT:
         self.lateDates = nodes
         return nodes
     
+    # #TODO sjekk om denne kan fjernes fra __init__
+    def expectedTimes(self):
+        nodes = self.execute()
+        finishTimes = []
+        for i in range(3):
+            nodes = self.execute()
+            finishTime = 0
+            for key, value in nodes.items():
+                if value[2]>finishTime:
+                    finishTime = value[2]
+            finishTimes.append(finishTime)
+            self.calculateEarlyAndLateDates()
+            self.calculateCriticality()
+        self.finishTimes = finishTimes
+        self.expectedTime = finishTimes[1]
+        return finishTimes[1]
+
+    def executeProject(self):
+        nodes = self.execute()
+        finishTime = 0
+        for key, value in nodes.items():
+            if value[2]>finishTime:
+                finishTime = value[2]
+        self.finishTime = finishTime
+        # return finishTimes[1]
+
+   
+    def execute(self):
+        # key: task
+        # value: [duration, earlyStart, earlyFinish]
+        tasks = self.tasks
+        nodes = {}
+        for task in tasks:
+            if task.getDurations() == None:
+                nodes[task] = [0, None, None]
+                continue
+            nodes[task] = [task.getDuration(), None, None]
+        startNode = self.getFirstTask(tasks)
+        nodes[startNode] = [0,0,0]
+        endNode = self.getEndTask(tasks)
+        nodes[endNode] = [0,None,None]
+
+        stopp = False
+        while stopp == False:
+            for node in nodes.keys():
+                # print("--------------------")
+                # If node is already calculated, continue with next node
+                if nodes[node][1]!=None and nodes[node][2]!=None:
+                    continue
+                # Get predecessors
+                predecessors = node.getPredecessors()
+                # For each predecessor, get early startTimes
+                earlyStartTimes = []
+
+                # Check if all predecessors have earlyStart and earlyFinish. if not continue with next node
+                break_flag = False
+                for pre in predecessors:
+                    if nodes[pre][2] == None:
+                        break_flag = True
+                        break
+                    else:
+                        earlyStartTimes.append(nodes[pre][2])
+                if break_flag:
+                    continue
+
+                # Get max earlyStartTime
+                if len(earlyStartTimes) == 0:
+                    maxEarlyStartTime = 0
+                else:
+                    maxEarlyStartTime = max(earlyStartTimes)
+                # Get duration
+                duration = nodes[node][0]
+                # Calculate earlyFinishTime
+                earlyFinishTime = round(maxEarlyStartTime + duration,3)
+                # Set earlyStart and earlyFinish
+                nodes[node][1] = maxEarlyStartTime
+                nodes[node][2] = earlyFinishTime
+
+
+                if nodes[endNode][1] != None and nodes[endNode][2] != None:
+                    stopp = True
+        return nodes
+
+
     
     def calculateCriticality(self):
         criticality = []
@@ -466,13 +451,27 @@ class PERT:
         return [duration, earlyStart, earlyFinish, lateStart, lateFinish]
 
    
-    # Shortest duration of all tasks
-    def getShortestDuration(self):
-        return self.finishTimes[0]
+    # # Shortest duration of all tasks
+    # def getShortestDuration(self):
+    #     return self.finishTimes[0]
     
-    # Expected duration of all tasks
-    def getExpectedDuration(self):
-        return self.finishTimes[1]
-    # Longest duration of all tasks
-    def getLongestDuration(self):
-        return self.finishTimes[2]
+    # # Expected duration of all tasks
+    # def getExpectedDuration(self):
+    #     return self.finishTimes[1]
+    # # Longest duration of all tasks
+    # def getLongestDuration(self):
+    #     return self.finishTimes[2]
+
+    # # # For print
+    def printProcessPlan(self):
+        self.printer.printProcessPlan()
+
+    def printEarlyAndLateDates(self):
+        self.printer.printEarlyAndLateDates()
+    
+
+    # def __str__(self):
+    #     return str(self.name)
+    
+    # def __repr__(self):
+    #     return self.__str__()

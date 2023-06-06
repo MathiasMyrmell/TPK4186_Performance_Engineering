@@ -654,7 +654,7 @@ if __name__ == "__main__":
     print("Task 12")
     print("------------------")
     print("Extracting openings...")
-    numberOfTimesPlayed = None#USER INPUT
+    numberOfTimesPlayed = None #USER INPUT
     openings = getOpeningsPlayedNTimes(openingStat,numberOfTimesPlayed)
     print("Openings extracted")
 

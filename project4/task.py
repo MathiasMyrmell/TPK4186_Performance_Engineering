@@ -13,31 +13,9 @@ class Task:
         self.criticality = False
 
         self.duration = self._duration()
-
-    def __str__(self):
-        return self.code
-    
-    def __repr__(self):
-        return self.__str__()
-
-    def _duration(self):
-        if type(self.durations) != list:
-            return None
-        return self.durations[1]
-    
-    # def getExpectedDuration(self):
-    #     if type(self.duration) != list:
-    #         return self.duration
-    #     return self.duration[1]
-    
+    ###Getters
     def getDurations(self):
         return self.durations
-    
-    # def getEarlyDuration(self):
-    #     return self.durations[0]
-    
-    # def getLateDuration(self):
-    #     return self.durations[2]
     
     def getPredecessors(self):
         return self.predecessors
@@ -45,10 +23,38 @@ class Task:
     def getSuccessors(self):
         return self.successors
     
+    def getType(self):
+        return self.type
+
+    def getCode(self):
+        return self.code
+    
+    def getDuration(self):
+        if self.duration == None:
+            return None
+        return self.duration
+
+
+
+    ###Setters
     def setDurations(self, durations):
         self.durations = durations
+    
+    def setDuration(self, duration):
+        self.duration = duration
+    
+    def setPredecessors(self, predecessors):
+        self.predecessors = predecessors
+    
 
-    # # Change format from string to list
+
+    ###Functions
+    ## In initialization
+    def _duration(self):
+        if type(self.durations) != list:
+            return None
+        return self.durations[1]
+    
     def _durations(self, durations):
         returnValue = []
         if type(durations) != str:
@@ -68,12 +74,20 @@ class Task:
 
         return predecessors
    
-    def setPredecessors(self, predecessors):
-        self.predecessors = predecessors
+    # Return True if task is the start task in the project, else False
+    def isStartTask(self):
+        if len(self.predecessors) == 0:
+            return True
+        return False
     
-    # def setSuccessors(self, successors):
-    #     self.successors = successors
-    # #For printer only
+    # Return True if task is the end task in the project, else False
+    def isEndTask(self):
+        if len(self.successors) == 0:
+            return True
+        return False
+
+
+    ### For printing
     def getDescriptionStr(self):
         if (self.description == None):
             return ""
@@ -115,29 +129,11 @@ class Task:
                 successorsString+=","
         return successorsString
     
-    def setDuration(self, duration):
-        self.duration = duration
     
-    def getDuration(self):
-        if self.duration == None:
-            return None
-        return self.duration
-
-    # def getShortestDuration(self):
-    #     return self.durations[0]
-    # def getExpectedDuration(self):
-    #     return self.durations[1]
-    # def getLongestDuration(self):
-    #     return self.durations[2]
+    ### Representation
+    def __str__(self):
+        return self.code
     
-
-    def isStartTask(self):
-        if len(self.predecessors) == 0:
-            return True
-        return False
-    
-    def isEndTask(self):
-        if len(self.successors) == 0:
-            return True
-        return False
+    def __repr__(self):
+        return self.__str__()
 

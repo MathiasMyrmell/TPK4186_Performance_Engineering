@@ -2,9 +2,6 @@ import openpyxl
 from task import Task
 from pert import PERT
 from machineLearning import ML
-import random
-import copy
-from sklearn import svm
 
 # # Task 2
 ## Load tasks from excel file
@@ -39,7 +36,6 @@ def _addPreAndSuc(tasks, wb):
         for task in tasks:
             code = ws.cell(row=i, column=2).value
             predecessors = []
-            successors = []
             if task.code == code:
                 # print("Code: ", code)
                 # Add predecessors
@@ -72,51 +68,72 @@ if  __name__ == "__main__":
     Tasks_W = load(Path_W)
 
 
-    # # #Task 1
+    ###Task 1
     print("--------------------Task 3--------------------")
-    # # #Create diagram
+    ##Create diagram
+    print("Creating test project...\n")
     diagram = PERT("Test Project", Tasks_W)
-    # # #Execute project
+    ##Execute project
+    print("Executing test project...\n")
     diagram.executeProject()
 
-    # print early dates of p
-    print("earlyDates", diagram.earlyDates)
-    print("lateDates", diagram.lateDates)
+    ##print early dates of p
+    print("earlyDates of test project", diagram.earlyDates)
+    print("lateDates of thest project", diagram.lateDates)
 
-    # Print the process plan
+    ## Print the process plan
+    print("Process plan for test project...\n")
     diagram.printProcessPlan()
-    # # # # Print early and late dates
+    
+    ## Print early and late dates table
+    print("Printing early and late dates for test project...\n")
     diagram.printEarlyAndLateDates()
 
 
-    ## #Machine learning
-    # # Task 4
-    print("--------------------Task 4--------------------")
-
-    # # # Create machine learning object
+    #### Machine learning
+    ## Create machine learning object
+    print("Creating machine learning object...")
     ml = ML()
-    # # Load data
+    print("Machine learning object created\n")
+
+    ## Load data
+    print("Loading data...")
     ml.loadFile(Path_V)
     ml.loadFile(Path_W)
+    print("Data loaded\n")
 
-    # ## Preprocess data
+    ### Task 4
+    print("--------------------Task 4--------------------")
+    ## Preprocess data
+    print("Preprocessing data...")
     ml.preprocessData()
+    print("Data preprocessed\n")
 
-    # # Task 5
-    print("--------------------Task 5--------------------")
-    # ## Add gates to each project
-    ml.addIntermediateGates("Warehouse", "F")
-    ml.addIntermediateGates("Villa", "Q.1")
 
-    # # ## Create set of data for Classification and Regression
+    ## Add gates to each project
+    print("Adding Intermediate Gate to each project...")
+    ml.addIntermediateGates("Warehouse", "J")
+    ml.addIntermediateGates("Villa", "N.1")
+    print("Intermediate Gates added\n")
+
+    ## Create set of data for Classification and Regression
+    print("Creating set of data for Classification and Regression...")
     learningTestData = ml.createInstancesDataClassification()
-    # # ## Perform classification
+    print("Set of data created\n")
+    
+    ### Task 5
+    print("--------------------Task 5--------------------")
+    ## Perform classification
+    print("Performing classification...")
     res = ml.classification(learningTestData)
     ml.printClassification(res)
+    print("Classification performed\n")
 
-    # # Task 6
+    ### Task 6
     print("--------------------Task 6--------------------")
-    # # ## Perform regression
+    ## Perform regression
+    print("Performing regression...")
     resReg = ml.regression(learningTestData)
     ml.printRegression(resReg)
+    print("Regression performed\n")
 

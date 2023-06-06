@@ -17,6 +17,9 @@ class ML():
         self.riskFactors = [0.8,1.0,1.2,1.4]
         self.printer = Printer()
 
+
+    ###Functions
+    ## Load task from excel file
     def loadFile(self, path):
         wb = openpyxl.load_workbook(path)
         ws = wb.active
@@ -38,7 +41,6 @@ class ML():
         projectName = path.split("/")[-1].split(".")[0]
         self.standardProjects[projectName] = tasks
     
-
     def _addPreAndSuc(self,tasks, wb):
         ws = wb.active
         # Add predecessors
@@ -74,36 +76,21 @@ class ML():
                         task.successors.append(t)
 
 
-    # # #Preprocess data
-    # # Task 4
+    ### Task 4
+    ##Preprocess data
+    ## Create data set for use in machine learning
     def preprocessData(self):
-        # Create 1000 projects per risk factor for each project
-        for key, value in self.standardProjects.items():
-            self.preprocess(key,value)
-
+        for project, tasks in self.standardProjects.items():
+            self.preprocess(project,tasks)
 
     def preprocess(self, projectName, tasks):
         standardProjects = []
-        # # Calculate new durations
-        # riskFactors = [0.8,1.0,1.2,1.4]
         tasksCopy = copy.deepcopy(tasks)
-
+        # Create 4 standard project: one for each risk factor
         standardProjects = self._createStandardProjects(tasksCopy, projectName)
-
 
         # # Create 1000 projects per risk factor for each project
         projects = self._create1000Projects(standardProjects)
-
-
-        #####
-        # print("Projects: ", projects)
-        # for factor, project in projects.items():
-        #     print("Risk factor: ", factor)
-        #     for proj in project:
-        #         print(proj.expectedTime)
-        #####
-
-
 
         # Classify projects: Successfull, Acceptable, Failed
         self._classifyProjects(projects)
@@ -124,10 +111,8 @@ class ML():
                     task.setDuration(newDurations[1])
 
             # #Create Diagram
-
             diagram = PERT(projectName, standardTasks, factor)
             diagram.executeProject()
-            # # diagram.getDurations()
             standardProjects.append(diagram)
         return standardProjects
 
@@ -152,24 +137,20 @@ class ML():
         riskFactors = self.riskFactors
         for r in riskFactors:
             projects[r] = []
-        # print(projects)
         for i in range(len(riskFactors)):
             base = standardProjects[i]
-            # print("Risk factor: ", riskFactors[i])
-            for j in range(0,5):##1000
+            for j in range(0,1000):
                 proj = copy.deepcopy(base)
                 projNewDuration = self._randomDuration(proj)
 
                 projNewDuration.executeProject()
 
                 projects[riskFactors[i]].append(projNewDuration)
-                self.addProjectToDict(projNewDuration)
+                self._addProjectToDict(projNewDuration)
         return projects
 
-
     def _randomDuration(self, proj):
-        # project = copy.deepcopy(proj)
-        tasks = proj.tasks#project.tasks
+        tasks = proj.tasks
         newTasks = []
         for task in tasks:
             if task.getDurations() == None:
@@ -179,13 +160,11 @@ class ML():
                 selectedDuration = random.choice(task.getDurations())
                 task.setDuration(selectedDuration)
                 newTasks.append(task)
-        # project.setTasks(newTasks)
         proj.setTasks(newTasks)
-        # return project
         return proj
 
-    def addProjectToDict(self, project):
-        if project.name in self.projects:
+    def _addProjectToDict(self, project):
+        if project.getName() in self.projects:
             self.projects[project.name].append(project)
         else:
             self.projects[project.name] = [project]
@@ -193,10 +172,10 @@ class ML():
     def _classifyProjects(self, projects):
         classification = {"Successfull": [], "Acceptable": [], "Failed": []}
         #Find expected time for projects
-        expectedTime = projects[1.0][0].expectedTime
+        expectedTime = projects[1.0][0].getExpectedTime()
         for key, value in projects.items():
             for p in value:
-                finishTime = p.finishTimes[1]
+                finishTime = p.getFinishTimes()[1]
                 factor = finishTime/expectedTime
                 if factor <1.05:
                     p.projectClass = "Successfull"
@@ -211,30 +190,19 @@ class ML():
         #     print(key, len(value))#, value)
 
 
-
-
-
-
-
-
-
-    # ## Machine learning
-    # # Add gate to project
-    # # Assumption: Every project shall have the same gate
+    ## Add gate to project
     def addIntermediateGates(self, projectName, gate):
         for project in self.projects[projectName]:
             project.setIntermediateGate(gate)
 
-
-    # ## Create dict with all project.
-    # ## For each project, sub project are divided in a 80/20 split for training and test data
+    ## Create dict with all project.
+    ## For each project, sub project are divided in a 80/20 split for training and test data
     def createInstancesDataClassification(self):
         # Copy data
         data = copy.deepcopy(self.projects)
         # Get attibutes and values for each project
         # Keep factors divided inside project
-        instances = self.getAttributesAndValues(data)
-        # print(instances)
+        instances = self._getAttributesAndValues(data)
         # ##Split into Learning data and Test data
         # #Find size of test data
         size = 0
@@ -245,24 +213,9 @@ class ML():
         #Split learning and test data 80/20 split
         size = size/len(instances.keys())
         learningTestData = self._splitData(instances, size)
-        # learningTestData = {}
-        # for key, value in instances.items():
-        #     learningTestData[key] = {"LearningData": [], "TestData": []}
-        # for key, value in instances.items():
-        #     for factor, projects in value.items():
-        #         for factor in projects:
-        #             #Lengt of test data
-        #             learningSize = len(learningTestData[key]["LearningData"])
-
-        #             if learningSize < (size/2)*0.8 :
-        #                 learningTestData[key]["LearningData"].append(factor)
-
-        #             else:
-        #                 learningTestData[key]["TestData"].append(factor)
-
         return learningTestData
     
-    def getAttributesAndValues(self, data):
+    def _getAttributesAndValues(self, data):
         instances = {}
         for key, factors in data.items():
             if key not in instances:
@@ -295,7 +248,6 @@ class ML():
                 if suc not in visited:
                     stack.append(suc)
             
-            # Gjør logikk
             visited.append(node)
 
         
@@ -310,8 +262,8 @@ class ML():
         return lateEndDates
 
     def _getValues(self, project):
-        valueClassification = project.projectClass
-        valueRegression = project.finishTime
+        valueClassification = project.getProjectClass()
+        valueRegression = project.getFinishTime()
         return valueClassification, valueRegression
         
 
@@ -320,7 +272,6 @@ class ML():
         for key, value in instances.items():
             learningTestData[key] = {"LearningData": [], "TestData": []}
         for key, value in instances.items():
-
             for factor, projects in value.items():
                 learningData = []
                 testData = []
@@ -330,10 +281,8 @@ class ML():
                     learningSize = len(learningData)
                     if learningSize < (size/4)*0.8 :
                         learningData.append(project)
-                        # learningTestData[key]["LearningData"].append(project)
                     else:
                         testData.append(project)
-                        # learningTestData[key]["TestData"].append(project)
                 for data in learningData:
                     learningTestData[key]["LearningData"].append(data)
                 for data in testData:
@@ -341,10 +290,8 @@ class ML():
         return learningTestData
 
 
-
-
-
-
+    ### Task 5
+    ## Perform classification on dataset
     def classification(self, learningTestData):
         classification = {}
         models = {}
@@ -354,82 +301,54 @@ class ML():
             models[project] = None
         ## Sort out data for each project
         for project, value in learningTestData.items():
-            # print("value", value)
             learningData = value["LearningData"]
             for data in learningData:
                 classification[project][0].append(data[0])
                 classification[project][1].append(data[1])
 
-        ## Create every model
+        ## Train every model
         # 1. Support vector machine
         # 2. K nearest neighbour KNeighborsClassifier
         # 3. Decision tree DecisionTreeClassifier
+
         models = {}
         for project, value in classification.items():
-            # print(value)
-            # self.trainModels(value, project)
-            models[project] = self.trainModelsC(value, project)
-            # attributes = value[0]
-            # values = value[1]
-            # print(project)
-            # clf = svm.SVC()
-            # model = clf.fit(attributes, values)
-            # models[project] = model
-            # SVC()
-        ## Test data on model
+            models[project] = self.trainModelsC(value)
+
+        ## Test every model
         testResult = {}
         for project, model in models.items():
-            # print("project", project)
-            # print("value", value)
-            # print("ltD", learningTestData[project])
             res = self.testModelsC(model, learningTestData[project]["TestData"])
             testResult[project] = res
         return testResult
     
-    def trainModelsC(self, value, project):
+    # Train every model with training data
+    def trainModelsC(self, value):
         trainingModels = {"SVM": svm.SVC(), "KNeighborsClassifier": KNeighborsClassifier(), "DecisionTreeClassifier": DecisionTreeClassifier()}
         attributes = value[0]
         values = value[1]
-        # print("Values", values)
+
         trainedModels = {}
-        # print("value", values)
         for name, model in trainingModels.items():
             trainedModel = model.fit(attributes, values)
             trainedModels[name] = trainedModel
         return trainedModels
-            
-        
-
+             
+    # Test every model with test data
     def testModelsC(self, models, data):
         testRestult = {}
         for modelName, model in models.items():
             testRes = self._performTestC(model, data)
             testRestult[modelName] = testRes
         return testRestult
-        # for project, value in data.items():
-        #     print("project", project)
-        #     print("value", value)
-        # for project, value in data.items():
-        #     print("project", project)
-        #     print("value", value)
-        #     # print(value["TestData"])
-        #     model = models[project]
-        #     testData = value["TestData"]
-        #     testRes = self._performTest(model, testData)
-        #     testRestult[project] = testRes
-        # return testRestult
-
 
     def _performTestC(self, model, testData):
-        # print("testData", testData)
         correct = 0
         wrong = 0
         for data in testData:
-            # print(data)
             attributes = data[0]
             value = data[1]
             modelRes = model.predict([attributes])
-            # print("modelRes", modelRes)
             if modelRes == value:
                 correct +=1
             else:
@@ -437,7 +356,8 @@ class ML():
         return [correct, wrong] 
     
 
-
+    ### Task 6
+    ##Perform regression on dataset
     def regression(self, learningTestData):
         regression = {}
         models = {}
@@ -452,33 +372,24 @@ class ML():
             for data in learningData:
                 regression[project][0].append(data[0])
                 regression[project][1].append(data[2])
-        ## Create every model
+        ## Train every model
         # 1. Support vector machine
         # 2. K nearest neighbour KNeighborsRegressor
         # 3. Decision tree DecisionTreeRegressor
         models = {}
         for project, value in regression.items():
-            # self.trainModels(value, project)
-            models[project] = self.trainModelsR(value, project)
-            # attributes = value[0]
-            # values = value[1]
-            # print(project)
-            # clf = svm.SVC()
-            # model = clf.fit(attributes, values)
-            # models[project] = model
-            # SVC()
-        ## Test data on model
+            models[project] = self.trainModelsR(value)
+
         testResult = {}
         for project, model in models.items():
-            # print("project", project)
-            # print("value", value)
-            # print("ltD", learningTestData[project])
+
             res = self.testModelsR(model, learningTestData[project]["TestData"])
             testResult[project] = res
 
         return testResult
-
-    def trainModelsR(self, value, project):
+    
+    # Train every model with training data
+    def trainModelsR(self, value):
         trainingModels = {"SVM": svm.SVR(), "KNeighborsRegressor": KNeighborsRegressor(), "DecisionTreeRegressor": DecisionTreeRegressor()}
         attributes = value[0]
         values = value[1]
@@ -488,41 +399,31 @@ class ML():
             trainedModels[name] = trainedModel
         return trainedModels
 
-
+    # Test every model with test data
     def testModelsR(self, models, data):
         testRestult = {}
         for modelName, model in models.items():
             testRes = self._performTestR(model, data)
             testRestult[modelName] = testRes
         return testRestult
-        # for project, value in data.items():
-        #     print("project", project)
-        #     print("value", value)
-        # for project, value in data.items():
-        #     print("project", project)
-        #     print("value", value)
-        #     # print(value["TestData"])
-        #     model = models[project]
-        #     testData = value["TestData"]
-        #     testRes = self._performTest(model, testData)
-        #     testRestult[project] = testRes
-        # return testRestult
-
 
     def _performTestR(self, model, testData):
-        # print("testData", testData)
+        res = {"ModelRes": [], "Value": [], "Loss": []}
         for data in testData:
-            # print(data)
             attributes = data[0]
             value = data[2]
             modelRes = model.predict([attributes])[0]
-            # print("modelRes", modelRes)
-            ##Calculate loss 
+            
             loss = abs(modelRes - value)
-        return [modelRes, value, loss] 
+            res["ModelRes"].append(modelRes)
+            res["Value"].append(value)
+            res["Loss"].append(loss)
+
+        return res
+        # return [modelRes, value, loss] 
     
 
-
+    ### For printing
     def printClassification(self, res):
         self.printer.printClassification(res)
     
